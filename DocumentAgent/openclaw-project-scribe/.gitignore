@@ -1,0 +1,9 @@
+config.json
+.state/
+reports/
+generated/
+*.db*
+*token*.json
+*credentials*.json
+*service-account*.json
+node_modules/

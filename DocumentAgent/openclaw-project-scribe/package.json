@@ -1,0 +1,9 @@
+{
+  "name": "openclaw-project-scribe",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local coding-agent event collection, Git evidence, OpenClaw documentation, and Google Docs publishing",
+  "engines": { "node": "^24.16.0 || >=26.1.0" },
+  "scripts": { "test": "node --no-warnings --test test/*.test.mjs" }
+}

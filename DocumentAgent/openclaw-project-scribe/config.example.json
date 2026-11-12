@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "name": "FILL_PROJECT_NAME",
+    "roots": ["/FILL/ABSOLUTE/PROJECT_OR_WORKTREE_PATH"]
+  },
+  "stateDir": "/FILL/PRIVATE/LOCAL/project-scribe-state",
+  "outputDir": "/FILL/LOCAL/project-scribe-reports",
+  "workspaceDir": "/FILL/LOCAL/openclaw-workspace-project-scribe",
+  "capture": {
+    "assistantMessages": true,
+    "toolResults": false,
+    "maxTextChars": 3000,
+    "redactPatterns": []
+  },
+  "git": {
+    "maxCommits": 12,
+    "includePatches": false,
+    "maxPatchChars": 16000,
+    "sourceFiles": [],
+    "excludePaths": [".env", ".env.*", "**/.env", "**/.env.*", "*.pem", "**/*.pem", "*.key", "**/*.key", "credentials*.json", "token*.json", "service-account*.json", "**/credentials*.json", "**/token*.json", "**/service-account*.json"]
+  },
+  "maxEventsPerReport": 150,
+  "maxEvidenceChars": 180000,
+  "openclaw": {
+    "command": ["openclaw"],
+    "agentId": "project-scribe",
+    "model": "FILL_PROVIDER/MODEL_ID",
+    "timeoutSeconds": 240
+  },
+  "google": {
+    "enabled": false,
+    "documentId": "FILL_GOOGLE_DOCUMENT_ID",
+    "tabId": "FILL_GOOGLE_TAB_ID",
+    "authMode": "oauth",
+    "oauthClientFile": "/FILL/PRIVATE/oauth-desktop-client.json",
+    "tokenFile": "/FILL/PRIVATE/google-refresh-token.json",
+    "serviceAccountFile": ""
+  },
+  "schedule": { "every": "15m" }
+}

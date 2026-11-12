@@ -1,0 +1,29 @@
+# Machine-specific configuration and backups
+config.json
+config.json.backup*
+.env
+.env.*
+!.env.example
+
+# Credentials and private keys
+*token*.json
+*credentials*.json
+*service-account*.json
+*.pem
+*.key
+
+# Local runtime state and generated output
+.state/
+reports/
+generated/
+*.db*
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local editor and operating-system files
+.claude/settings.local.json
+.DS_Store
+Thumbs.db
