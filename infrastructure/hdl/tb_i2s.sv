@@ -52,7 +52,9 @@ module tb_i2s;
         $finish;
     end
     initial begin
-        #((MAX_WORDS+4)*SLOT_BITS*2*HALF_PERIOD_NS + 1000000);
+        // Widen before multiplication: maximum-size traces exceed signed 32-bit ns.
+        #(64'd2*(MAX_WORDS+4)*SLOT_BITS*HALF_PERIOD_NS +
+          64'd2*RESET_CYCLES*CLOCK_HALF_NS + 1000000);
         $fatal(1,"Simulation watchdog expired");
     end
 endmodule
