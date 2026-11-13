@@ -1,8 +1,15 @@
 # Final CSAW 2026 Documentation
 
-Documentation for our CSAW 2026 AI Hardware Attack (AHA!) Challenge finals submission
-(team **GOONIES**). Each challenge is written up in its own folder; open that folder's
-`README.md` for the full technical brief, simulations, and reproduction steps.
+Documentation for our CSAW 2026 AI Hardware Attack (AHA!) Challenge finals submission.
+Each challenge is written up in its own folder; open that folder's `README.md` for the
+full technical brief, simulations, and reproduction steps.
+
+## Team: Goonies
+| Challenge | Author(s) |
+|---|---|
+| Challenge 1 | Jessica Ryn & Kevin Wu (UNLV) |
+| Challenge 2 | Kenneth Lei (UNLV) |
+| Challenge 3 | Kyson Wu (UCLA) |
 
 ## Structure
 - `challenge_1/` — Qualifying Trojan on the Hackster iCE40 board (key exfiltration).
