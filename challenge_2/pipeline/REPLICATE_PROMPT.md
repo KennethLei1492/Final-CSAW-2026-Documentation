@@ -131,4 +131,4 @@ reverse-engineered *before* the EEPROM/Trojan research.
 
 `rtl/` (engine, top, loader, Trojans), `tb/` (self-test + golden-vector + Trojan
 demos, loader test), `work/research/` (verified transcript), `work/analysis/cvss.py`,
-`TROJAN_README.md`, `docs/documentation.html`, and `pipeline/RESULTS.md`.
+`README.md`, `docs/documentation.html`, and `pipeline/RESULTS.md`.

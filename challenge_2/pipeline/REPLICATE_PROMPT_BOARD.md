@@ -81,7 +81,7 @@ research.
 ## 3. Deliverables (simulation)
 
 `rtl/`, `tb/`, `work/research/` (verified transcript), `work/analysis/cvss.py`,
-`TROJAN_README.md`, `docs/documentation.html`, `pipeline/RESULTS.md`.
+`README.md`, `docs/documentation.html`, `pipeline/RESULTS.md`.
 
 ---
 
