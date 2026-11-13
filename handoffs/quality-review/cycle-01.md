@@ -104,3 +104,9 @@ exists elsewhere. No implementation integration is authorized by this handoff.
 
 Completion status, acceptance decisions, exact best SHA, evidence paths and
 reproduction commands are in `current-best.json` / `current-best.md` at checkpoint.
+
+## Cycle acceptance and stop
+
+Iteration 1 was retained at `f45ad424657f5c85d47cbc4134f88a1326e6a0fd` after full audio and relevant regressions passed. Iteration 2 was retained at `fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6`: a clean Git archive reproduced all 46 simulations, 15 framework tests, both candidate and baseline builds, and the identical candidate bitstream. All standard and full-audio captures were byte-identical to the original. No implementation revision was rejected; the original failing boundary experiment and interrupted wrapper remain recorded.
+
+The bounded cycle stops after these two accepted iterations. No further verified functional defect is known in the exercised scope. Required physical verification is unavailable. Scribe preview succeeded with 96 recorded events after increasing only the local quality configuration evidence cap; no model synthesis or publication occurred. See `documentation-receipt.json`.
