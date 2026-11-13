@@ -8,7 +8,7 @@
   "final_candidate": "CSAW_FIN_worktrees/quality-winner",
   "source_audit": "audit-remediation/source-audit.md",
   "register": "audit-remediation/findings.json",
-  "file_count": 21,
+  "file_count": 22,
   "files": [
     {
       "path": "audit-remediation/ai-provenance-report.md",
@@ -109,6 +109,11 @@
       "path": "audit-remediation/stealth-analysis.md",
       "bytes": 3614,
       "sha256": "d4ab0b1385534fe7e2d4ae930133f18b3fbf6523aeb5c0079b3c00d6d7650fed"
+    },
+    {
+      "path": "handoffs/phase-f/documentation-agent-handoff.md",
+      "bytes": 2317,
+      "sha256": "6e6b937cf1067adbe1879de4f5243cda24149271aad2f0b7d98b0388bac37534"
     },
     {
       "path": "handoffs/phase-f/STATUS.md",
