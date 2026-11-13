@@ -1,0 +1,108 @@
+{
+  "schema": "csaw-fin-2026/challenge3/chat-session@1",
+  "title": "Challenge 3 - MicroPython Trojan models: build + verbatim cross-check",
+  "date": "2026-11-13",
+  "challenge": "challenge_3",
+  "generated_by": "Claude Code (Opus 4.8)",
+  "repository_reference": "https://github.com/KennethLei1492/Final-CSAW-2026-Documentation/tree/main/challenge_3",
+  "working_copy": "local quality-winner copy (ships only candidate 05B; 05A/05C/05D pulled from the documentation repo)",
+  "summary": "Across the session: clarified that Challenge 3 has no MicroPython files (it is an FPGA FIR-filter Trojan challenge of CPython tooling run under the OSS CAD Suite); authored portable MicroPython software models of all four Trojan candidates plus a shared FIR core; then cross-checked the three reconstructed candidates against the verbatim GitHub reference scripts, finding and fixing one real discrepancy in 05C.",
+  "recovered_filter": {
+    "type": "63-tap linear-phase low-pass FIR",
+    "format": "Q1.15 fixed-point",
+    "dc_gain": 1.0,
+    "coeff_sum_q15": 32768,
+    "minus_3db_hz": 3296,
+    "arithmetic": "y[n] = sat16((sum_k h[k]*x[n-k] + 2^14) >> 15), zero history",
+    "pipeline_latency_frames": 2
+  },
+  "trojan_candidates": [
+    {
+      "id": "05A",
+      "name": "Luna",
+      "trigger": "3-sample knock on the LEFT channel, masked 16-bit, pattern (0x5A3C, 0xC3A5, 0x96E1)",
+      "payload": "sticky LSB flip of the filtered left output from the trigger sample onward",
+      "model_file": "trojan_05a_luna.py",
+      "cross_check": "matches verbatim reference exactly"
+    },
+    {
+      "id": "05B",
+      "name": "Astra",
+      "selected": true,
+      "trigger": "8 consecutive LEFT samples equal to MAGIC (32512,-32511,23100,-23101,28050,-28051,-15556,15555)",
+      "payload": "bypass FIR for 128 frames (raw audio passes through), re-triggerable",
+      "model_file": "trojan_05b_astra.py",
+      "cross_check": "ported bit-for-bit from local source candidate_reference.py"
+    },
+    {
+      "id": "05C",
+      "name": "Opus Architecture",
+      "trigger": "3-frame knock on an INDEPENDENT RIGHT I2S slot, masked 16-bit, MAGIC (0xC0DE, 0xFACE, 0xBEEF), FSM with restart credit",
+      "payload": "sticky permanent FIR bypass once armed",
+      "model_file": "trojan_05c_opus_arch.py",
+      "cross_check": "discrepancy found and fixed (knock is on an independent right channel, not a mirror of left); verified against a verbatim replica over 400 randomized stereo trials (229 armed)"
+    },
+    {
+      "id": "05D",
+      "name": "Opus DSP",
+      "trigger": "multiplier-free Goertzel single-bin detector at fs/3 (bin k=192, 576-sample window); arms when |s1|+|s2| >= 2^23 (sticky latch)",
+      "payload": "spectral inversion while armed: odd-index taps negated, low-pass becomes high-pass",
+      "model_file": "trojan_05d_opus_dsp.py",
+      "cross_check": "matches verbatim reference exactly (recurrence, arm-at-sample-576 timing, odd-tap negation)"
+    }
+  ],
+  "deliverables": {
+    "hardware_demo_folder": "challenge_3/Hardware Demo",
+    "files": [
+      "fir_core.py (shared recovered FIR core + pipeline framing)",
+      "trojan_05a_luna.py",
+      "trojan_05b_astra.py",
+      "trojan_05c_opus_arch.py",
+      "trojan_05d_opus_dsp.py",
+      "README.md (folder docs, provenance, verification notes)"
+    ],
+    "note": "The four Trojan modules import fir_core.py, so it travels with them."
+  },
+  "verification": {
+    "fir_streaming_equals_golden": "bit-identical over 2000 random samples",
+    "benign_input_equals_clean_filter": "all four candidates identical to the clean FIR on untriggered input",
+    "trigger_checks": {
+      "05A_trigger_index": 22,
+      "05B_bypass_frames": 128,
+      "05C_cross_check_trials": 400,
+      "05C_armed_trials": 229,
+      "05D_first_armed_sample": 576
+    },
+    "interpreter_used_for_tests": "CPython 3.13 (behaviour-identical to MicroPython for this integer code)"
+  },
+  "reference_sources": [
+    "experiments/phase05/05b-astra/tests/candidate_reference.py",
+    "experiments/phase05/05b-astra/tests/reference/run_reference.py",
+    "experiments/phase05/05b-astra/tests/reference/coeffs.json",
+    "experiments/phase05/05a-luna/tests/run_candidate_reference.py",
+    "experiments/phase05/05c-opus-architecture/tests/trojan_ref.py",
+    "experiments/phase05/05d-opus-dsp/tests/ref_trojan.py"
+  ],
+  "turns": [
+    {
+      "n": 1,
+      "user": "gimme the steps to run the micropython files for each challenge and make sure the pathways are correct (with the challenge_3 GitHub tree URL)",
+      "assistant": "Clarified Challenge 3 has no MicroPython files; it is an iCE40-UP5K FIR-filter Trojan challenge whose Python scripts run under the OSS CAD Suite's bundled Python. Provided per-candidate run commands (05A-05D) with corrected local paths, prerequisites (git clone with history, OSS CAD Suite, unsandboxed PowerShell, fresh --output dirs), and the reproduce.py one-shot driver."
+    },
+    {
+      "n": 2,
+      "user": "make the micropython files for each trojan and save it into a separate folder in challenge three",
+      "assistant": "Created a micropython/ folder with fir_core.py and one model per Trojan (05A-05D) plus a README. Verified FIR streaming bit-identical to the golden batch, correct triggers, and clean-filter equivalence on benign input. Flagged that only 05B ships locally; 05A/05C/05D were reconstructed from the documentation repo and checked against prose summaries at that point."
+    },
+    {
+      "n": 3,
+      "user": "Yes, cross-check (against the verbatim GitHub reference scripts)",
+      "assistant": "Downloaded the verbatim 05A/05C/05D reference scripts. 05A and 05D matched exactly. Found a real 05C gap: the knock is detected on an independent right input channel, not a mirror of the left audio. Rewrote trojan_05c_opus_arch.py to take a separate right channel (defaulting to mirrored L=R), and verified it against a verbatim replica of the reference detector over 400 randomized stereo trials. Updated the README."
+    },
+    {
+      "n": 4,
+      "user": "create a json file for this chat and add it to the docs folder in Challenge 3; also create a new folder named 'Hardware Demo' and add the four micropython files into it",
+      "assistant": "Wrote this JSON to challenge_3/docs/, and placed the MicroPython models (the four Trojan files plus their shared fir_core.py and README) into a new 'Hardware Demo' folder. Done in the local copy; the KennethLei1492 GitHub repo is a separate remote and was not pushed to."
+    }
+  ]
+}
