@@ -10,12 +10,16 @@ no model synthesis and no Google publishing were performed, and none is claimed.
 
 - **Verification exit recorded** via `scribe.mjs record-test` wrapping the
   candidate's reference-model self-test (deterministic, no toolchain needed),
-  session **`phase05-05d-dsp`**, against this worktree root. This records a real
-  command exit, redacted output excerpt, output hash, HEAD and tracked-state
-  stability — not an agent claim.
-- **Model-free evidence `preview`** generated (`preview.md` + `preview-evidence.json`
-  in the agent's local `outputDir`); a copy of the preview is saved beside this
-  file as `scribe-preview.md` for the record.
+  session **`phase05-05d-dsp`**, against this worktree root. Result:
+  `{"recorded":true,"exitCode":0,"trackedStateStable":true}` — a real command exit
+  with HEAD and tracked-state stability, not an agent claim.
+- **Model-free `preview`** is the supported route while the agent's model is a
+  placeholder. A fresh full-project preview was **not** regenerated: with four
+  candidate roots (05a/05b/05d + the two originals) and all prior phases now
+  observed, the evidence packet exceeds the project-wide `maxEvidenceChars` cap,
+  which Scribe reports rather than truncating. Lowering
+  `maxEventsPerReport`/`maxEvidenceChars` is a shared-project tuning matter left to
+  the operator, not changed during this concurrent multi-candidate run.
 
 ## Evidence source files (for `git.sourceFiles`)
 
@@ -30,8 +34,10 @@ Relative to this candidate's branch root:
 
 ## Config / identity note
 
-The agent's `config.json` (gitignored, in the main worktree) was **not** altered
-in a way that changes its identity, model, or Google destination. If this
-candidate's branch root is added to `project.roots` for observation it is an
-additive change only (mirroring Phase 3/4), made with a backup and never
-committed. Do not overwrite the agent's config/identity or duplicate the agent.
+This worktree root was **appended** to `project.roots` (additive, index 3, after
+the concurrently-added `05b-astra` root) so `record-test` could attribute its exit
+to this branch. The agent's identity, model, capture policy and Google destination
+were left unchanged; a timestamped backup was made
+(`config.json.backup-phase05-20261113-pre-05d`) and the gitignored `config.json`
+is never committed. No other candidate's root or files were touched. Do not
+overwrite the agent's config/identity or duplicate the agent.

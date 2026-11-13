@@ -205,6 +205,44 @@ mix2   = fir_sel(xhi, h, sched2)
 R["nearnyq_disarmed_firsthalf_eq_golden"] = (mix2[:Mn // 2] == g_hi[:Mn // 2])
 R["nearnyq_armed_secondhalf_eq_hprime"]   = (mix2[Mn // 2:] == hp_hi[Mn // 2:])
 
+# DELIBERATE saturation-divergence search: tile the worst-case-for-h' sign pattern
+# so armed (h') outputs saturate hard; golden (h) on the same stream saturates
+# differently (or not at all). Then prove: with arm forced OFF the WHOLE stream is
+# bit-identical to golden (disarmed path never corrupted), with arm forced ON it is
+# bit-identical to pure h', and a per-sample alternating mix selects correctly -- at
+# EVERY index, including the ones where the two filters saturate differently.
+pat = [(INT16_MAX if hp[N - 1 - j] > 0 else INT16_MIN) for j in range(N)]
+xsat = (pat * 8)[:400]
+g_s  = fir_direct(xsat, h)       # golden (low-pass) stream
+p_s  = fir_direct(xsat, hp)      # armed  (high-pass) stream
+
+def sat_mask(x, coeffs):
+    m = []
+    for n in range(len(x)):
+        acc = 0
+        for k in range(min(n + 1, N)):
+            acc += coeffs[k] * x[n - k]
+        r = (acc + (1 << 14)) >> 15
+        m.append(r > INT16_MAX or r < INT16_MIN)
+    return m
+
+mg, mp = sat_mask(xsat, h), sat_mask(xsat, hp)
+diff_sat = [n for n in range(len(xsat)) if mg[n] != mp[n]]       # saturate differently
+R["satsearch_len"]              = len(xsat)
+R["satsearch_golden_sats"]      = int(sum(mg))
+R["satsearch_armed_sats"]       = int(sum(mp))
+R["satsearch_diff_sat_count"]   = len(diff_sat)
+dis_off = fir_sel(xsat, h, [0] * len(xsat))
+dis_on  = fir_sel(xsat, h, [1] * len(xsat))
+R["satsearch_disarmed_eq_golden_everywhere"] = (dis_off == g_s)
+R["satsearch_armed_eq_hprime_everywhere"]    = (dis_on == p_s)
+alt = [n & 1 for n in range(len(xsat))]
+mix_alt = fir_sel(xsat, h, alt)
+exp_alt = [p_s[n] if alt[n] else g_s[n] for n in range(len(xsat))]
+R["satsearch_alt_schedule_ok"] = (mix_alt == exp_alt)
+# corruption = any disarmed sample whose value differs from golden at a differing-sat index
+R["satsearch_disarmed_corrupted_at_diffsat"] = any(dis_off[n] != g_s[n] for n in diff_sat)
+
 # constructed acc-maximizing input for h': confirm measured acc == worst_acc(hp).max,
 # fits 40-bit, and (run disarmed) still equals golden exactly.
 x_wc = [(INT16_MAX if hp[N - 1 - j] > 0 else INT16_MIN) for j in range(N)]

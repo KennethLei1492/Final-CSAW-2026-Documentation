@@ -27,9 +27,9 @@ ARM_THRESHOLD = 1 << 23                 # 8388608  (L1 magnitude |s1|+|s2|)
 F_KEY        = FS / 3.0                 # 5333.333... Hz  == bin k/N * fs = 192/576*16000
 
 HERE   = os.path.dirname(os.path.abspath(__file__))
-PROOT  = os.path.normpath(os.path.join(HERE, ".."))          # .../05d-opus-dsp
+PROOT  = os.path.normpath(os.path.join(HERE, "..", ".."))    # .../05d-opus-dsp (ai/analysis is 2 levels deep)
 WAVPATH = r"C:/Users/lowbr/Documents/College/AI/CSAW_FIN_worktrees/05d-opus-dsp/what_a_piece_of_work-noisy.wav"
-OUTJSON = os.path.join(PROOT, "reports", "analysis", "verify_trigger.json")
+OUTJSON = r"C:/Users/lowbr/Documents/College/AI/CSAW_FIN_worktrees/05d-opus-dsp/experiments/phase05/05d-opus-dsp/reports/analysis/verify_trigger.json"
 
 INT16_MIN, INT16_MAX = -(1 << 15), (1 << 15) - 1
 
