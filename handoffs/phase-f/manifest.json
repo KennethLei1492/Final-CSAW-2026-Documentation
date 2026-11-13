@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "phase": "F",
+  "cycle": 1,
+  "generated": "2026-11-13",
+  "branch": "challenge3/phase-f-remediation",
+  "base_commit": "9893aed",
+  "final_candidate": "CSAW_FIN_worktrees/quality-winner",
+  "source_audit": "audit-remediation/source-audit.md",
+  "register": "audit-remediation/findings.json",
+  "file_count": 21,
+  "files": [
+    {
+      "path": "audit-remediation/ai-provenance-report.md",
+      "bytes": 5992,
+      "sha256": "9a1b5e4109c2ee3858eace731c913669cc65db071ac92768894abbbacf87d249"
+    },
+    {
+      "path": "audit-remediation/automation-report.md",
+      "bytes": 4988,
+      "sha256": "8583076a8854459995432ed3b07bbb9c1b578af6f0fa41371a3662979440b22e"
+    },
+    {
+      "path": "audit-remediation/bonus-compliance-report.md",
+      "bytes": 4266,
+      "sha256": "0fa7904cfb4a679b6a8d5a0a8ae5ab380a78807d3f53b7f1c3aca7996bc1ce81"
+    },
+    {
+      "path": "audit-remediation/evidence/destealth-comments.diff",
+      "bytes": 2162,
+      "sha256": "242219997136d524aad09412422db9d0005d8fb81acbb1b462047df186270b07"
+    },
+    {
+      "path": "audit-remediation/evidence/provenance-verification.json",
+      "bytes": 4768,
+      "sha256": "d8b8c3f33c03a03714b445d8b62a77b190461a434beb2127821aae2a1b32fff9"
+    },
+    {
+      "path": "audit-remediation/evidence/triggered_stream.wav",
+      "bytes": 700,
+      "sha256": "7526f98b9820d5fb1f942c173915258ca74e710aee2b98f1f7bb4c7728142d09"
+    },
+    {
+      "path": "audit-remediation/evidence-index.json",
+      "bytes": 7522,
+      "sha256": "eda1dd68390af62ac04dedfc3f1b082420c1f978cf8df2259f98635ebdc2ad85"
+    },
+    {
+      "path": "audit-remediation/final-readiness.md",
+      "bytes": 3189,
+      "sha256": "9f856bb8ad1518de64e06d3e006dc7459a91b7947b9e3c0bb4ef45ff8adbc3f9"
+    },
+    {
+      "path": "audit-remediation/findings.json",
+      "bytes": 28467,
+      "sha256": "d3361c85ac04c78573f0a3eea8acba64fe53d05b596c5adcc3596122b965450a"
+    },
+    {
+      "path": "audit-remediation/findings.md",
+      "bytes": 5872,
+      "sha256": "bab1fd0fc9e4e06c62e1a14fcd88a070ab7a0879c08c944721d61dd54744a59f"
+    },
+    {
+      "path": "audit-remediation/hardware-evidence-report.md",
+      "bytes": 3912,
+      "sha256": "2fef89b15082daf39f4a56ac15cb01a1efc4f44c27998ed04d0a6f9f8ebcab75"
+    },
+    {
+      "path": "audit-remediation/proposed/fir_audio_top.destealthed-comments.v",
+      "bytes": 12719,
+      "sha256": "8fec91f6c04293afeed3e70286bc1b7210a832f388277c76dc27670d21d053a7"
+    },
+    {
+      "path": "audit-remediation/remediation-history.md",
+      "bytes": 4440,
+      "sha256": "4fea8b975028e0d9b894f2c2db6115c35a510306d827eb57a39ada8c109daa12"
+    },
+    {
+      "path": "audit-remediation/rtl-correctness-report.md",
+      "bytes": 6288,
+      "sha256": "7f3fec2d7e0c688cd8a5ed0cfddd71957ee65c2a44295cc5425328a1dcdcc42c"
+    },
+    {
+      "path": "audit-remediation/score-assessment.md",
+      "bytes": 4691,
+      "sha256": "ecf9468349974cce42c1599564e479401c3f5b68dae11cad283ee0c32a5d11f3"
+    },
+    {
+      "path": "audit-remediation/scripts/destealth_comments.py",
+      "bytes": 3921,
+      "sha256": "96b55d54dc6abdbbc1b2d8510c73e9f9f077393fb63cfe3b9640080593f847f0"
+    },
+    {
+      "path": "audit-remediation/scripts/make_trigger_wav.py",
+      "bytes": 2275,
+      "sha256": "1f0fe29bf522a62b77d6ed085f64b2803cae9f94b7c076990e9b959f8bbbbdb3"
+    },
+    {
+      "path": "audit-remediation/scripts/verify_provenance.py",
+      "bytes": 2548,
+      "sha256": "cbc6dc07780c6b26f0d5196e761c7d2235b12ddb740bf3b9e2a8bd7bdaff23a6"
+    },
+    {
+      "path": "audit-remediation/source-audit.md",
+      "bytes": 8421,
+      "sha256": "287080cc76953e54509b332259199054bffd46c312fda0004f0c4a15d41cd90a"
+    },
+    {
+      "path": "audit-remediation/stealth-analysis.md",
+      "bytes": 3614,
+      "sha256": "d4ab0b1385534fe7e2d4ae930133f18b3fbf6523aeb5c0079b3c00d6d7650fed"
+    },
+    {
+      "path": "handoffs/phase-f/STATUS.md",
+      "bytes": 3177,
+      "sha256": "7c6c695d887a22cb3fb64498f18f0f7aab62040137a65395cdc7c434174f6b92"
+    }
+  ]
+}

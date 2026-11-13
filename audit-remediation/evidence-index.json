@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "phase": "F",
+  "generated": "2026-11-13",
+  "official_rubric": "handoffs/phase-05/cycles/05S-004/official-challenge.md",
+  "final_candidate": "CSAW_FIN_worktrees/quality-winner/experiments/phase05/05b-astra",
+  "note": "Paths are repo-relative unless prefixed with CSAW_FIN_worktrees/ (sibling worktrees) or absolute. .state/ paths are private/gitignored (not committed).",
+  "requirements_to_evidence": [
+    {
+      "category": "1. Creative Use of GenAI (35)",
+      "findings": [15,16,17,18,19,20],
+      "evidence": [
+        {"ref": ".state/phase-07-private/index.json", "kind": "raw AI transcripts (11 .jsonl)", "proves": "AI authorship across 05A/B/C/D", "verified": "SHA-256 + size 11/11 OK"},
+        {"ref": "audit-remediation/evidence/provenance-verification.json", "kind": "integrity proof", "proves": "archive matches index", "verified": true},
+        {"ref": "CSAW_FIN_worktrees/quality-winner/experiments/phase05/05b-astra/ai/model-provenance.json", "kind": "model list", "proves": "Codex/OpenAI, Astra label", "verified": "read"},
+        {"ref": ".worktrees/phase-08/handoffs/phase-08/submission-README.md", "kind": "model reconciliation + visible exports", "proves": "gpt-6-luna (orig 05B) / gpt-6-astra (Q); Claude Opus 05C/05D", "verified": "read"}
+      ],
+      "gaps": ["§18 selected-05B pipeline strength UNVERIFIED (read rollouts)", "final transcript coverage unverified"]
+    },
+    {
+      "category": "2. Trojan Quality (25)",
+      "findings": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,48,49,50],
+      "evidence": [
+        {"ref": "CSAW_FIN_worktrees/quality-winner/experiments/phase05/05b-astra/rtl/fir_audio_top.v", "kind": "final RTL", "proves": "trigger/payload/baseline logic", "verified": "read + line-cited"},
+        {"ref": "CSAW_FIN_worktrees/quality-winner/experiments/phase05/05b-astra/reports/full-audio-evidence.json", "kind": "regression", "proves": "481,082 words 0 mismatch untriggered; 4/4 activations", "verified": "recorded receipt"},
+        {"ref": "handoffs/phase-07/consolidation.md", "kind": "baseline proof chain", "proves": "Phase 2/3/5S/Q/6 equivalence (§48)", "verified": "recorded"}
+      ],
+      "gaps": ["on-bench (hardware) evidence BLOCKED", "stealth §5/§50 behavioral upgrades proposed-not-applied"]
+    },
+    {
+      "category": "3. System Automation (15)",
+      "findings": [21,22,23,24,25,26],
+      "evidence": [
+        {"ref": ".worktrees/phase-04/infrastructure/run.py", "kind": "build/sim/synth/validate pipeline", "proves": "manifest-driven one-command build", "verified": "inventory + subcommands"},
+        {"ref": ".worktrees/phase-08/reproduce.py", "kind": "reproduction driver", "proves": "evaluate/validate/baseline gates", "verified": "read header"},
+        {"ref": ".worktrees/phase-04/infrastructure/toolchain-lock.json", "kind": "pinned toolchain", "proves": "deterministic versions/hashes", "verified": "inventory"}
+      ],
+      "gaps": ["§24 generation->insertion not wired; board stage gated", "live re-run not done this cycle"]
+    },
+    {
+      "category": "4. Documentation & Reproducibility (15)",
+      "findings": [27,28,29,30,31,32,33,34],
+      "evidence": [
+        {"ref": "CSAW_FIN_worktrees/quality-winner/experiments/phase05/05b-astra/README.md", "kind": "candidate README", "proves": "behavior/trigger/payload/repro/provenance", "verified": "read"},
+        {"ref": "audit-remediation/stealth-analysis.md", "kind": "stealth analysis (NEW)", "proves": "§30 remediated", "verified": "authored this cycle"},
+        {"ref": "audit-remediation/scripts/make_trigger_wav.py", "kind": "trigger generator (NEW)", "proves": "§34 remediated", "verified": "run + readback OK"},
+        {"ref": ".worktrees/phase-08/handoffs/phase-08/submission-README.md", "kind": "submission draft", "proves": "RE writeup + repro commands", "verified": "read"}
+      ],
+      "gaps": ["consolidate to one canonical submission README", "verify repro recipe live"]
+    },
+    {
+      "category": "5. Hardware Demonstration (10)",
+      "findings": [35,36,37,38,39,40],
+      "evidence": [
+        {"ref": "audit-remediation/hardware-evidence-report.md", "kind": "blocker + executable procedure", "proves": "capture plan ready; trigger WAV staged", "verified": "authored"}
+      ],
+      "gaps": ["ALL BLOCKED: no Hackster board. Nothing fabricated."]
+    },
+    {
+      "category": "Bonus A - additional trojans (20)",
+      "findings": [41,42],
+      "evidence": [
+        {"ref": "branches challenge3/05a-luna,05c-opus-architecture,05d-opus-dsp", "kind": "3 additional distinct trojans", "proves": "distinct trigger+payload each", "verified": "memory + consolidation ranking; per-candidate READMEs to cite"},
+        {"ref": ".worktrees/phase-08 history/development.bundle", "kind": "preserved lineage", "proves": "all four candidates retained", "verified": "submission-README"}
+      ],
+      "gaps": ["sim tier 5 each (+10); board tier 10 each (+20) BLOCKED"]
+    },
+    {
+      "category": "Bonus B - covert channel (10)",
+      "findings": [43,44,45],
+      "evidence": [
+        {"ref": ".worktrees/phase-05bb/handoffs/phase-05/bonus-b.md", "kind": "covert channel handoff", "proves": "CSAW26-BONUS-B, BER 0/336, 625/312 bit/s, host decoder", "verified": "read"},
+        {"ref": "CSAW_FIN_worktrees(05bb)/experiments/phase05/05bb-bonus-b/verification-evidence.zip", "kind": "634 evidence files", "proves": "WAVs/per-bit CSVs/logs", "verified": "handoff-listed"}
+      ],
+      "gaps": ["simulation-only 5/10; board bit-exact (10) BLOCKED"]
+    }
+  ],
+  "provenance_archive": {
+    "transcripts": 11,
+    "verified_ok": 11,
+    "bytes": 22830216,
+    "by_candidate": {"05A": 1, "05B": 5, "05C": 4, "05D": 1},
+    "proof": "audit-remediation/evidence/provenance-verification.json"
+  },
+  "phase_f_new_artifacts": [
+    {"path": "audit-remediation/findings.json", "purpose": "50-finding register (machine-readable)"},
+    {"path": "audit-remediation/findings.md", "purpose": "register (readable)"},
+    {"path": "audit-remediation/source-audit.md", "purpose": "preserved external audit"},
+    {"path": "audit-remediation/ai-provenance-report.md", "purpose": "§15-20"},
+    {"path": "audit-remediation/automation-report.md", "purpose": "§21-26"},
+    {"path": "audit-remediation/rtl-correctness-report.md", "purpose": "§12-13,46-49 + stealth dispositions"},
+    {"path": "audit-remediation/hardware-evidence-report.md", "purpose": "§35-40 blocker + procedure"},
+    {"path": "audit-remediation/bonus-compliance-report.md", "purpose": "§41-45"},
+    {"path": "audit-remediation/stealth-analysis.md", "purpose": "§30 remediation"},
+    {"path": "audit-remediation/score-assessment.md", "purpose": "rubric re-estimate"},
+    {"path": "audit-remediation/scripts/verify_provenance.py", "purpose": "archive integrity (run)"},
+    {"path": "audit-remediation/scripts/make_trigger_wav.py", "purpose": "§34 trigger WAV (run+verified)"},
+    {"path": "audit-remediation/scripts/destealth_comments.py", "purpose": "§6 comment-neutralizer (run+verified)"},
+    {"path": "audit-remediation/proposed/fir_audio_top.destealthed-comments.v", "purpose": "§6 proposed non-behavioral variant"},
+    {"path": "audit-remediation/evidence/provenance-verification.json", "purpose": "11/11 SHA-256 verified"},
+    {"path": "audit-remediation/evidence/triggered_stream.wav", "purpose": "verified trigger stimulus"},
+    {"path": "audit-remediation/evidence/destealth-comments.diff", "purpose": "comment-only diff proof"}
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "archive": ".state\\phase-07-private",
+  "transcripts_total": 11,
+  "verified_ok": 11,
+  "by_phase": {
+    "05A": 1,
+    "05B": 5,
+    "05C": 4,
+    "05D": 1
+  },
+  "total_verified_bytes": 22830216,
+  "all_ok": true,
+  "rows": [
+    {
+      "phase": "05A",
+      "archive_relative": "05A/rollout-2026-11-12T20-51-18-01a1d29a-1e03-7c70-b113-266265c5b95c.jsonl",
+      "expected_sha256": "51667f40d6bacb3bd575515a4c70a78b62a04e5d29cab32de4f03b0fe87b45b0",
+      "expected_bytes": 1362630,
+      "status": "OK",
+      "actual_sha256": "51667f40d6bacb3bd575515a4c70a78b62a04e5d29cab32de4f03b0fe87b45b0",
+      "actual_bytes": 1362630
+    },
+    {
+      "phase": "05B",
+      "archive_relative": "05B/rollout-2026-11-12T21-02-41-01a1d2a4-8c60-7bc0-ba32-0373f9709de7.jsonl",
+      "expected_sha256": "ad2e3426e23cca3dc23a051807118e8f02314a28ebcbfb893fe87d9934118a2a",
+      "expected_bytes": 5311611,
+      "status": "OK",
+      "actual_sha256": "ad2e3426e23cca3dc23a051807118e8f02314a28ebcbfb893fe87d9934118a2a",
+      "actual_bytes": 5311611
+    },
+    {
+      "phase": "05B",
+      "archive_relative": "05B/rollout-2026-11-12T22-32-25-01a1d2f6-b1e8-7093-9add-188fad5970cf.jsonl",
+      "expected_sha256": "0193c5028f6cead0dea8128288c4f61cafc5e85373d37c9c4a80c06d323df6ed",
+      "expected_bytes": 4342469,
+      "status": "OK",
+      "actual_sha256": "0193c5028f6cead0dea8128288c4f61cafc5e85373d37c9c4a80c06d323df6ed",
+      "actual_bytes": 4342469
+    },
+    {
+      "phase": "05B",
+      "archive_relative": "05B/rollout-2026-11-12T21-36-28-01a1d2c3-77ce-7ec2-b505-96c6b0e50639.jsonl",
+      "expected_sha256": "444229d706a975da9f4b106ad9d6eac8e83b3cceb2605835cdf30eba53453fdc",
+      "expected_bytes": 145741,
+      "status": "OK",
+      "actual_sha256": "444229d706a975da9f4b106ad9d6eac8e83b3cceb2605835cdf30eba53453fdc",
+      "actual_bytes": 145741
+    },
+    {
+      "phase": "05B",
+      "archive_relative": "05B/rollout-2026-11-12T21-42-46-01a1d2c3-77ce-7ec2-b505-96c6b0e50639_01a1d2c9-3e7e-7d61-84b3-8ea5ffa19588.jsonl",
+      "expected_sha256": "38f76b50bf25ab7a57eed9950c4d9812f11d5f128dd1a91a7c64d131170ed375",
+      "expected_bytes": 214772,
+      "status": "OK",
+      "actual_sha256": "38f76b50bf25ab7a57eed9950c4d9812f11d5f128dd1a91a7c64d131170ed375",
+      "actual_bytes": 214772
+    },
+    {
+      "phase": "05B",
+      "archive_relative": "05B/rollout-2026-11-12T21-44-54-01a1d2c3-77ce-7ec2-b505-96c6b0e50639_01a1d2cb-3304-7052-a841-00997f17958d.jsonl",
+      "expected_sha256": "15a24169cc9a12590623d92abdc80136dfbcaf652ef43394af180dc02719d76d",
+      "expected_bytes": 1270741,
+      "status": "OK",
+      "actual_sha256": "15a24169cc9a12590623d92abdc80136dfbcaf652ef43394af180dc02719d76d",
+      "actual_bytes": 1270741
+    },
+    {
+      "phase": "05C",
+      "archive_relative": "05C/051b149e-2566-4e87-bf60-738d5854e25f.jsonl",
+      "expected_sha256": "fffc5686962f2b5e34212647a442624d27c1eb8d8b5291ddd6a54a82bcaa7735",
+      "expected_bytes": 2301092,
+      "status": "OK",
+      "actual_sha256": "fffc5686962f2b5e34212647a442624d27c1eb8d8b5291ddd6a54a82bcaa7735",
+      "actual_bytes": 2301092
+    },
+    {
+      "phase": "05C",
+      "archive_relative": "05C/7b9d99f3-e8a7-4a74-9910-b96e3d6507c0.jsonl",
+      "expected_sha256": "3e18110af01f1045e95254c7ab120a0b839d51d8c03ea408259a4952212cacb3",
+      "expected_bytes": 416613,
+      "status": "OK",
+      "actual_sha256": "3e18110af01f1045e95254c7ab120a0b839d51d8c03ea408259a4952212cacb3",
+      "actual_bytes": 416613
+    },
+    {
+      "phase": "05C",
+      "archive_relative": "05C/75e45eae-7ccd-48c1-b6ff-93d422cbb2f1.jsonl",
+      "expected_sha256": "16419876addebdabe26da4e1ac99da8f266b0fce2d26f095b9d010f177cfe3cb",
+      "expected_bytes": 2346396,
+      "status": "OK",
+      "actual_sha256": "16419876addebdabe26da4e1ac99da8f266b0fce2d26f095b9d010f177cfe3cb",
+      "actual_bytes": 2346396
+    },
+    {
+      "phase": "05C",
+      "archive_relative": "05C/e07f0707-f6e8-4c2d-bc40-e1ccbbbe4a33.jsonl",
+      "expected_sha256": "5e0613e6fb9727d4b44182c2f82898851bebd3842285b891ae8875267392a17e",
+      "expected_bytes": 1190309,
+      "status": "OK",
+      "actual_sha256": "5e0613e6fb9727d4b44182c2f82898851bebd3842285b891ae8875267392a17e",
+      "actual_bytes": 1190309
+    },
+    {
+      "phase": "05D",
+      "archive_relative": "05D/88d755cc-abd0-4b28-9091-6d225997f200.jsonl",
+      "expected_sha256": "5cd1cfb102ad5ab66a054292d04161ef4b2ad010652ef13a9217f6ae978487eb",
+      "expected_bytes": 3927842,
+      "status": "OK",
+      "actual_sha256": "5cd1cfb102ad5ab66a054292d04161ef4b2ad010652ef13a9217f6ae978487eb",
+      "actual_bytes": 3927842
+    }
+  ]
+}
