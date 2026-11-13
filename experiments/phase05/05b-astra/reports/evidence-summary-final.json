@@ -1,12 +1,12 @@
 {
-  "run_directory": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN_worktrees\\05b-astra\\experiments\\phase05\\05b-astra\\reports\\scribe-validation-1",
+  "run_directory": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN_worktrees\\05b-astra\\experiments\\phase05\\05b-astra\\reports\\final-validation-run",
   "regression_report_passed": true,
   "regression_cases": {
     "passed": 11,
     "failed": 0,
     "blocked": 0
   },
-  "framework_unit_test_summary": "Ran 15 tests in 1.849s",
+  "framework_unit_test_summary": "Ran 15 tests in 1.753s",
   "baseline_mismatch_count": 0,
   "normal_cases": {
     "phase3-golden": {
@@ -51,7 +51,7 @@
   "startup_zero_frames_verified": 2,
   "activation_events_tested": 4,
   "activation_events_succeeded": 4,
-  "activation_success_rate": 1.0,
+  "activation_success_rate": 1,
   "activation_events": [
     {
       "case": "activation-1mhz",
@@ -114,7 +114,7 @@
   ],
   "fpga_build": {
     "passed": true,
-    "frequency_mhz": 10.0,
+    "frequency_mhz": 10,
     "fmax": {
       "ICE_CLK$SB_IO_IN_$glb_clk": {
         "achieved": 15.131569862365723,
@@ -199,5 +199,36 @@
     "bitstream_identical": true,
     "input_contents_identical": true
   },
-  "hardware_validation": "not run; no Hackster board attached to this environment"
+  "hardware_validation": "not run; no Hackster board attached to this environment",
+  "final_validation_snapshot": {
+    "head": "dbca7054b0f7610442a3f43463d4a9670b43b511",
+    "manifest_sha256": "7581f34c6839166c95849eefc5cecfc146fc82ccc0a3fcbf4f9233d4f06d3e2e",
+    "git_status": "",
+    "timestamp_utc": "2026-11-13T04:23:26.709280+00:00",
+    "report_sha256": "224e00a8d2dc9a44a3d936bd09dd51dfff8071ce8f082ca73caf6386029cc43e"
+  },
+  "full_audio_regression": {
+    "source_path": "what_a_piece_of_work-noisy.wav",
+    "source_sha256": "403bab7faa0d0a898385a49d5c942b19890a5f166045fe9ba18c0a0cf919abb0",
+    "source_frames": 240000,
+    "sample_rate_hz": 16000,
+    "trigger_hit_count": 0,
+    "segment_count": 4,
+    "segments_passed": 4,
+    "segments_failed": 0,
+    "segments_blocked": 0,
+    "simulated_frames": 240541,
+    "compared_words": 481082,
+    "baseline_mismatch_count": 0,
+    "chunk_overlap_frames": 7,
+    "flush_frames_per_chunk": 130,
+    "repeat_simulation": false,
+    "audit_sha256": "c91572f8945f2773435bb44b893779995e2cfd73a7706208363cdde8f17039e3",
+    "run_report_sha256": "58797e3830c5eecd6212fcd209a11b3cb50374048c37a4d632a1b96b338ad573",
+    "hardware_validation": "not run; no physical board was available"
+  },
+  "combined_baseline_comparison_words": 503330,
+  "combined_report_cases_passed": 15,
+  "combined_report_cases_failed": 0,
+  "combined_report_cases_blocked": 0
 }

@@ -21,7 +21,7 @@ The final standard validation passed 11/11 report cases (10 simulations and the 
 
 For iCE40 UP5K SG48 with a 10 MHz constraint, place-and-route used 3,662/5,280 logic cells (69.4%), 0/8 DSPs, 0/30 block RAMs, and 9/39 IO cells. The recovered Phase 4 baseline used 3,179 logic cells, so this candidate adds 483 cells (15.2% over that baseline). Fmax was 15.1316 MHz, and the bitstream pack/unpack round trip passed. No physical board test was run.
 
-The captured numerical evidence is in `reports/evidence-summary-final.json` and `reports/full-audio-evidence.json`. The full-audio source hash, chunk ranges, and input/golden hashes are in `reports/full-audio-vectors/source-summary.json`. The detailed standard run 7 report and build summary are retained under `reports/validation-run-7/`.
+The captured numerical evidence is in `reports/evidence-summary-final.json` and `reports/full-audio-evidence.json`. The full-audio source hash, chunk ranges, and input/golden hashes are in `reports/full-audio-vectors/source-summary.json`. The detailed standard run 7 report and build summary are retained under `reports/validation-run-7/`. `reports/scribe-record-test.json` contains the selected Scribe command receipts, including the incomplete first full-audio attempt and the successful retries.
 
 ## Reproduction
 
@@ -56,6 +56,6 @@ The Scribe `record-test` wrapper needs a longer timeout for the full-audio run; 
 
 The competition-specific trigger, payload, RTL changes, test/reference additions, manifest, and documentation were AI-authored for this candidate. The baseline RTL and original Phase 3 golden data are unchanged. The requested model label was Astra; the runtime did not expose an exact model identifier. `ai/session-record.md` is a provenance summary, not a raw conversation transcript.
 
-The Project Scribe `record-test` interface recorded the standard validation and full-audio audit commands with exit code 0 and stable tracked state. Its local evidence preview was generated without model synthesis or Google Docs publishing; the Scribe setup is still marked unactivated. No public remote was updated and this candidate does not select an overall winner.
+The Project Scribe `record-test` interface recorded the standard validation, full-audio simulation, and full-audio audit commands with exit code 0 and stable tracked state. Its latest local preview included 90 queued events and left the checkpoint at cursor 0; a temporary config copy raised the local evidence-size cap to the supported 1,000,000 characters. The preview used no model synthesis or Google Docs publishing; the Scribe setup is still marked unactivated. No public remote was updated and this candidate does not select an overall winner.
 
 The full noisy WAV was simulated as four independent power-up runs, not as one continuous hardware stream. Physical board behavior, board timing, and the physical exploit demonstration remain unverified. LED/RGB pin roles remain provisional. The official finals instructions require a physical-board exploit demonstration and comprehensive AI transcripts; those items remain outstanding.

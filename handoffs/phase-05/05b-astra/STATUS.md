@@ -39,6 +39,7 @@ The trigger is eight exact consecutive signed 16-bit left samples (`7F00 8101 5A
 - Full-audio capture audit: `experiments/phase05/05b-astra/reports/full-audio-evidence.json`.
 - Full-audio input/chunk provenance: `experiments/phase05/05b-astra/reports/full-audio-vectors/source-summary.json`.
 - Standard numerical summary: `experiments/phase05/05b-astra/reports/evidence-summary-final.json`.
+- Selected Project Scribe command receipts and model-free preview status: `experiments/phase05/05b-astra/reports/scribe-record-test.json`.
 - Rejected revisions and fixes: `experiments/phase05/05b-astra/ai/rejected-revisions.md`.
 
 ## Exact reproduction commands
@@ -59,7 +60,7 @@ $env:PYTHONDONTWRITEBYTECODE = '1'
 
 ## Documentation status
 
-Project Scribe's supported `record-test` interface recorded the full-audio simulation at exit code 0 with stable tracked state. The standard suite was also recorded at exit code 0. Its local preview does not advance the checkpoint and did not invoke model synthesis or Google publishing.
+Project Scribe's supported `record-test` interface recorded the standard validation, full-audio simulation, and full-audio audit at exit code 0 with stable tracked state. The local preview covered 90 queued events; Scribe status confirmed checkpoint cursor 0 after preview. The preview used a temporary external config copy with its supported evidence cap set to 1,000,000 characters and invoked no model synthesis or Google publishing. A compact receipt preserves the selected records; the global event database and preview remain local.
 
 ## Dependencies for next phase
 
