@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+import subprocess
 from prepare import ROOT, PACKAGE, dump
 sys.path.insert(0, str(ROOT / 'infrastructure'))
 from results import compare
@@ -15,6 +16,10 @@ def sha(path):
 
 def collect(prefix, audio_dirs, source_commit):
     evidence = {}; suites = {}
+    for source in [PACKAGE/'rtl/fir_audio_top.v', PACKAGE/'tests/candidate_reference.py']:
+        committed = subprocess.check_output(['git', 'show',
+            source_commit+':'+source.relative_to(ROOT).as_posix()], cwd=ROOT)
+        assert committed.replace(b'\r\n',b'\n') == source.read_bytes().replace(b'\r\n',b'\n'), source
     def receipt(path):
         evidence[str(path.relative_to(ROOT))] = sha(path)
         return json.loads(path.read_text(encoding='utf-8-sig'))
@@ -58,6 +63,7 @@ def collect(prefix, audio_dirs, source_commit):
     return {'schema_version':1,'source_commit_sha':source_commit,
         'framework_tests_passed':15,'suite_results':suites,'build':build,'full_audio':{
             'source_frames':summary['source_frames_covered'],'reset_isolated_chunks':True,
+            'trigger_hit_count':len(summary['trigger_completion_frames']),
             'overlap_frames':summary['chunk_overlap_frames'],'source_sha256':summary['source_sha256'],
             'compared_words':sum(x['compared_words'] for x in audio),
             'mismatches':sum(x['mismatches'] for x in audio),'segments':audio},

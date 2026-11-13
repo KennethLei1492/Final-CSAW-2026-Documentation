@@ -27,6 +27,8 @@ def main():
         if result.returncode: raise SystemExit(result.returncode)
 
     package = 'experiments/phase05/05b-astra'
+    run('experiments/quality/verify_inventory.py', '--manifest', ROOT/package/'manifest.json',
+        '--output', out/'inventory-audit.json')
     run('infrastructure/prepare_recovered.py', '--source-root', ROOT,
         '--ref', '1befb30e99a506698c45d4ca9394a3c7ec95c966', '--output', out/'recovered')
     run('experiments/quality/prepare.py', '--output', out/'vectors', '--recovered', out/'recovered')
