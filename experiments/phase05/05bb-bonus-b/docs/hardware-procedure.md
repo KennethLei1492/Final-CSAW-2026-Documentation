@@ -76,6 +76,7 @@ if (Test-Path -LiteralPath $hardwareRun) { throw 'Choose a fresh hardware eviden
 New-Item -ItemType Directory -Path $hardwareRun | Out-Null
 & $python official/fpga/hackster-fpga-program.py w reports/baseline-build-run1/fpga-build/bitstream.bin $programmerPort 2>&1 | Tee-Object -FilePath "$hardwareRun/program.log"
 $programExit = $LASTEXITCODE
+@{exit_code=$programExit; programmer_port=$programmerPort; bitstream='reports/baseline-build-run1/fpga-build/bitstream.bin'} | ConvertTo-Json | Set-Content -LiteralPath "$hardwareRun/program.json"
 if ($programExit -ne 0) { throw "Programming failed: $programExit" }
 $transferTimer = [System.Diagnostics.Stopwatch]::StartNew()
 & $python official/tools/stream_audio.py inputs/input.wav "$hardwareRun/captured-left.wav" --port $applicationPort --rate 31250 2>&1 | Tee-Object -FilePath "$hardwareRun/stream.log"
