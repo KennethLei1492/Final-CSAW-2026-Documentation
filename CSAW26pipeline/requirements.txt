@@ -1,0 +1,5 @@
+# CSAW 2026 AI Hardware Attack pipeline - host Python dependencies.
+# The agent talks to Claude through the official Anthropic SDK.
+anthropic>=0.40
+# For driving / programming the Hackster board over USB serial (challenge 1 HW demo).
+pyserial>=3.5

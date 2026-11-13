@@ -1,0 +1,6 @@
+# build + scratch artifacts
+**/work/
+__pycache__/
+*.pyc
+# live run logs (the sample log is committed; real runs write agent_log.jsonl)
+**/ai/agent_log.jsonl
