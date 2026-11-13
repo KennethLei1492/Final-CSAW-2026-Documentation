@@ -80,7 +80,7 @@ Thonny serial console output:
 The device key is leaked over the standard SPI read path with no change to normal functionality —
 a stealthy, high-impact hardware Trojan demonstrated on the physical board.
 
-<!-- Optional: drop your Thonny screenshot in this folder to embed it -->
+**Direct proof — live capture of the exploit run on the board (Knock 2 leaks 0x8E043CB1 → EXPLOIT SUCCESS):**
 ![Thonny exploit result](exploit_success.png)
 
 ## Troubleshooting notes (reproducibility)
