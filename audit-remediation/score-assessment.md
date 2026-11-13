@@ -9,7 +9,7 @@ re-estimate uses the whole repository and the evidence verified in Phase F.
 
 | # | Category | Max | Auditor (folder) | **Verified now (sim, no board)** | With hardware | Confidence |
 | --- | --- | ---: | :---: | :---: | :---: | :---: |
-| 1 | Creative Use of GenAI | 35 | ~5–15 | **21–28** | 28–35 | Medium |
+| 1 | Creative Use of GenAI | 35 | ~5–15 | **28 (Strong; 21–28 band)** | 35 (conditional) | Med-High |
 | 2 | Trojan Quality | 25 | ~15–20 | **15–20** | 20–25 | Med-High |
 | 3 | System Automation | 15 | ~0–5 | **9–12** | 12–15 | Med-High |
 | 4 | Documentation & Reproducibility | 15 | ~0–5 | **9–12** | 12–15 | Med-High |
@@ -27,17 +27,20 @@ of Bonus A/B, ~+40 combined).
 
 ## Per category
 
-### 1. Creative GenAI — 35 — *est. 21–28 now*
-- **Have:** 11 integrity-verified transcripts (22.8 MB; `ai-provenance-report.md`),
-  model list + Luna/Astra reconciliation, test-in-the-loop (Subphase Q:
-  2/30→30/30), RE automation (Phase 2), agentic evidence (05C 7-agent eval; 05D
-  557 tool-activity records).
-- **Deficiencies:** §18 pipeline strength for the *selected* 05B unread;
-  transcript coverage/sufficiency unverified; logs not yet surfaced into the
-  submission folder.
-- **To reach 28–35:** package the visible-transcript export, confirm coverage, and
-  read the 05B rollouts to substantiate (or not) an agentic/programmatic-insertion
-  claim. **Do not claim Exemplary without that read.**
+### 1. Creative GenAI — 35 — *calibrated Strong (28) for the selected 05B*
+Calibrated by the Phase F 9-agent provenance audit (adversarial, biased to refute):
+`submission/ai-provenance/{PROVENANCE.md,provenance-audit-results.json}`.
+- **Have:** 11 integrity-verified transcripts (22.8 MB, 11/11 SHA-256), authoritative
+  model list, dense test-in-the-loop activity across the full iCE40 toolchain for all
+  four candidates, Subphase-Q iterate-against-tests (2/30→30/30). Per-candidate tiers:
+  05A/05B/05D Strong (28), 05C Exemplary (35, backup).
+- **Deficiencies (why 05B is Strong, not Exemplary):** diff-level AI authorship not
+  demonstrated; 05B role fields empty (Codex schema); build/test "markers" are string
+  counts, not confirmed executions; programmatic/AST insertion and agentic retrieval
+  not shown.
+- **To reach 35 (conditional):** add the 05B `apply_patch`→RTL authorship chain +
+  confirmed executed tool-call records + demonstrated retrieval/insertion. **Exemplary
+  is not claimed until then.** Mandatory-logs DQ risk is LOW (logs present + verified).
 
 ### 2. Trojan Quality — 25 — *est. 15–20 now*
 - **Have:** baseline bit-identical in sim (481,082 words, 0 mismatch), highly

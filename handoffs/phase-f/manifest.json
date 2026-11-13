@@ -1,24 +1,30 @@
 {
   "schema_version": 1,
   "phase": "F",
-  "cycle": 1,
+  "cycle": 2,
   "generated": "2026-11-13",
   "branch": "challenge3/phase-f-remediation",
   "base_commit": "9893aed",
   "final_candidate": "CSAW_FIN_worktrees/quality-winner",
   "source_audit": "audit-remediation/source-audit.md",
   "register": "audit-remediation/findings.json",
-  "file_count": 22,
+  "provenance_package": "submission/ai-provenance/PROVENANCE.md",
+  "file_count": 33,
   "files": [
     {
+      "path": "SUBMISSION-INDEX.md",
+      "bytes": 3208,
+      "sha256": "f1fb885e5b7bcdc8fb92a871f71a8a4e1ae8c20dfddb5114105ebe2b130a6176"
+    },
+    {
       "path": "audit-remediation/ai-provenance-report.md",
-      "bytes": 5992,
-      "sha256": "9a1b5e4109c2ee3858eace731c913669cc65db071ac92768894abbbacf87d249"
+      "bytes": 7063,
+      "sha256": "317d7448a37dad43f3147d9f540a27a037625ddf645cb3cf711b6c401c91680f"
     },
     {
       "path": "audit-remediation/automation-report.md",
-      "bytes": 4988,
-      "sha256": "8583076a8854459995432ed3b07bbb9c1b578af6f0fa41371a3662979440b22e"
+      "bytes": 5025,
+      "sha256": "d6d78d67c20c76a5a01c7161f2a8bf76502d228f8ba0f84d02fc2e0c75ccf6c8"
     },
     {
       "path": "audit-remediation/bonus-compliance-report.md",
@@ -82,8 +88,8 @@
     },
     {
       "path": "audit-remediation/score-assessment.md",
-      "bytes": 4691,
-      "sha256": "ecf9468349974cce42c1599564e479401c3f5b68dae11cad283ee0c32a5d11f3"
+      "bytes": 5085,
+      "sha256": "a5e315c9c245515fbd581f1d088879cecd3ad0271f92576d12c41f06f32d82c6"
     },
     {
       "path": "audit-remediation/scripts/destealth_comments.py",
@@ -94,6 +100,11 @@
       "path": "audit-remediation/scripts/make_trigger_wav.py",
       "bytes": 2275,
       "sha256": "1f0fe29bf522a62b77d6ed085f64b2803cae9f94b7c076990e9b959f8bbbbdb3"
+    },
+    {
+      "path": "audit-remediation/scripts/provenance_extract.py",
+      "bytes": 7227,
+      "sha256": "a8ceae11bca15250bee8dc1d6f89380984a265042b323b074a78794584017b67"
     },
     {
       "path": "audit-remediation/scripts/verify_provenance.py",
@@ -109,6 +120,51 @@
       "path": "audit-remediation/stealth-analysis.md",
       "bytes": 3614,
       "sha256": "d4ab0b1385534fe7e2d4ae930133f18b3fbf6523aeb5c0079b3c00d6d7650fed"
+    },
+    {
+      "path": "submission/ai-provenance/digests/05A.md",
+      "bytes": 660,
+      "sha256": "a89f03182f6fc538694ad9025f45490986e57fb4d827701f752e9573ae05bbb9"
+    },
+    {
+      "path": "submission/ai-provenance/digests/05B.md",
+      "bytes": 965,
+      "sha256": "6d47ce8869ae3d803b2bf4ccf5649414af53044ed5fe89b165db603a2a6caebd"
+    },
+    {
+      "path": "submission/ai-provenance/digests/05C.md",
+      "bytes": 831,
+      "sha256": "aa7b85f46a8974282b7e13b3c8e46d5b8ec90147e3b822e5af26ff8b1a1cd131"
+    },
+    {
+      "path": "submission/ai-provenance/digests/05D.md",
+      "bytes": 796,
+      "sha256": "dd72c7c6f1f5dee5647a764d13d1ce5a800c394bfe1c852fd741fd5b831261fb"
+    },
+    {
+      "path": "submission/ai-provenance/model-list.json",
+      "bytes": 2214,
+      "sha256": "baa0b9c3015e55b0aac6d3e24dc9b39a36a58b5d2255920119eaeafcbc510864"
+    },
+    {
+      "path": "submission/ai-provenance/provenance-audit-results.json",
+      "bytes": 48696,
+      "sha256": "f23a30134ef22fd0c14a4a74def565bac6175de6aaa851c6ae48c80c95d86ed8"
+    },
+    {
+      "path": "submission/ai-provenance/provenance-metrics.json",
+      "bytes": 17643,
+      "sha256": "8f4cf7951c54322897e6845a02de928acccf194e965efb16f601802f0880add2"
+    },
+    {
+      "path": "submission/ai-provenance/PROVENANCE.md",
+      "bytes": 6655,
+      "sha256": "67ba36324f11581686329bae92babf322fc6a6b988f7d06344903149861f3111"
+    },
+    {
+      "path": "submission/ai-provenance/README.md",
+      "bytes": 1257,
+      "sha256": "9aca0711953bea90eb6729ee492566e58dfef5679d75ca0d01d3b82a07e00717"
     },
     {
       "path": "handoffs/phase-f/documentation-agent-handoff.md",

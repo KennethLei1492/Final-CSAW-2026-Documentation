@@ -74,9 +74,10 @@ on the board.
 
 ## Reproduce live (one command set)
 ```powershell
-$S = 'C:\Users\lowbr\Documents\College\AI\CSAW_FIN\.worktrees\phase-04\.tools\oss-cad-suite'
+$S  = '<PATH-TO>\CSAW_FIN\.worktrees\phase-04\.tools\oss-cad-suite'   # repo root
+$QW = '<PATH-TO>\CSAW_FIN_worktrees\quality-winner'                   # candidate worktree (sibling of repo root)
 $py = Join-Path $S 'lib\python3.exe'
-cd C:\Users\lowbr\Documents\College\AI\CSAW_FIN_worktrees\quality-winner
+cd $QW
 & $py (Join-Path $S '..\..\infrastructure\run.py') --suite $S doctor
 & $py infrastructure/run.py --suite $S validate --manifest experiments/phase05/05b-astra/manifest.json --output experiments/phase05/05b-astra/reports/reproduction-run
 ```

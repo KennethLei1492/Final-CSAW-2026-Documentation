@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "generated": "2026-11-13",
+  "purpose": "Authoritative AI-model attribution for CSAW Challenge 3 (Creative Use of GenAI). Required by the rule: 'No hardware may be written by human users. This will be confirmed with the submitted AI logs.'",
+  "authoritative_authorship": {
+    "05A": {"label": "Luna", "agent": "Codex", "provider": "OpenAI", "runtime_model": "not surfaced in this session's logs; see Codex rollout", "role": "additional candidate (Bonus A)"},
+    "05B": {"label": "Astra", "agent": "Codex", "provider": "OpenAI", "runtime_models": ["gpt-6-luna (original build)", "gpt-6-astra (Subphase-Q quality work)"], "role": "SELECTED — strongest Trojan, scored in base category"},
+    "05C": {"label": "Claude Opus Architecture", "agent": "Claude", "provider": "Anthropic", "runtime_model": "claude-opus-4-8 (dominant; claude-opus-5-5 also present)", "role": "additional candidate (Bonus A); multi-agent evaluation workflow"},
+    "05D": {"label": "Claude Opus DSP", "agent": "Claude", "provider": "Anthropic", "runtime_model": "claude-opus-4-8 (dominant)", "role": "additional candidate (Bonus A)"}
+  },
+  "attribution_sources": [
+    "experiments/phase05/05b-astra/manifest.json (model_provenance)",
+    "handoffs/phase-08/submission-README.md",
+    "experiments/phase05/05b-astra/ai/model-provenance.json"
+  ],
+  "detected_model_strings_note": "provenance-metrics.json lists ALL model-id strings found by regex-scanning each raw transcript. That set is a SUPERSET: it includes incidental mentions (quoted model lists, memory/context) and is NOT an authorship claim. Authoritative authorship is the block above, taken from the curated manifest.",
+  "raw_logs": {
+    "location": ".state/phase-07-private/ (private, gitignored)",
+    "count": 11,
+    "by_candidate": {"05A": 1, "05B": 5, "05C": 4, "05D": 1},
+    "integrity": "11/11 SHA-256 + size verified against index.json; see ../../audit-remediation/evidence/provenance-verification.json",
+    "public_repo_note": "Raw transcripts are NOT committed to the public repository: they contain absolute home paths and a personal email. They are provided to the judges through the submission channel, not the public repo."
+  }
+}

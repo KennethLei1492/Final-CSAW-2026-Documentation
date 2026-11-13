@@ -106,9 +106,23 @@ point to it).
    judges' package (the repo is public; raw logs stay out of Git and go to judges
    through the submission channel).
 
-## Projected effect
+## Projected effect (calibrated by the Phase F provenance audit)
 
-Surfacing the verified logs + model list moves Creative GenAI from the auditor's
-folder-bound **~5–15** to a realistic **21–28 (Proficient→Strong)**; *Exemplary
-(35)* depends on the §18 pipeline read and full transcript coverage. See
-`score-assessment.md`.
+A 9-agent audit (characterize → adversarial verify → completeness critic;
+`submission/ai-provenance/provenance-audit-results.json`) calibrated the tiers
+**downward to refute overclaims**:
+
+- **Selected 05B: Strong (28)** — real Codex harness + a diverse iCE40 toolchain
+  loop exceed prompt-engineering-with-manual-integration, but **Exemplary (35) is
+  NOT endorsed**: diff-level AI authorship is unproven, 05B's role fields are empty
+  (Codex schema), and programmatic/AST insertion and agentic retrieval are not
+  demonstrated. Band: Proficient (21) downside → Strong (28) center.
+- Per candidate: 05A Strong (28), **05B Strong (28)**, 05C **Exemplary (35)**
+  (native 626 tool-calls + `update_plan`×110 — machine-paced), 05D Strong (28).
+- **§18 resolved to UNVERIFIED→Strong:** the selected candidate's pipeline is
+  Strong, not Exemplary. 05C is Exemplary on provenance but is a backup.
+- **Mandatory-logs rule:** missing-logs DQ risk LOW (11 verified transcripts);
+  residual risk is that the logs do not yet *demonstrate* "no human-written
+  hardware" (no AI-vs-human authorship diff). Closed by the §6 actions above —
+  chiefly the 05B `apply_patch`→RTL authorship chain. Full writeup:
+  `submission/ai-provenance/PROVENANCE.md`. See also `score-assessment.md`.
