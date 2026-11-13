@@ -42,12 +42,52 @@ def inspect(repo, state):
             row['working_changes_excluded'] = status.stdout.splitlines()
         candidates[cid] = row
     rcode, remote, rerr = git('ls-remote','--heads','origin')
+    remote_tips = {name: tip for tip,name in (line.split(None,1) for line in remote.splitlines())} if not rcode else {}
+    reviewed_remote = prior.get('last_reviewed_remote_candidate_shas', {}) if prior else {}
+    for cid, branch in BRANCHES.items():
+        tip=remote_tips.get('refs/heads/'+branch)
+        before=reviewed_remote.get(cid)
+        candidates[cid]['remote'] = {
+            'snapshot_sha':tip, 'previously_reviewed_sha':before,
+            'availability':'discovery_error' if rcode else 'unavailable' if tip is None else
+                'available' if git('cat-file','-e',tip+'^{commit}')[0]==0 else 'remote_only_not_fetched',
+            'differs_from_local':tip != candidates[cid]['snapshot_sha'] if tip else None,
+            'review_status':'unavailable' if tip is None else 'new' if before is None else 'changed' if before!=tip else 'unchanged'}
+    # Supporting work can arrive outside the four original candidate branches.
+    # Inventory immutable tips without fetching, changing branches or promoting.
+    fcode, refs, ferr = git('for-each-ref','--format=%(refname) %(objectname)', 'refs/heads', 'refs/remotes')
+    if fcode: raise RuntimeError(ferr)
+    available_refs = dict(line.split(' ', 1) for line in refs.splitlines())
+    if not rcode:
+        for line in remote.splitlines():
+            tip, name = line.split(None, 1)
+            available_refs['refs/remotes/origin/'+name.removeprefix('refs/heads/')] = tip
+    reviewed_refs = prior.get('last_reviewed_source_refs', {}) if prior else {}
+    supporting = {}
+    for ref, tip in available_refs.items():
+        if ref.endswith('/HEAD'): continue
+        branch = ref.removeprefix('refs/heads/').removeprefix('refs/remotes/origin/')
+        if branch in BRANCHES.values(): continue
+        object_available = git('cat-file','-e',tip+'^{commit}')[0] == 0
+        paths = []
+        if object_available:
+            tcode, paths_text, terr = git('ls-tree','-r','--name-only',tip,'handoffs')
+            if tcode: raise RuntimeError(terr)
+            paths = paths_text.splitlines()
+            if not paths: continue
+        before = reviewed_refs.get(ref)
+        supporting[ref] = {'snapshot_sha':tip, 'previously_reviewed_sha':before,
+                           'review_status':'new' if before is None else 'changed' if before != tip else 'unchanged',
+                           'object_available':object_available, 'handoff_paths':paths,
+                           'availability':'available' if object_available else 'remote_only_not_fetched',
+                           'worktree':worktrees.get(branch) if ref.startswith('refs/heads/') else None}
     best = prior.get('current_best_known_sha') if prior else None
     best_available = git('cat-file','-e',best+'^{commit}')[0] == 0 if best else None
-    return {'schema_version':1, 'evaluated_at_utc':datetime.now(timezone.utc).isoformat(),
+    return {'schema_version':2, 'evaluated_at_utc':datetime.now(timezone.utc).isoformat(),
             'mode':'A' if prior is None else 'B', 'state_file':str(state),
             'current_best_known_sha':best, 'best_object_available':best_available,
-            'candidates':candidates, 'remote_heads':remote.splitlines() if not rcode else [],
+            'candidates':candidates, 'supporting_sources':supporting,
+            'remote_heads':remote.splitlines() if not rcode else [],
             'remote_discovery_error':rerr if rcode else None,
             'policy':'Review changed source and new evidence only. Mode C requires isolated experiment and passing gates. No promotion performed.'}
 

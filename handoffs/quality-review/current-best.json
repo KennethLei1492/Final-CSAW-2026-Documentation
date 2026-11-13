@@ -1,10 +1,10 @@
 {
-  "schema_version": 2,
-  "phase": "Q",
-  "cycle": 1,
+  "schema_version": 3,
+  "phase": "05S",
+  "cycle": 3,
   "status": "bounded_cycle_complete",
-  "completed_at_utc": "2026-11-13T05:57:32.009269+00:00",
-  "iterations_completed": 2,
+  "completed_at_utc": "2026-11-13T09:28:01.127733+00:00",
+  "iterations_completed": 5,
   "selected_candidate_id": "05B",
   "selection_manifest_commit_sha": "6d9cacf4e12a7f2357c4f36fa91d9ef87429d046",
   "original_selected_candidate_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
@@ -19,186 +19,7 @@
     "common_vector_simulations_passed": 2,
     "directed_simulations_passed": 30,
     "full_audio_simulations_passed": 4,
-    "total_simulations_passed": 46,
-    "baseline_normal_words": 22248,
-    "baseline_normal_mismatches": 0,
-    "full_audio_words": 481082,
-    "full_audio_mismatches": 0,
-    "all_standard_and_full_audio_captures_byte_identical_to_original": true,
-    "source_inventory_entries_passed": 41,
-    "build": {
-      "passed": true,
-      "frequency_mhz": 10.0,
-      "fmax": {
-        "ICE_CLK$SB_IO_IN_$glb_clk": {
-          "achieved": 15.271604537963867,
-          "constraint": 10
-        }
-      },
-      "seed": 1,
-      "utilization": {
-        "ICESTORM_DSP": {
-          "available": 8,
-          "used": 0
-        },
-        "ICESTORM_HFOSC": {
-          "available": 1,
-          "used": 0
-        },
-        "ICESTORM_LC": {
-          "available": 5280,
-          "used": 3240
-        },
-        "ICESTORM_LFOSC": {
-          "available": 1,
-          "used": 0
-        },
-        "ICESTORM_PLL": {
-          "available": 1,
-          "used": 0
-        },
-        "ICESTORM_RAM": {
-          "available": 30,
-          "used": 0
-        },
-        "ICESTORM_SPRAM": {
-          "available": 4,
-          "used": 0
-        },
-        "IO_I3C": {
-          "available": 2,
-          "used": 0
-        },
-        "SB_GB": {
-          "available": 8,
-          "used": 3
-        },
-        "SB_I2C": {
-          "available": 2,
-          "used": 0
-        },
-        "SB_IO": {
-          "available": 39,
-          "used": 9
-        },
-        "SB_LEDDA_IP": {
-          "available": 1,
-          "used": 0
-        },
-        "SB_RGBA_DRV": {
-          "available": 1,
-          "used": 0
-        },
-        "SB_SPI": {
-          "available": 2,
-          "used": 0
-        },
-        "SB_WARMBOOT": {
-          "available": 1,
-          "used": 0
-        }
-      },
-      "constrained_pins": true,
-      "hardware_validated": false,
-      "bitstream_sha256": "2742912e31ec6c058756e5623d84736285dc2d46695d8ece616494e3152a89b0"
-    },
-    "reproduced_from_clean_archive": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
-    "bitstream_repeat_identical": true,
-    "regression_status": "passed_all_available_checks",
-    "hardware_status": "not_run"
-  },
-  "previous_best_known_sha": "f45ad424657f5c85d47cbc4134f88a1326e6a0fd",
-  "previous_best_known_results": "iteration-01-results.json",
-  "original_results": "pre-improvement.json",
-  "rollback_sha": "f45ad424657f5c85d47cbc4134f88a1326e6a0fd",
-  "accepted_revisions": [
-    {
-      "iteration": 1,
-      "sha": "f45ad424657f5c85d47cbc4134f88a1326e6a0fd",
-      "previous_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
-      "hypothesis": "Counter expiry discarded first eligible trigger sample",
-      "evidence": "28/30 before -> 30/30 after; two exact 128-word failures removed; full regression passes",
-      "rtl_authorship": "AI-authored by Codex",
-      "logic_cell_delta": -73,
-      "fmax_delta_mhz": -0.21306514739990234,
-      "decision": "accepted; fixed correctness with preserved 10 MHz timing and baseline output"
-    },
-    {
-      "iteration": 2,
-      "sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
-      "previous_sha": "f45ad424657f5c85d47cbc4134f88a1326e6a0fd",
-      "hypothesis": "Stale hashes and mixed newline encodings prevent source identification",
-      "evidence": "3 stale content hashes in original 35-entry inventory; current 41/41 pass; false RTL hash rejected; clean archive reproduces all 46 simulations and identical bitstream",
-      "decision": "accepted; no RTL change in this iteration"
-    }
-  ],
-  "rejected_revisions": [],
-  "failed_experiments": [
-    {
-      "id": "pre-boundary",
-      "expected_failure": true,
-      "details": "Two offset-zero cases each fail by 128 left words on original source"
-    },
-    {
-      "id": "pre-full-audio-wrapper",
-      "details": "300-second wrapper interrupted after 3 complete chunks; unfinished fourth rerun successfully with 1200 seconds"
-    },
-    {
-      "id": "scribe-preview-size",
-      "details": "Initial preview exceeded evidence cap; isolated local configuration increased to 1000000; retry passed"
-    }
-  ],
-  "known_unresolved_defects": [],
-  "remaining_limitations": [
-    "No physical Hackster verification or demonstration; no matching local device identified",
-    "Original session logs recovered privately; official transcript sufficiency not certified; requested Astra vs recorded gpt-6-luna must be disclosed",
-    "Current session transcript is a live snapshot; external runner must capture final response after session closes",
-    "Scribe model configuration is a placeholder; controller evidence/preview available, canonical model synthesis not run",
-    "Timing/resource comparisons are for UP5K/SG48 at 10 MHz, same PCF and seed 1",
-    "Uninterrupted WAV simulation passed in 05S-002 at 1 MHz BCLK; physical uninterrupted stream and LED/pin behavior remain unverified."
-  ],
-  "regression_status": "passed",
-  "stop_reason": "Available priority checks pass; hardware verification requires unavailable board",
-  "phase6_recommendation": "Use current_best_known_sha for explicit integration and hardware validation; not submission-ready hardware signoff",
-  "reproduction_commands": [
-    "git archive --format=tar --output=quality-package.tar fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
-    "New-Item -ItemType Directory quality-package",
-    "tar -xf quality-package.tar -C quality-package",
-    "Set-Location quality-package",
-    "& C:/Users/lowbr/oss-cad-suite/lib/python3.exe experiments/quality/run.py --suite C:/Users/lowbr/oss-cad-suite --output build/quality-reproduction-NEW"
-  ],
-  "reproduction_note": "Run from a checkout with Phase 2 commit 1befb30e99a506698c45d4ca9394a3c7ec95c966 available; archive under that checkout so git show can access it. Output directory must be new. Allow 1200 seconds for an outer command wrapper.",
-  "documentation": {
-    "agent": "Project Scribe (csaw-fin-scribe)",
-    "status": "controller test events recorded; local preview; model not configured",
-    "handoff": "cycle-01.md"
-  },
-  "private_transcript_directory": "C:/Users/lowbr/AppData/Local/openclaw-project-scribe/CSAW_FIN/quality-transcripts",
-  "remote_push_status": "not_pushed",
-  "integration_status": "not_merged",
-  "resume": {
-    "requires_external_invocation": true,
-    "read_first": "handoffs/quality-review/current-best.json",
-    "next_priorities": [
-      "Hardware baseline/control demonstration",
-      "Finalize transcript export and reconcile runtime model attribution",
-      "Activate configured documentation agent when available"
-    ],
-    "do_not_repeat": "Existing experiments need new evidence or source/environment changes to justify repetition"
-  },
-  "last_evaluation_cycle_id": "05S-002",
-  "original_candidate_id": "05B",
-  "original_candidate_commit_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
-  "current_best_known_commit_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
-  "baseline_commit_sha": "e72522f265ac36da713cd7a0dcf8dbc64ab21209",
-  "verification_status": "simulation_and_synthesis_verified_physical_not_run",
-  "regression_results": {
-    "standard_simulations_passed": 10,
-    "framework_tests_passed": 15,
-    "common_vector_simulations_passed": 2,
-    "directed_simulations_passed": 30,
-    "full_audio_simulations_passed": 4,
-    "total_simulations_passed": 46,
+    "total_simulations_passed": 47,
     "baseline_normal_words": 22248,
     "baseline_normal_mismatches": 0,
     "full_audio_words": 481082,
@@ -286,7 +107,192 @@
     "regression_status": "passed_all_available_checks",
     "hardware_status": "not_run",
     "continuous_audio_words": 480260,
-    "continuous_audio_mismatches": 0
+    "continuous_audio_mismatches": 0,
+    "retained_quality_simulations_passed": 46,
+    "continuous_audio_simulations_passed": 1
+  },
+  "previous_best_known_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+  "previous_best_known_results": "../phase-05/cycles/05S-003/previous-checkpoint/current-best.json",
+  "original_results": "pre-improvement.json",
+  "rollback_sha": "f45ad424657f5c85d47cbc4134f88a1326e6a0fd",
+  "accepted_revisions": [
+    {
+      "iteration": 1,
+      "sha": "f45ad424657f5c85d47cbc4134f88a1326e6a0fd",
+      "previous_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
+      "hypothesis": "Counter expiry discarded first eligible trigger sample",
+      "evidence": "28/30 before -> 30/30 after; two exact 128-word failures removed; full regression passes",
+      "rtl_authorship": "AI-authored by Codex",
+      "logic_cell_delta": -73,
+      "fmax_delta_mhz": -0.21306514739990234,
+      "decision": "accepted; fixed correctness with preserved 10 MHz timing and baseline output"
+    },
+    {
+      "iteration": 2,
+      "sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+      "previous_sha": "f45ad424657f5c85d47cbc4134f88a1326e6a0fd",
+      "hypothesis": "Stale hashes and mixed newline encodings prevent source identification",
+      "evidence": "3 stale content hashes in original 35-entry inventory; current 41/41 pass; false RTL hash rejected; clean archive reproduces all 46 simulations and identical bitstream",
+      "decision": "accepted; no RTL change in this iteration"
+    }
+  ],
+  "rejected_revisions": [],
+  "failed_experiments": [
+    {
+      "id": "pre-boundary",
+      "expected_failure": true,
+      "details": "Two offset-zero cases each fail by 128 left words on original source"
+    },
+    {
+      "id": "pre-full-audio-wrapper",
+      "details": "300-second wrapper interrupted after 3 complete chunks; unfinished fourth rerun successfully with 1200 seconds"
+    },
+    {
+      "id": "scribe-preview-size",
+      "details": "Initial preview exceeded evidence cap; isolated local configuration increased to 1000000; retry passed"
+    }
+  ],
+  "known_unresolved_defects": [],
+  "remaining_limitations": [
+    "No physical Hackster verification or demonstration; no matching local device identified",
+    "Original session logs recovered privately; official transcript sufficiency not certified; requested Astra vs recorded gpt-6-luna must be disclosed",
+    "Scribe model configuration is a placeholder; controller evidence/preview available, canonical model synthesis not run",
+    "Timing/resource comparisons are for UP5K/SG48 at 10 MHz, same PCF and seed 1",
+    "Uninterrupted WAV simulation passed in 05S-002 at 1 MHz BCLK; physical uninterrupted stream and LED/pin behavior remain unverified.",
+    "Q final response/task completion now privately archived; overall source-to-successful-write provenance and submission sufficiency remain uncertified."
+  ],
+  "regression_status": "passed",
+  "stop_reason": "Five focused evaluation/improvement iterations completed; next implementation signoff requires physical evidence.",
+  "phase6_recommendation": "Use current_best_known_sha for explicit integration and hardware validation; not submission-ready hardware signoff",
+  "reproduction_commands": [
+    "git archive --format=tar --output=quality-package.tar fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+    "New-Item -ItemType Directory quality-package",
+    "tar -xf quality-package.tar -C quality-package",
+    "Set-Location quality-package",
+    "& C:/Users/lowbr/oss-cad-suite/lib/python3.exe experiments/quality/run.py --suite C:/Users/lowbr/oss-cad-suite --output build/quality-reproduction-NEW"
+  ],
+  "reproduction_note": "Run from a checkout with Phase 2 commit 1befb30e99a506698c45d4ca9394a3c7ec95c966 available; archive under that checkout so git show can access it. Output directory must be new. Allow 1200 seconds for an outer command wrapper.",
+  "documentation": {
+    "agent": "Project Scribe (csaw-fin-scribe)",
+    "status": "controller test events recorded; local preview; model not configured",
+    "handoff": "../phase-05/documentation-agent-handoff.md"
+  },
+  "private_transcript_directory": "C:/Users/lowbr/AppData/Local/openclaw-project-scribe/CSAW_FIN/quality-transcripts",
+  "remote_push_status": "not_pushed",
+  "integration_status": "not_merged",
+  "resume": {
+    "requires_external_invocation": true,
+    "read_first": "handoffs/quality-review/current-best.json",
+    "next_priorities": [
+      "Physical main/bonus baseline and demonstration",
+      "Certify complete source-to-AI provenance",
+      "Review only new supporting-source SHAs"
+    ],
+    "do_not_repeat": "Existing experiments need new evidence or source/environment changes to justify repetition"
+  },
+  "last_evaluation_cycle_id": "05S-003",
+  "original_candidate_id": "05B",
+  "original_candidate_commit_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
+  "current_best_known_commit_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+  "baseline_commit_sha": "e72522f265ac36da713cd7a0dcf8dbc64ab21209",
+  "verification_status": "simulation_and_synthesis_verified_physical_not_run",
+  "regression_results": {
+    "standard_simulations_passed": 10,
+    "framework_tests_passed": 15,
+    "common_vector_simulations_passed": 2,
+    "directed_simulations_passed": 30,
+    "full_audio_simulations_passed": 4,
+    "total_simulations_passed": 47,
+    "baseline_normal_words": 22248,
+    "baseline_normal_mismatches": 0,
+    "full_audio_words": 481082,
+    "full_audio_mismatches": 0,
+    "all_standard_and_full_audio_captures_byte_identical_to_original": true,
+    "source_inventory_entries_passed": 41,
+    "build": {
+      "passed": true,
+      "frequency_mhz": 10.0,
+      "fmax": {
+        "ICE_CLK$SB_IO_IN_$glb_clk": {
+          "achieved": 15.271604537963867,
+          "constraint": 10
+        }
+      },
+      "seed": 1,
+      "utilization": {
+        "ICESTORM_DSP": {
+          "available": 8,
+          "used": 0
+        },
+        "ICESTORM_HFOSC": {
+          "available": 1,
+          "used": 0
+        },
+        "ICESTORM_LC": {
+          "available": 5280,
+          "used": 3240
+        },
+        "ICESTORM_LFOSC": {
+          "available": 1,
+          "used": 0
+        },
+        "ICESTORM_PLL": {
+          "available": 1,
+          "used": 0
+        },
+        "ICESTORM_RAM": {
+          "available": 30,
+          "used": 0
+        },
+        "ICESTORM_SPRAM": {
+          "available": 4,
+          "used": 0
+        },
+        "IO_I3C": {
+          "available": 2,
+          "used": 0
+        },
+        "SB_GB": {
+          "available": 8,
+          "used": 3
+        },
+        "SB_I2C": {
+          "available": 2,
+          "used": 0
+        },
+        "SB_IO": {
+          "available": 39,
+          "used": 9
+        },
+        "SB_LEDDA_IP": {
+          "available": 1,
+          "used": 0
+        },
+        "SB_RGBA_DRV": {
+          "available": 1,
+          "used": 0
+        },
+        "SB_SPI": {
+          "available": 2,
+          "used": 0
+        },
+        "SB_WARMBOOT": {
+          "available": 1,
+          "used": 0
+        }
+      },
+      "constrained_pins": true,
+      "hardware_validated": false,
+      "bitstream_sha256": "2742912e31ec6c058756e5623d84736285dc2d46695d8ece616494e3152a89b0"
+    },
+    "reproduced_from_clean_archive": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+    "bitstream_repeat_identical": true,
+    "regression_status": "passed_all_available_checks",
+    "hardware_status": "not_run",
+    "continuous_audio_words": 480260,
+    "continuous_audio_mismatches": 0,
+    "retained_quality_simulations_passed": 46,
+    "continuous_audio_simulations_passed": 1
   },
   "resource_and_timing_results": {
     "passed": true,
@@ -380,20 +386,60 @@
       "basis": "05A one-bit corruption and 05D spectral inversion use distinct triggers and mechanisms. Initial selection independently observed activation, preserved baseline and fitted both; see frozen cycle 01 results. Simulation tier only, subject to complete documented submission/provenance. 05C is backup and not counted as a third bonus."
     },
     "B": {
-      "status": "unsubstantiated",
-      "evaluator_estimate": 0,
-      "tx_rx_bits": null,
-      "measured_bit_rate": null,
-      "measured_ber": null,
-      "evidence": "No recoverable transmitted/recovered-bit artifacts in reviewed candidates or Phase T. D DSP proposal is not recovery evidence.",
-      "recommended_starting_candidate": "05B",
-      "reason": "Verified baseline, automation and 412 more spare cells than D; isolated experiment required. This is feasibility judgment, not a demonstrated channel."
+      "status": "separate_05BB_simulation_recovery_verified",
+      "evaluator_estimate": 5,
+      "official_award": null,
+      "selected_main_implementation_has_channel": false,
+      "experiment_commit_sha": "4bf5e02856b6874c82a8eaf7983d54de4755c2e6",
+      "reviewed_package_sha": "83acf059f7b29fd0c8b1be16e952444ff5ccd84b",
+      "audit": "cycles/05S-003/iteration-02-bonus.json",
+      "simulation": [
+        {
+          "sample_rate_hz": 31250,
+          "attempted_frames": 3,
+          "recovered_frames": 3,
+          "compared_bits": 336,
+          "incorrect_bits": 0,
+          "ber": 0,
+          "elapsed_seconds": 0.537344,
+          "net_payload_bps": 625.2977608384945,
+          "raw_signaling_bps": 976.5625
+        },
+        {
+          "sample_rate_hz": 15625,
+          "attempted_frames": 3,
+          "recovered_frames": 3,
+          "compared_bits": 336,
+          "incorrect_bits": 0,
+          "ber": 0,
+          "elapsed_seconds": 1.074688,
+          "net_payload_bps": 312.64888041924723,
+          "raw_signaling_bps": 488.28125
+        }
+      ],
+      "hardware_verified": false,
+      "limitations": [
+        "No physical board proof; cannot claim full 10-point tier.",
+        "Digital PCM decoder assumes no sample-rate conversion or clock drift; no acoustic robustness claim.",
+        "Tentative inherited LED-role mapping; system-clock timing pass is not complete board timing signoff.",
+        "Fresh baseline covers golden/directed/1024-frame noisy audio; full long-audio evidence belongs to source candidate.",
+        "Full AI transcript sufficiency and documentation-model synthesis remain unverified."
+      ],
+      "recommendation": "Retain separate optional 05BB package. Do not replace main 05B or inherit its long-audio verification for changed RTL."
     }
   },
   "last_05s_evaluation": {
-    "cycle_id": "05S-002",
-    "completed_at_utc": "2026-11-13T07:16:15.997198+00:00",
+    "cycle_id": "05S-003",
+    "completed_at_utc": "2026-11-13T09:28:01.127733+00:00",
     "retained_best_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
     "handoff": "../phase-05/selection.md"
-  }
+  },
+  "origin_quality_checkpoint": "../phase-05/cycles/05S-003/previous-checkpoint/current-best.json",
+  "provenance_closure_receipt": "../phase-05/cycles/05S-003/iteration-03-provenance.json",
+  "verification_results_origin": {
+    "quality": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6; 46 simulations",
+    "continuous": "05S-002; one additional simulation",
+    "current_cycle": "No HDL rerun or implementation change"
+  },
+  "evaluation_branch": "challenge3/05s-cycle-03"
 }
