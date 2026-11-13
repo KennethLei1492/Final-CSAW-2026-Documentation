@@ -5,7 +5,7 @@ All AI chat attempts (including failures) related to CSAW '26 Finals, Challenge 
 ## Jessica Ryn — Claude, Opus 4.8, Medium
 - [Challenge 3, Creating README for GitHub](https://claude.ai/share/68b60a48-bb1d-40ab-96df-93bd5d75b230)
 
-## MeeepMeerp — Challenge 3 (FIR audio filter, repo: kwu22-ece/CSAW_FIN)
+## Kyson Wu — Challenge 3 (FIR audio filter, repo: kwu22-ece/CSAW_FIN)
 Phase-by-phase sessions. Phases with ChatGPT share links:
 
 - Phase 4: https://chatgpt.com/s/cx_6af7581703d88191880f85631f6c1ef7
