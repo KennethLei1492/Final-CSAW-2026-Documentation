@@ -4,7 +4,7 @@
   "model": "Claude Opus 4.8 (claude-opus-4-8)",
   "approach": "architecture-driven",
   "base_commit_sha": "e72522f265ac36da713cd7a0dcf8dbc64ab21209",
-  "candidate_commit_sha": "PENDING_COMMIT",
+  "candidate_commit_sha": "db2e291cbb6e7e8f87d415da35c0e967a82d6e1e",
   "name": "csaw-challenge3-05c-opus-architecture",
   "kind": "verified_design",
   "ready": true,
