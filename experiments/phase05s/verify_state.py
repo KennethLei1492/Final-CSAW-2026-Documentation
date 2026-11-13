@@ -26,6 +26,13 @@ def validate_metadata(selection, current, history):
     require(current['phase']=='05S' and current['cycle']==selection['cycle_number'], 'stale current-best cycle')
     require(current['last_evaluation_cycle_id']==cid, 'stale current-best cycle id')
     best=selection['current_best_known_sha']
+    winner=selection['winner']
+    require(winner['current_best_known_commit_sha']==best, 'winner SHA disagreement')
+    original_id=selection['original_candidate_id']
+    require(original_id==winner['candidate_id']==current['original_candidate_id']==current['selected_candidate_id'],
+            'candidate ID disagreement')
+    require(selection['original_candidate_shas'][original_id]==selection['original_candidate_commit_sha']
+            ==winner['immutable_package_commit_sha'], 'original inventory disagreement')
     require(best==current['current_best_known_sha']==current['current_best_known_commit_sha'], 'best SHA disagreement')
     require(selection['previous_best_known_sha']==current['previous_best_known_sha'], 'previous best SHA disagreement')
     require(selection['original_candidate_commit_sha']==current['original_candidate_commit_sha'], 'original source disagreement')
@@ -56,6 +63,8 @@ def verify(root):
     selection=read('handoffs/phase-05/selection.json')
     current=read('handoffs/quality-review/current-best.json')
     history=read('handoffs/phase-05/selection-history.json')
+    backlog=read('handoffs/phase-05/improvement-backlog.json')
+    require(backlog['last_evaluation_cycle_id']==selection['last_evaluation_cycle_id'], 'stale backlog cycle')
     best=validate_metadata(selection,current,history)
     previous_path=(root/selection['previous_checkpoint_history']).resolve()
     require(previous_path.is_relative_to(root), 'previous checkpoint path escapes root')

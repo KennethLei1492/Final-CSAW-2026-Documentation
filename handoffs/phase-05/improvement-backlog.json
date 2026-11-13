@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "last_evaluation_cycle_id": "05S-003",
+  "last_evaluation_cycle_id": "05S-004",
   "items": [
     {
       "id": "P1-BOARD",
@@ -44,9 +44,10 @@
     {
       "id": "P5-PORT-DEPENDENCY",
       "priority": 5,
-      "status": "open",
-      "issue": "Selected OSS CAD Python lacks pyserial; Windows CIM/PnP inventory shows only Bluetooth COM4/COM5",
-      "next": "Use a verified board-driving Python environment with required dependencies when hardware is available."
+      "status": "isolated_dependency_verified_board_integration_pending",
+      "issue": "Base OSS Python still lacks pyserial; pinned isolated target passes import and loopback.",
+      "next": "Explicitly include isolated build/host-ready/site when running board host scripts. Re-identify both hardware ports first; Bluetooth ports are not the board.",
+      "evidence": "cycles/05S-004/host-readiness.json"
     },
     {
       "id": "P6-BONUS-B",
@@ -70,8 +71,21 @@
     {
       "id": "P5-STATE-CONSISTENCY",
       "priority": 5,
-      "status": "closed_after_13_tests",
-      "evidence": "Canonical current-cycle fields and reusable validator added"
+      "status": "closed_cycle004_after_19_tests",
+      "evidence": "cycles/05S-004/iteration-01-reliability.json"
+    },
+    {
+      "id": "P5-GIT-RECOVERY",
+      "priority": 5,
+      "status": "content_recovered_original_commit_preserved",
+      "issue": "Old cycle003 ref remains corrupt; use recovered checkpoint branch or preserved original commit. No candidate refs modified.",
+      "evidence": "cycles/05S-004/recovery.json"
+    },
+    {
+      "id": "P5-RELEASE-ATTRIBUTION",
+      "priority": 5,
+      "status": "open",
+      "issue": "Phase8 packaging config uses cycle002 and requested model labels; integrate latest checkpoint and reconcile B runtime gpt-6-luna attribution before submission."
     }
   ]
 }

@@ -1,0 +1,20 @@
+{
+  "hypothesis": "The previous validator accepts conflicting winner identity and omits broken-ref diagnostics; completed checks prevent stale resumption.",
+  "before_commit": "ab71ea88c7853fed7917c31c59c2f0b6abc83d96",
+  "before_mutations": {
+    "winner_sha": "incorrectly_accepted",
+    "candidate_id": "incorrectly_accepted",
+    "original_inventory": "incorrectly_accepted"
+  },
+  "after_test_exit_code": 0,
+  "tests_passed": 19,
+  "log": "reliability-tests.log",
+  "log_sha256": "a718ef95b100d8810a23a88bd7bada7db3f4c671642df18fda4310ee40c77bcf",
+  "command": [
+    "C:\\Users\\lowbr\\oss-cad-suite\\lib\\python3.exe",
+    "experiments/phase05s/cycle-04/test_reliability.py"
+  ],
+  "review": "Independent code review found no must-fix regression; clean-checkout build directory setup added.",
+  "decision": "accepted",
+  "rtl_changed": false
+}

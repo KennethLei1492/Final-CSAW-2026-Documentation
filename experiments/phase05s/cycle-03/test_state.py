@@ -18,6 +18,7 @@ verify=module('checkpoint_verify',ROOT/'experiments/phase05s/verify_state.py')
 
 class StateTests(unittest.TestCase):
     def setUp(self):
+        (ROOT/'build').mkdir(exist_ok=True)
         self.s=json.loads((ROOT/'handoffs/phase-05/selection.json').read_text())
         self.c=json.loads((ROOT/'handoffs/quality-review/current-best.json').read_text())
         self.h=json.loads((ROOT/'handoffs/phase-05/selection-history.json').read_text())
@@ -30,6 +31,7 @@ class StateTests(unittest.TestCase):
     def test_unverified_promotion_rejected(self):
         other='a'*40
         self.s['current_best_known_sha']=other
+        self.s['winner']['current_best_known_commit_sha']=other
         self.c.update(current_best_known_sha=other,current_best_known_commit_sha=other)
         self.h['events'][-1]['selected_sha']=other
         with self.assertRaisesRegex(ValueError,'explicit acceptance'):
@@ -53,6 +55,7 @@ class StateTests(unittest.TestCase):
             verify.validate_metadata(self.s,self.c,self.h)
     def isolated_checkpoint(self, folder):
         paths=['handoffs/phase-05/selection.json','handoffs/quality-review/current-best.json',
+               'handoffs/phase-05/improvement-backlog.json',
                'handoffs/phase-05/selection-history.json',self.s['previous_checkpoint_history']]
         paths += [entry['path'] for entry in self.s['cycle_evidence']]
         for path in paths:
@@ -75,6 +78,7 @@ class StateTests(unittest.TestCase):
             folder=Path(tmp); self.isolated_checkpoint(folder)
             forged=self.s['common_baseline_commit_sha']
             self.s.update(current_best_known_sha=forged,previous_best_known_sha=forged)
+            self.s['winner']['current_best_known_commit_sha']=forged
             self.c.update(current_best_known_sha=forged,current_best_known_commit_sha=forged,previous_best_known_sha=forged)
             self.h['events'][-1].update(selected_sha=forged,previous_sha=forged)
             for name,data in [('handoffs/phase-05/selection.json',self.s),('handoffs/quality-review/current-best.json',self.c),('handoffs/phase-05/selection-history.json',self.h)]:

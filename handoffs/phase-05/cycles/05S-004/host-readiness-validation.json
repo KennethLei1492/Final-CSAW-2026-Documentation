@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "tests": [
+    "isolated pyserial import and 281-byte loopback",
+    "bad wheel hash rejected before subprocess or installation",
+    "existing output rejected without receipt modification",
+    "base interpreter remains without pyserial"
+  ],
+  "tests_passed": 4,
+  "commands": [
+    {
+      "label": "bad_hash",
+      "argv": [
+        "C:\\Users\\lowbr\\oss-cad-suite\\lib\\python3.exe",
+        "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04-resume\\experiments\\phase05s\\cycle-04\\host_readiness.py",
+        "--wheel",
+        "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04\\build\\host-wheels\\pyserial-3.5-py2.py3-none-any.whl",
+        "--output",
+        "build/host-ready-bad-hash",
+        "--expected-sha256",
+        "0000000000000000000000000000000000000000000000000000000000000000"
+      ],
+      "exit_code": 1,
+      "stdout": "{\"passed\": false, \"receipt\": \"build\\\\host-ready-bad-hash\\\\readiness.json\", \"error\": \"ValueError: wheel SHA256 mismatch; installation was not attempted\", \"physical_board_verified\": false}\n",
+      "stderr": ""
+    },
+    {
+      "label": "existing_output",
+      "argv": [
+        "C:\\Users\\lowbr\\oss-cad-suite\\lib\\python3.exe",
+        "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04-resume\\experiments\\phase05s\\cycle-04\\host_readiness.py",
+        "--wheel",
+        "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04\\build\\host-wheels\\pyserial-3.5-py2.py3-none-any.whl",
+        "--output",
+        "build/host-ready"
+      ],
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04-resume\\experiments\\phase05s\\cycle-04\\host_readiness.py\", line 128, in <module>\n    outcome = evaluate(args.wheel, args.output, args.expected_sha256)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04-resume\\experiments\\phase05s\\cycle-04\\host_readiness.py\", line 54, in evaluate\n    output.mkdir(parents=True, exist_ok=False)\n  File \"C:\\Users\\lowbr\\oss-cad-suite\\lib\\python3.11\\pathlib.py\", line 1116, in mkdir\n    os.mkdir(self, mode)\nFileExistsError: [WinError 183] Cannot create a file when that file already exists: 'C:\\\\Users\\\\lowbr\\\\Documents\\\\College\\\\AI\\\\CSAW_FIN\\\\.worktrees\\\\phase-05s-cycle-04-resume\\\\build\\\\host-ready'\n"
+    }
+  ],
+  "receipt_sha256_before": "b866e85e50c5b07357a0ac023c9691b6cf5a03b36b4e83c5e561f6922df5a629",
+  "receipt_sha256_after": "b866e85e50c5b07357a0ac023c9691b6cf5a03b36b4e83c5e561f6922df5a629",
+  "base_environment_after": {
+    "serial_available": false
+  },
+  "physical_board_verified": false,
+  "physical_ports_opened": []
+}

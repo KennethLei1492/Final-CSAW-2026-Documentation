@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "cycle_id": "05S-003",
+  "iteration": 2,
+  "audit_timestamp_utc": "2026-11-13T16:53:42.052266+00:00",
+  "source_worktree": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05bb",
+  "reviewed_tip_sha": "83acf059f7b29fd0c8b1be16e952444ff5ccd84b",
+  "source_candidate_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+  "experiment_commit_sha": "4bf5e02856b6874c82a8eaf7983d54de4755c2e6",
+  "ancestry": [
+    {
+      "before": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+      "after": "4bf5e02856b6874c82a8eaf7983d54de4755c2e6",
+      "passed": true
+    },
+    {
+      "before": "4bf5e02856b6874c82a8eaf7983d54de4755c2e6",
+      "after": "83acf059f7b29fd0c8b1be16e952444ff5ccd84b",
+      "passed": true
+    }
+  ],
+  "experiment_changed_paths": 45,
+  "changes_outside_experiment": [],
+  "later_changed_paths": [
+    "experiments/phase05/05bb-bonus-b/docs/hardware-procedure.md",
+    "handoffs/phase-05/bonus-b.json",
+    "handoffs/phase-05/bonus-b.md",
+    "handoffs/phase-08/bonus-b-input.md"
+  ],
+  "archive_sha256": "13c2218663d19058a344cc1010c1101447919ba1f06a06d40f2a887678e2e1d8",
+  "archive_sha256_matches": true,
+  "archive_entries_checked": 634,
+  "archive_mismatches": [],
+  "archive_unexpected_entries": [],
+  "retained_files_checked": 634,
+  "retained_file_mismatches": [],
+  "source_entries_checked": 27,
+  "source_file_mismatches": [],
+  "immutable_source_blob_mismatches": [],
+  "rates": {
+    "31250": {
+      "original_bits": 336,
+      "recovered_bits": 336,
+      "incorrect_bits": 0,
+      "ber": 0.0,
+      "bit_comparison_rows": 336,
+      "bit_csv_matches_artifacts": true,
+      "wav_frames": 16792,
+      "sample_rate_hz": 31250,
+      "elapsed_simulated_seconds": 0.537344,
+      "net_payload_bps": 625.2977608384945,
+      "wav_equals_serial_left": true,
+      "serial_left_samples": 16792,
+      "recorded_summary_matches_recalculation": true,
+      "passed": true
+    },
+    "15625": {
+      "original_bits": 336,
+      "recovered_bits": 336,
+      "incorrect_bits": 0,
+      "ber": 0.0,
+      "bit_comparison_rows": 336,
+      "bit_csv_matches_artifacts": true,
+      "wav_frames": 16792,
+      "sample_rate_hz": 15625,
+      "elapsed_simulated_seconds": 1.074688,
+      "net_payload_bps": 312.64888041924723,
+      "wav_equals_serial_left": true,
+      "serial_left_samples": 16792,
+      "recorded_summary_matches_recalculation": true,
+      "passed": true
+    }
+  },
+  "baseline_regressions": {
+    "baseline-build-run1": {
+      "passed": true,
+      "comparison_files": 10,
+      "compared_words": 25564,
+      "mismatches": 0
+    },
+    "q-directed-run1": {
+      "passed": true,
+      "comparison_files": 30,
+      "compared_words": 30000,
+      "mismatches": 0
+    },
+    "q-common-run1": {
+      "passed": true,
+      "comparison_files": 2,
+      "compared_words": 1032,
+      "mismatches": 0
+    }
+  },
+  "physical_verified": false,
+  "scope": "Read-only audit of retained evidence. No decoder, HDL simulation or build executed.",
+  "limitation": [
+    "No physical demonstration or measured hardware throughput.",
+    "Rates derive from retained WAV sample counts and simulated sample clocks.",
+    "Full long-audio coverage belongs to the unchanged source candidate, not this experiment.",
+    "AI transcript sufficiency remains unverified.",
+    "No clock-drift, acoustic or sample-rate-conversion robustness claim.",
+    "This audit checks recorded data and provenance; it does not independently rerun decoding or simulation."
+  ],
+  "recommendation": "Retain main best; track this separate experiment as conditional simulation-only Bonus B evidence.",
+  "bitstream_sha256": "4c27a28220f5cb3f254f1bb82f4f47c6ae1c5dd0d3bcd700459bdf35e2c70056",
+  "bitstream_hash_matches": true,
+  "passed": true,
+  "invocation_cycle_id": "05S-004",
+  "metadata_note": "cycle_id and iteration are fixed labels emitted by the immutable cycle003 auditor; this invocation is identified by invocation_cycle_id and audit_timestamp_utc"
+}

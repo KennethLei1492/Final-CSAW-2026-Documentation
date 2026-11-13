@@ -1,14 +1,14 @@
 {
   "schema_version": 3,
-  "previous_checkpoint_commit_sha": "bcca3c88ca4748f8b6f9ccb189e137aee321fa69",
+  "previous_checkpoint_commit_sha": "ab71ea88c7853fed7917c31c59c2f0b6abc83d96",
   "phase": "05S",
-  "cycle_number": 3,
-  "last_evaluation_cycle_id": "05S-003",
+  "cycle_number": 4,
+  "last_evaluation_cycle_id": "05S-004",
   "mode": [
     "C"
   ],
   "status": "bounded_cycle_complete_provisional_selection",
-  "completed_at_utc": "2026-11-13T09:28:01.127733+00:00",
+  "completed_at_utc": "2026-11-13T16:56:14.782708+00:00",
   "original_candidate_id": "05B",
   "original_candidate_commit_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
   "current_best_known_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
@@ -27,10 +27,10 @@
     "05A": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29"
   },
   "last_reviewed_candidate_shas": {
+    "05A": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29",
     "05B": "9e172a865a543b03e226596689fd6691ffa2b779",
     "05C": "f4e8eedcb55d73f5f3adc97431a4a1a3a9c65c87",
-    "05D": "51c223336f3d4d23854907bdee87dfd5ac1f2e98",
-    "05A": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29"
+    "05D": "51c223336f3d4d23854907bdee87dfd5ac1f2e98"
   },
   "ranking": [
     {
@@ -210,15 +210,52 @@
     "continuous_audio_words": 480260,
     "continuous_audio_mismatches": 0,
     "retained_quality_simulations_passed": 46,
-    "continuous_audio_simulations_passed": 1
+    "continuous_audio_simulations_passed": 1,
+    "independent_phase8_reproduction": {
+      "receipt": "cycles/05S-004/phase08-review.json",
+      "source_sha": "39a424d84a38562adfe8a9e4251b741b899ee93c",
+      "retained_simulations": 47,
+      "framework_tests": 15,
+      "output_hashes_verified": 1032,
+      "new_hdl_runs_this_cycle": 0
+    }
   },
   "new_evidence": {
-    "scope": "New remote receipts, 05BB package, completed Q session, and reporting-tool regressions.",
-    "hdl_simulations_rerun": 0,
-    "synthesis_rerun": false,
-    "original_candidates_changed": false,
-    "prior_verification_retained": "Q 46 simulations, cycle002 continuous 480260 exact words, Q synthesis 3240 LC / 15.2716 MHz",
-    "previous_cycle": "cycles/05S-003/previous-checkpoint/selection.json"
+    "release": {
+      "receipt": "cycles/05S-004/phase08-review.json",
+      "source_sha": "39a424d84a38562adfe8a9e4251b741b899ee93c",
+      "retained_simulations": 47,
+      "framework_tests": 15,
+      "output_hashes_verified": 1032,
+      "new_hdl_runs_this_cycle": 0
+    },
+    "reporting": {
+      "tests_passed": 19,
+      "before_faults_accepted": 3,
+      "after_faults_rejected": 3
+    },
+    "host": {
+      "tests_passed": 4,
+      "loopback_bytes": 281,
+      "physical_ports_opened": 0,
+      "present_ports": [
+        "Bluetooth COM4",
+        "Bluetooth COM5"
+      ]
+    },
+    "bonus_audit": {
+      "archive_entries": 634,
+      "source_entries": 27,
+      "report": "cycles/05S-004/bonus-receipt-audit.json"
+    },
+    "recovery": {
+      "original_tree_matches_recovered": true,
+      "root_shared_state_before": "05S-002"
+    },
+    "official_rubric": {
+      "scoring_unchanged": true,
+      "deliverables_now_link_finals_overview": true
+    }
   },
   "official_rubric": {
     "source": "https://github.com/JBlocklove/CSAW-AI-Hardware-Attack-Challenge-2026/blob/main/finals/challenge_3/README.md",
@@ -293,12 +330,13 @@
         "Fresh baseline covers golden/directed/1024-frame noisy audio; full long-audio evidence belongs to source candidate.",
         "Full AI transcript sufficiency and documentation-model synthesis remain unverified."
       ],
-      "recommendation": "Retain separate optional 05BB package. Do not replace main 05B or inherit its long-audio verification for changed RTL."
+      "recommendation": "Retain separate optional 05BB package. Do not replace main 05B or inherit its long-audio verification for changed RTL.",
+      "latest_audit": "cycles/05S-004/bonus-receipt-audit.json"
     }
   },
-  "stop_reason": "Five focused evaluation/improvement iterations completed; next implementation signoff requires physical evidence.",
-  "evaluation_branch": "challenge3/05s-cycle-03",
-  "evaluation_worktree": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-03",
+  "stop_reason": "Two useful reporting/host-readiness iterations complete; candidate awaits physical hardware; no justified RTL change.",
+  "evaluation_branch": "challenge3/05s-cycle-04-resume",
+  "evaluation_worktree": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04-resume",
   "history": "selection-history.json",
   "backlog": "improvement-backlog.json",
   "resume": {
@@ -309,11 +347,12 @@
       "../quality-review/current-best.json"
     ],
     "inspect_command": "python experiments/phase05s/inspect.py --repo . --state handoffs/phase-05/selection.json --output build/NEXT-discovery.json",
-    "next_cycle_number": 4,
-    "policy": "Inspect only changes since reviewed SHAs. Retain fd0ca7f unless isolated revision passes relevant gates and measurably improves evidence or behavior. Maximum five iterations, stop earlier for hardware wait.",
-    "verify_command": "python experiments/phase05s/verify_state.py --root ."
+    "next_cycle_number": 5,
+    "policy": "Read cycle004 checkpoint and inspect only changed refs/evidence. Retain current best unless isolated revision passes relevant gates. Prioritize identified physical Hackster; stop if unavailable.",
+    "verify_command": "python experiments/phase05s/verify_state.py --root .",
+    "evaluation_checkpoint_branch": "challenge3/05s-cycle-04-resume"
   },
-  "iterations_completed": 5,
+  "iterations_completed": 2,
   "last_reviewed_source_refs": {
     "refs/heads/challenge3/02-reverse-engineering": "1befb30e99a506698c45d4ca9394a3c7ec95c966",
     "refs/heads/challenge3/03-baseline": "5dedf4c4ed10f47fbe9ec138c7db2019446cdb7f",
@@ -326,7 +365,7 @@
     "refs/heads/challenge3/quality-winner": "d953ddfd494b932b1a1546aeca2a9549d1ee70d3",
     "refs/heads/challenge3/reconstruction-review": "e12aff7607664cad2cb98b47422ed73d07953869",
     "refs/heads/codex/challenge3-phase-06-validation": "8daabe8bbe73af537143dc97181dbc3bb8c88c61",
-    "refs/heads/codex/challenge3-phase-08-release": "84f1e550f7cca53a8e57f9e4a2eab9bf2e026066",
+    "refs/heads/codex/challenge3-phase-08-release": "39a424d84a38562adfe8a9e4251b741b899ee93c",
     "refs/remotes/origin/challenge3/02-reverse-engineering": "1befb30e99a506698c45d4ca9394a3c7ec95c966",
     "refs/remotes/origin/challenge3/03-baseline": "5dedf4c4ed10f47fbe9ec138c7db2019446cdb7f",
     "refs/remotes/origin/challenge3/04-infrastructure": "e72522f265ac36da713cd7a0dcf8dbc64ab21209",
@@ -335,68 +374,87 @@
     "refs/remotes/origin/codex/challenge3-phase-06-validation": "a1d3f7f054a87ac7a9a69e13f51154752660a8ea",
     "refs/remotes/origin/codex/challenge3-phase-08-release": "babb81ad46c12d069427a7b39ab974ac93b76beb",
     "refs/remotes/origin/codex/challenge3-worktree-evidence": "37e65ac6ffb3a10150ef84d549586c52743e6467",
-    "refs/remotes/origin/challenge3/phase-t-audio-testing": "1d9acbef21e0daffa5de5fdc658b056742e3f912"
+    "refs/remotes/origin/challenge3/phase-t-audio-testing": "1d9acbef21e0daffa5de5fdc658b056742e3f912",
+    "refs/heads/challenge3/05s-cycle-04": "ab71ea88c7853fed7917c31c59c2f0b6abc83d96",
+    "refs/heads/challenge3/05s-cycle-04-resume": "ab71ea88c7853fed7917c31c59c2f0b6abc83d96",
+    "refs/heads/challenge3/05s-cycle-03-preserved": "df22816fe29c479d404314bf0ae9e8baacdd1d3d"
   },
-  "previous_checkpoint_history": "handoffs/phase-05/cycles/05S-003/previous-checkpoint/selection-history.json",
+  "previous_checkpoint_history": "handoffs/phase-05/cycles/05S-004/previous-checkpoint/selection-history.json",
   "iterations": [
     {
       "number": 1,
-      "focus": "Published remote evidence",
-      "status": "accepted_evidence_mapping",
-      "receipt": "iteration-01-published.json"
+      "focus": "Checkpoint reliability and stale shared delivery",
+      "status": "accepted",
+      "receipt": "iteration-01-reliability.json"
     },
     {
       "number": 2,
-      "focus": "New 05BB proof",
-      "status": "accepted_simulation_only_bonus_evidence",
-      "receipt": "iteration-02-bonus.json"
-    },
-    {
-      "number": 3,
-      "focus": "Closed Q transcript",
-      "status": "accepted_private_closure_export",
-      "receipt": "iteration-03-provenance.json"
-    },
-    {
-      "number": 4,
-      "focus": "Supporting source discovery",
-      "status": "accepted_reporting_tool_improvement",
-      "receipt": "iteration-04-discovery.json"
-    },
-    {
-      "number": 5,
-      "focus": "Checkpoint consistency",
-      "status": "accepted_after_13_focused_tests",
-      "receipt": "iteration-05-validation.json"
+      "focus": "Isolated serial dependency and hardware inventory",
+      "status": "accepted_dependency_only",
+      "receipt": "host-readiness-validation.json"
     }
   ],
   "cycle_evidence": [
     {
-      "path": "handoffs/phase-05/cycles/05S-003/iteration-01-published.json",
-      "sha256_lf": "06f3c6820701315c5633bad0f71104de390a1e3427bf3a2bb314b9c909f1e58b"
+      "path": "handoffs/phase-05/cycles/05S-004/iteration-01-reliability.json",
+      "sha256_lf": "29a218d6ab53f934bd2f3c5871013dbddc68ffe44b8961f55f901e2193d5867e"
     },
     {
-      "path": "handoffs/phase-05/cycles/05S-003/iteration-02-bonus.json",
-      "sha256_lf": "eb041d3ae1072931177048ee34370c73515616f767792241422a7b2b0d6da684"
+      "path": "handoffs/phase-05/cycles/05S-004/reliability-tests.log",
+      "sha256_lf": "a718ef95b100d8810a23a88bd7bada7db3f4c671642df18fda4310ee40c77bcf"
     },
     {
-      "path": "handoffs/phase-05/cycles/05S-003/iteration-03-provenance.json",
-      "sha256_lf": "54498883f84968d797067652f35ec599139b6b796e33d97ba5ea98fb14e921c6"
+      "path": "handoffs/phase-05/cycles/05S-004/recovery.json",
+      "sha256_lf": "7bdb00ac4d43bc4748a88a537decc50e52c40db851695d77c826066ad3bc5965"
     },
     {
-      "path": "handoffs/phase-05/cycles/05S-003/iteration-04-discovery.json",
-      "sha256_lf": "d0e7e81e4e12a35f2619bbae7a7df064fd6748085a38c7bbc1c0ed7817418bc3"
+      "path": "handoffs/phase-05/cycles/05S-004/host-readiness.json",
+      "sha256_lf": "174999d07ea68fbd769c2239dea4cc3238baec2f3e4261c1ef5bb0da9f485923"
     },
     {
-      "path": "handoffs/phase-05/cycles/05S-003/iteration-05-validation.json",
-      "sha256_lf": "e54d0a90b6403eb30fdbb7246d813794e34e3bf627e94c03d1481583323c5584"
+      "path": "handoffs/phase-05/cycles/05S-004/host-readiness-bad-hash.json",
+      "sha256_lf": "f3de327cafcb54acecaf4d765179f777d6c82fb5b911e46058cb8277686bdb74"
+    },
+    {
+      "path": "handoffs/phase-05/cycles/05S-004/host-readiness-validation.json",
+      "sha256_lf": "b3e4a661c74c744e40b0c52b955a17e7670f30250b09e85309621c77f97b52c5"
+    },
+    {
+      "path": "handoffs/phase-05/cycles/05S-004/phase08-review.json",
+      "sha256_lf": "c5359dc8895836e1d1e5bf621274be936fdb8b6fa2c65a3064bcf1f9799faa0d"
+    },
+    {
+      "path": "handoffs/phase-05/cycles/05S-004/bonus-receipt-audit.json",
+      "sha256_lf": "fb5229b6dcebb852643cc8679a02e82ccdb9a5579bbe2161d26dfb3cee413821"
+    },
+    {
+      "path": "handoffs/phase-05/cycles/05S-004/official-rubric-review.json",
+      "sha256_lf": "288add362402f5053430ac3ec8bc4dfd90da75821821d2af595f5a24aa2d7618"
+    },
+    {
+      "path": "handoffs/phase-05/cycles/05S-004/discovery.json",
+      "sha256_lf": "288e01b130409fbf9c3476f7fa11f0cf40c00c27c2a30434adbe424486bdaeaf"
     }
   ],
   "cycle_evidence_hash_policy": "SHA256; JSON text CRLF normalized to LF; original raw audit digests remain in receipts",
   "last_reviewed_remote_candidate_shas": {
+    "05A": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29",
     "05B": "9e172a865a543b03e226596689fd6691ffa2b779",
     "05C": "f4e8eedcb55d73f5f3adc97431a4a1a3a9c65c87",
-    "05D": "51c223336f3d4d23854907bdee87dfd5ac1f2e98",
-    "05A": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29"
+    "05D": "51c223336f3d4d23854907bdee87dfd5ac1f2e98"
+  },
+  "iteration": {
+    "accepted": [
+      "Reject inconsistent winner/candidate/original metadata and stale backlog",
+      "Expose damaged Git refs and preserve original cycle003 commit",
+      "Isolated pinned pyserial import and software loopback"
+    ],
+    "rejected_implementation_changes": [],
+    "new_rtl_defects": [],
+    "not_adopted": [
+      "Promote separate bonus RTL into main without full relevant regression",
+      "Treat software loopback or repeated HDL as physical evidence"
+    ],
+    "synthesis_rerun": "not_required_no_RTL_constraints_or_build_tool_changes"
   }
 }

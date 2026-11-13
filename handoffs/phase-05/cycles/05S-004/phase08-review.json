@@ -1,0 +1,124 @@
+{
+  "passed": true,
+  "source_commit_sha": "39a424d84a38562adfe8a9e4251b741b899ee93c",
+  "evidence_type": "retained_execution_receipts_reaudited",
+  "new_hdl_executions_this_audit": 0,
+  "selected_validation": {
+    "attempt": "selected-c00q4131",
+    "build": {
+      "bitstream_sha256": "2742912e31ec6c058756e5623d84736285dc2d46695d8ece616494e3152a89b0",
+      "constrained_pins": true,
+      "fmax": {
+        "ICE_CLK$SB_IO_IN_$glb_clk": {
+          "achieved": 15.271604537963867,
+          "constraint": 10
+        }
+      },
+      "frequency_mhz": 10.0,
+      "hardware_validated": false,
+      "passed": true,
+      "seed": 1,
+      "utilization": {
+        "ICESTORM_DSP": {
+          "available": 8,
+          "used": 0
+        },
+        "ICESTORM_HFOSC": {
+          "available": 1,
+          "used": 0
+        },
+        "ICESTORM_LC": {
+          "available": 5280,
+          "used": 3240
+        },
+        "ICESTORM_LFOSC": {
+          "available": 1,
+          "used": 0
+        },
+        "ICESTORM_PLL": {
+          "available": 1,
+          "used": 0
+        },
+        "ICESTORM_RAM": {
+          "available": 30,
+          "used": 0
+        },
+        "ICESTORM_SPRAM": {
+          "available": 4,
+          "used": 0
+        },
+        "IO_I3C": {
+          "available": 2,
+          "used": 0
+        },
+        "SB_GB": {
+          "available": 8,
+          "used": 3
+        },
+        "SB_I2C": {
+          "available": 2,
+          "used": 0
+        },
+        "SB_IO": {
+          "available": 39,
+          "used": 9
+        },
+        "SB_LEDDA_IP": {
+          "available": 1,
+          "used": 0
+        },
+        "SB_RGBA_DRV": {
+          "available": 1,
+          "used": 0
+        },
+        "SB_SPI": {
+          "available": 2,
+          "used": 0
+        },
+        "SB_WARMBOOT": {
+          "available": 1,
+          "used": 0
+        }
+      }
+    },
+    "checkpoint_sha256": {
+      "continuous-audio.json": "0d3536da119787cc21ff0a90dd168c04cd0d781dca1caddf49a379eed2e16e0f",
+      "identity.json": "9dc99fc74e336c2a2a5908759c13f44fff4023bced9467f23dc0ed1b1fc99298",
+      "quality-suite.json": "7a91e0247fba2e671896b78b1a303209a44d01cc458ca3a7c0750656bd6ec2c9",
+      "repeat-build.json": "a1d97ee536459d0163c6de9f396005f49d371d985f9a2961f0e601de8d90445c"
+    },
+    "config_sha256": "3900dd182d43fa26856677edf359148ffa2a84f07461886e1852f74c349c8e3c",
+    "continuous_words": 480260,
+    "directed_cases": 30,
+    "driver_sha256": "efa15313d7bcaf6d6786a31e1e9ed3bcea837807c80a7322d8d642b8491bee8a",
+    "evidence_type": "executed_selected_candidate",
+    "executed_at_utc": "2026-11-13T09:27:21.417093+00:00",
+    "framework_tests": 15,
+    "full_audio_words": 481082,
+    "normal_mismatches": 0,
+    "normal_words": 22248,
+    "physical_hardware": "not_run",
+    "python_sha256": "2853b346861abc98f37f38cdcd4b5001b0261a487051b06f0f0f6109bd593638",
+    "repeat_and_roundtrip": "passed",
+    "selected_commit": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+    "simulations": 47,
+    "source_inventory_entries": 41,
+    "status": "passed",
+    "suite": "C:\\Users\\lowbr\\oss-cad-suite",
+    "toolchain_sha256": "ddf0ed4784d0529ae15876ba5d8c93f942bfd97b799834816f0e2d0d925c0d3a"
+  },
+  "checkpoint_files_verified": 4,
+  "output_files_verified": {
+    "quality-suite.json": 601,
+    "repeat-build.json": 26,
+    "continuous-audio.json": 405
+  },
+  "receipt_source": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-08\\.state\\phase-08-cycle-02\\selected-validation.json",
+  "selected_receipt_sha256": "8fb095c45ff2d32b2fce2bee60f54a4516376684fdb78c0b55c93a341faac95f",
+  "caveats": [
+    "No physical board evidence.",
+    "Release selection input is cycle002; source SHA matches cycle004.",
+    "Release candidate model labels are configured labels, not verified runtime attribution.",
+    "A different toolchain passed simulations/timing but failed historical bitstream identity; preserve that failed comparison."
+  ]
+}

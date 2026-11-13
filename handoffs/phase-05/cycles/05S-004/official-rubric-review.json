@@ -1,0 +1,8 @@
+{
+  "source": "https://github.com/JBlocklove/CSAW-AI-Hardware-Attack-Challenge-2026/blob/main/finals/challenge_3/README.md",
+  "retrieval": "GitHub connector",
+  "sha256_lf": "8d021e59c42f4c9cacbc746a9407e34b22b2a0230234276cf8d3a69105cd3335",
+  "scoring_section_unchanged": true,
+  "deliverables_change": "Deliverables moved to finals overview; scoring criteria unchanged",
+  "failed_attempt": "OSS CAD Python urllib has no HTTPS handler; source retrieved through GitHub connector; no test failure"
+}
