@@ -1,0 +1,15 @@
+{
+  "agent": "existing Project Scribe controller",
+  "cycle": "phase08-cycle02",
+  "events": [
+    {"session": "phase08-cycle02-release-integrity", "exit_code": 0, "tracked_state_stable": true, "coverage": "five release integrity regression tests"},
+    {"session": "phase08-cycle02-selected-checkpoint", "exit_code": 0, "tracked_state_stable": true, "coverage": "verified completed selected-candidate quality, repeat-build and continuous-audio checkpoints"}
+  ],
+  "preview": "completed locally",
+  "model_synthesis": "not_run; configured model remains a placeholder",
+  "external_publication": false,
+  "private_state_relative_to_project": ".state/phase-08-scribe/",
+  "engineering_report": "engineering.md",
+  "requirements_audit": "requirements.md",
+  "submission_brief": "submission-README.md"
+}

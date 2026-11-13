@@ -1,23 +1,17 @@
 # Requirements and scoring audit
 
-The published Challenge 3 instructions call for a ZIP with modified RTL, physical Hackster demonstration evidence and its driver or testbench, comprehensive GenAI records, and a technical brief. The current archive is local engineering evidence. [Official Challenge 3 deliverables and rubric](https://raw.githubusercontent.com/JBlocklove/CSAW-AI-Hardware-Attack-Challenge-2026/main/finals/challenge_3/README.md#final-challenge-deliverables)
+The official Challenge 3 layout requires a technical brief, modified RTL, demonstration support and comprehensive AI interactions. Physical Hackster evidence remains a required deliverable. [Official requirements](https://github.com/JBlocklove/CSAW-AI-Hardware-Attack-Challenge-2026/blob/main/finals/challenge_3/README.md#final-challenge-deliverables)
 
-| Required item | Phase 8 disposition |
+| Requirement | Release cycle 02 |
 |---|---|
-| Modified RTL | Open for competition submission |
-| Physical Hackster demonstration and supporting scripts | Open. Clean simulation and synthesis evidence covers the recovered audio baseline |
-| Comprehensive GenAI transcripts or chat histories | Open. Saved candidate provenance gates record gaps. This audit uses Git receipt metadata |
-| Technical brief | Partial. Local engineering notes cover baseline reproduction and candidate lineage |
-| Official submission ZIP | Open. Local evidence ZIP has a manifest and content verification |
+| Selected RTL and constraints | Included from the pinned improvement and rebuilt |
+| Testbench and verification evidence | Existing serial, directed and audio suites executed and included |
+| Technical brief | Root archive README and engineering report included |
+| Four development histories | Reachable Git history preserved in a verified offline bundle |
+| AI records | Available visible project interactions exported with source hashes, model metadata and credential redaction counts |
+| Physical board demonstration | Open. Current device inventory found no matching board |
+| Comprehensive final transcript coverage | Open. Live-session cutoff and historical completeness require review |
 
-| Scoring category | Official maximum | Evidence status |
-|---|---:|---|
-| Creative use of generative AI | 35 | Four model environments indexed. Transcript completeness unverified |
-| Trojan quality | 25 | Historical candidate gates only. Board baseline and candidate demonstration unverified |
-| System automation | 15 | Clean baseline, provenance audit, and local evidence packaging exercised |
-| Documentation and reproducibility | 15 | Clean workflow and evidence documented. Competition brief incomplete |
-| Hardware demonstration | 10 | No Phase 8 board demonstration |
-| Additional Trojans | 20 | No verified bonus claim |
-| Covert channel | 10 | No verified bonus claim |
+The archive is structurally verified and remains incomplete for official submission. `requirements-audit.json` records the unresolved items. The maximum base category points are 35 for creative AI use, 25 for Trojan quality, 15 for automation, 15 for documentation/reproducibility and 10 for hardware demonstration. No official or total score is assigned.
 
-No competition score is assigned. The official rubric's maximum is 100 base points plus 30 bonus points.
+The optional 05BB packet-recovery experiment has saved simulation evidence at two transport rates with 336 compared synthetic-message bits and zero errors per rate. Its handoff identifies a potential simulation-only Bonus B tier. Phase 8 checks that saved archive and source inventory. Official points and physical-board recovery remain unverified. Bonus A evidence remains available in the original candidate histories and selection receipts. The primary implementation is the selected 05B quality revision.

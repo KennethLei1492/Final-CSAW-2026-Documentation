@@ -1,12 +1,14 @@
-# Project Scribe handoff
+# Existing Project Scribe handoff
 
-Use the existing `DocumentAgent/openclaw-project-scribe` controller with a local configuration that observes the Phase 8 release worktree. Register this directory as a Git root. Set `git.sourceFiles` to the Phase 8 engineering, requirements, and Scribe handoff Markdown files. Keep controller state and reports outside the observed worktree.
+The documentation owner is the existing `DocumentAgent/openclaw-project-scribe` controller. Phase 8 uses its `record-test` and `preview` interfaces with an isolated configuration observing the release worktree.
 
-Use `record-test` to log the saved provenance audit and, if desired, the clean baseline command. Example from the release worktree:
+The current engineering and requirements reports, official-format submission brief, and selected-validation receipt are the ingestion inputs. The controller configuration and database remain in the project's ignored local state area outside the observed release worktree. Existing model configuration is a placeholder. Local preview and recorded execution events are the available documentation-agent outputs. Model-synthesized reporting and external publication remain unexecuted.
+
+Record a selected checkpoint verification with the command below, using actual absolute paths:
 
 ```text
-node --no-warnings DocumentAgent/openclaw-project-scribe/scribe.mjs record-test --config ABSOLUTE_CONFIG --root ABSOLUTE_WORKTREE --session phase08-saved-evidence -- ABSOLUTE_PYTHON reproduce.py --evaluate-candidates
-node --no-warnings DocumentAgent/openclaw-project-scribe/scribe.mjs preview --config ABSOLUTE_CONFIG
+node --no-warnings DocumentAgent/openclaw-project-scribe/scribe.mjs record-test --config PRIVATE_CONFIG --root RELEASE_WORKTREE --session phase08-cycle02-selected --timeout 600 -- PYTHON reproduce.py --validate-selected --resume-selected ATTEMPT
+node --no-warnings DocumentAgent/openclaw-project-scribe/scribe.mjs preview --config PRIVATE_CONFIG
 ```
 
-`preview` consumes local evidence and writes the controller's preview files. The engineering summary, requirements audit, and selected-revision manifests are the inputs for a final report. Check recorded command exits and tracked state before citing the run. Keep private transcript bodies out of Scribe source files.
+The selected attempt contains the original execution receipts and logs. The Scribe checkpoint event verifies those artifacts and identifies its own command exit. Fresh execution and checkpoint verification are distinct evidence events.
