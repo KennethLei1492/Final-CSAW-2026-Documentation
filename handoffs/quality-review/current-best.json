@@ -183,8 +183,9 @@
   "reproduction_note": "Run from a checkout with Phase 2 commit 1befb30e99a506698c45d4ca9394a3c7ec95c966 available; archive under that checkout so git show can access it. Output directory must be new. Allow 1200 seconds for an outer command wrapper.",
   "documentation": {
     "agent": "Project Scribe (csaw-fin-scribe)",
-    "status": "cycle004 local handoff prepared; controller delivery pending; model placeholder remains",
-    "handoff": "../phase-05/documentation-agent-handoff.md"
+    "status": "cycle004 delivered to existing local controller and preview; model synthesis unavailable",
+    "handoff": "../phase-05/documentation-agent-handoff.md",
+    "receipt": "../phase-05/cycles/05S-004/documentation-receipt.json"
   },
   "private_transcript_directory": "C:/Users/lowbr/AppData/Local/openclaw-project-scribe/CSAW_FIN/quality-transcripts",
   "remote_push_status": "not_pushed",

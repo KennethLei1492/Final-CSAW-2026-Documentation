@@ -434,6 +434,10 @@
     {
       "path": "handoffs/phase-05/cycles/05S-004/discovery.json",
       "sha256_lf": "288e01b130409fbf9c3476f7fa11f0cf40c00c27c2a30434adbe424486bdaeaf"
+    },
+    {
+      "path": "handoffs/phase-05/cycles/05S-004/documentation-receipt.json",
+      "sha256_lf": "592d2fd76e63078d009a8815be68cadd46fef65cb7c687af2029b7088b3dabc4"
     }
   ],
   "cycle_evidence_hash_policy": "SHA256; JSON text CRLF normalized to LF; original raw audit digests remain in receipts",
