@@ -1,5 +1,9 @@
-import importlib.util,json,subprocess,tempfile
+import argparse,importlib.util,json,subprocess,tempfile
 from pathlib import Path
+parser=argparse.ArgumentParser(description='Exercise read-only resumption against current, changed and unavailable candidates.')
+parser.add_argument('--output',type=Path,required=True)
+args=parser.parse_args()
+out=args.output.resolve(); out.mkdir(parents=True,exist_ok=False)
 root=Path.cwd()
 spec=importlib.util.spec_from_file_location('phase05s_inspect',root/'experiments/phase05s/inspect.py')
 module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
@@ -21,7 +25,6 @@ with tempfile.TemporaryDirectory(prefix='05s-resume-') as temp:
     assert unavailable['mode']=='A'
     assert all(r['availability']=='unavailable' for r in unavailable['candidates'].values())
     assert unavailable['remote_discovery_error']
-out=root/'handoffs/phase-05/cycles/05S-002'
 (out/'discovery.json').write_text(json.dumps(live,indent=2)+'\n')
 (out/'resume-validation.json').write_text(json.dumps({'passed':True,'checks':[
  'Current checkpoint resumes B with best commit available; no changed candidates',

@@ -1,0 +1,2 @@
+# Runner hashes in cycle receipts must survive Windows checkouts unchanged.
+*.py text eol=lf
