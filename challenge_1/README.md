@@ -90,3 +90,29 @@ a stealthy, high-impact hardware Trojan demonstrated on the physical board.
   programmer port.
 - Exploit echoes the input — `SCK` must be clocked around `START` (the core is SCK-clocked).
 - `$readmemh` all-`x` / wrong cipher — copy `rtl/*.mem` into the build directory before synthesis.
+
+## Exploit Script
+
+`pipeline/challenge_1/exploit.py` is the MicroPython script that triggers the Trojan from the RP2040.
+
+### What it does
+1. Resets the FPGA via RST_N
+2. Encrypts 0xDEADC0DE (arms the Trojan) — returns normal ciphertext
+3. Encrypts 0xFEEDFACE (fires the Trojan) — returns device key 0x8E043CB1
+4. Encrypts 0x59C359C3 (proves normal operation resumed) — returns correct ciphertext
+5. Prints EXPLOIT SUCCESS if the key was leaked, EXPLOIT FAILED otherwise
+
+### How to run
+Flash the FPGA first, then run the exploit via Thonny or mpremote:
+
+    # Via Thonny: open pipeline/challenge_1/exploit.py, select MicroPython (Raspberry Pi Pico) on /dev/cu.usbmodem1401, click Run
+
+    # Via mpremote:
+    mpremote connect /dev/cu.usbmodem1401 run pipeline/challenge_1/exploit.py
+
+### Expected output
+
+    Knock 1 result: 0xE34574B6  (normal ciphertext)
+    Knock 2 result: 0x8E043CB1  (should be 0x8E043CB1)
+    Normal result:  0x9CD84392
+    EXPLOIT SUCCESS: Device key leaked!
