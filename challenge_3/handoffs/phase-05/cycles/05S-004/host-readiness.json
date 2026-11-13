@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "started_at_utc": "2026-11-13T16:52:48.091188+00:00",
+  "passed": true,
+  "scope": "Isolated host dependency, software serial loopback, read-only port inventory",
+  "physical_board_verified": false,
+  "physical_ports_opened": [],
+  "global_packages_modified": false,
+  "python": "C:\\Users\\lowbr\\oss-cad-suite\\lib\\python3.exe",
+  "output_directory": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04-resume\\build\\host-ready",
+  "script_sha256": "c47b39ede1f758bf45c955c320939c6c246609efc4387c19ecf3a8c8e40fd9de",
+  "wheel": {
+    "path": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04\\build\\host-wheels\\pyserial-3.5-py2.py3-none-any.whl",
+    "expected_sha256": "c4451db6ba391ca6ca299fb3ec7bae67a5c55dde170964c7a14ceefec02f2cf0",
+    "actual_sha256": "c4451db6ba391ca6ca299fb3ec7bae67a5c55dde170964c7a14ceefec02f2cf0",
+    "retained_path": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04-resume\\build\\host-ready\\wheel\\pyserial-3.5-py2.py3-none-any.whl"
+  },
+  "commands": [
+    {
+      "argv": [
+        "C:\\Users\\lowbr\\oss-cad-suite\\lib\\python3.exe",
+        "-I",
+        "-c",
+        "import importlib.util, json, sys\nspec = importlib.util.find_spec('serial')\nprint(json.dumps({'python': sys.executable, 'serial_available': spec is not None,\n                  'serial_origin': spec.origin if spec else None}))\n"
+      ],
+      "timeout_seconds": 30,
+      "exit_code": 0,
+      "stdout": "{\"python\": \"C:\\\\Users\\\\lowbr\\\\oss-cad-suite\\\\lib\\\\python3.exe\", \"serial_available\": false, \"serial_origin\": null}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.0470000000022992
+    },
+    {
+      "argv": [
+        "C:\\Users\\lowbr\\oss-cad-suite\\lib\\python3.exe",
+        "-I",
+        "-m",
+        "pip",
+        "install",
+        "--no-index",
+        "--no-deps",
+        "--no-compile",
+        "--disable-pip-version-check",
+        "--target",
+        "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04-resume\\build\\host-ready\\site",
+        "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04-resume\\build\\host-ready\\wheel\\pyserial-3.5-py2.py3-none-any.whl"
+      ],
+      "timeout_seconds": 60,
+      "exit_code": 0,
+      "stdout": "Processing c:\\users\\lowbr\\documents\\college\\ai\\csaw_fin\\.worktrees\\phase-05s-cycle-04-resume\\build\\host-ready\\wheel\\pyserial-3.5-py2.py3-none-any.whl\nInstalling collected packages: pyserial\nSuccessfully installed pyserial-3.5\n",
+      "stderr": "",
+      "elapsed_seconds": 0.7659999999996217
+    },
+    {
+      "argv": [
+        "C:\\Users\\lowbr\\oss-cad-suite\\lib\\python3.exe",
+        "-I",
+        "-c",
+        "import hashlib, json, pathlib, sys\nsite = pathlib.Path(sys.argv[1]).resolve()\nsys.path.insert(0, str(site))\nimport serial\nfrom serial.tools import list_ports\norigin = pathlib.Path(serial.__file__).resolve()\nif not origin.is_relative_to(site):\n    raise RuntimeError('serial import escaped isolated target')\npayload = bytes(range(256)) + b'CSAW-05S-host-readiness\\x00\\xff'\nwith serial.serial_for_url('loop://', timeout=2, write_timeout=2) as port:\n    sent = port.write(payload)\n    received = port.read(len(payload))\n    surplus = port.in_waiting\nif sent != len(payload) or received != payload or surplus != 0:\n    raise RuntimeError('software serial loopback mismatch')\n# comports enumerates metadata only; no physical port is opened.\nports = [{'device': p.device, 'description': p.description, 'hwid': p.hwid,\n          'vid': p.vid, 'pid': p.pid} for p in list_ports.comports()]\nprint(json.dumps({'serial_version': serial.__version__, 'serial_origin': str(origin),\n    'isolated_import': True, 'loopback_url': 'loop://',\n    'sent_bytes': sent, 'received_bytes': len(received),\n    'payload_sha256': hashlib.sha256(payload).hexdigest(),\n    'received_sha256': hashlib.sha256(received).hexdigest(),\n    'byte_mismatches': 0, 'ports_enumerated': ports,\n    'physical_ports_opened': [], 'physical_board_verified': False}))\n",
+        "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04-resume\\build\\host-ready\\site"
+      ],
+      "timeout_seconds": 30,
+      "exit_code": 0,
+      "stdout": "{\"serial_version\": \"3.5\", \"serial_origin\": \"C:\\\\Users\\\\lowbr\\\\Documents\\\\College\\\\AI\\\\CSAW_FIN\\\\.worktrees\\\\phase-05s-cycle-04-resume\\\\build\\\\host-ready\\\\site\\\\serial\\\\__init__.py\", \"isolated_import\": true, \"loopback_url\": \"loop://\", \"sent_bytes\": 281, \"received_bytes\": 281, \"payload_sha256\": \"7c888b5fcbfe1c9f77d9a5a68e7713aa3973515b518c4fb7169a6464198b4aae\", \"received_sha256\": \"7c888b5fcbfe1c9f77d9a5a68e7713aa3973515b518c4fb7169a6464198b4aae\", \"byte_mismatches\": 0, \"ports_enumerated\": [{\"device\": \"COM5\", \"description\": \"Standard Serial over Bluetooth link (COM5)\", \"hwid\": \"BTHENUM\\\\{00001101-0000-1000-8000-00805F9B34FB}_VID&000102B0_PID&0000\\\\7&640EFC1&0&501B6A22B5F1_C00000000\", \"vid\": null, \"pid\": null}, {\"device\": \"COM4\", \"description\": \"Standard Serial over Bluetooth link (COM4)\", \"hwid\": \"BTHENUM\\\\{00001101-0000-1000-8000-00805F9B34FB}_LOCALMFG&0000\\\\7&640EFC1&0&000000000000_00000002\", \"vid\": null, \"pid\": null}], \"physical_ports_opened\": [], \"physical_board_verified\": false}\n",
+      "stderr": "",
+      "elapsed_seconds": 0.10900000000037835
+    }
+  ],
+  "base_environment": {
+    "python": "C:\\Users\\lowbr\\oss-cad-suite\\lib\\python3.exe",
+    "serial_available": false,
+    "serial_origin": null
+  },
+  "isolated_environment": {
+    "serial_version": "3.5",
+    "serial_origin": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-04-resume\\build\\host-ready\\site\\serial\\__init__.py",
+    "isolated_import": true,
+    "loopback_url": "loop://",
+    "sent_bytes": 281,
+    "received_bytes": 281,
+    "payload_sha256": "7c888b5fcbfe1c9f77d9a5a68e7713aa3973515b518c4fb7169a6464198b4aae",
+    "received_sha256": "7c888b5fcbfe1c9f77d9a5a68e7713aa3973515b518c4fb7169a6464198b4aae",
+    "byte_mismatches": 0,
+    "ports_enumerated": [
+      {
+        "device": "COM5",
+        "description": "Standard Serial over Bluetooth link (COM5)",
+        "hwid": "BTHENUM\\{00001101-0000-1000-8000-00805F9B34FB}_VID&000102B0_PID&0000\\7&640EFC1&0&501B6A22B5F1_C00000000",
+        "vid": null,
+        "pid": null
+      },
+      {
+        "device": "COM4",
+        "description": "Standard Serial over Bluetooth link (COM4)",
+        "hwid": "BTHENUM\\{00001101-0000-1000-8000-00805F9B34FB}_LOCALMFG&0000\\7&640EFC1&0&000000000000_00000002",
+        "vid": null,
+        "pid": null
+      }
+    ],
+    "physical_ports_opened": [],
+    "physical_board_verified": false
+  },
+  "decision": "Host pyserial import and software loopback pass; no board claim",
+  "completed_at_utc": "2026-11-13T16:52:49.011382+00:00"
+}

@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "source_evidence_commit": "5248206306193dab184397fe8760b75913638ee9",
+  "shared_root": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN",
+  "files_copied_and_compared": 53,
+  "concurrent_change_check": "all six prior shared hashes matched",
+  "verification_stdout": "{\"passed\": true, \"cycle_id\": \"05S-004\", \"best_sha\": \"fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6\", \"evidence_files_checked\": 11, \"scope\": \"checkpoint integrity; no new HDL or hardware verification\"}\n",
+  "verification_stderr": "",
+  "root_readme_modified": false,
+  "original_candidate_branches_modified": false
+}

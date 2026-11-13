@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "append_only": true,
+  "events": [
+    {
+      "id": "05S-001",
+      "event": "initial_selection",
+      "selected_id": "05B",
+      "selected_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
+      "manifest_commit": "6d9cacf4e12a7f2357c4f36fa91d9ef87429d046",
+      "original_candidate_shas": {
+        "05B": "9e172a865a543b03e226596689fd6691ffa2b779",
+        "05C": "f4e8eedcb55d73f5f3adc97431a4a1a3a9c65c87",
+        "05D": "629c7d4a1dd158ff1b6585e0e84e9aff74f8810f",
+        "05A": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29"
+      },
+      "archive": "cycles/05S-001/selection.json",
+      "note": "Legacy initial selection assigned cycle 1 during migration."
+    },
+    {
+      "id": "Q-001-01",
+      "event": "accepted_Q_revision",
+      "iteration": 1,
+      "sha": "f45ad424657f5c85d47cbc4134f88a1326e6a0fd",
+      "previous_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
+      "hypothesis": "Counter expiry discarded first eligible trigger sample",
+      "evidence": "28/30 before -> 30/30 after; two exact 128-word failures removed; full regression passes",
+      "rtl_authorship": "AI-authored by Codex",
+      "logic_cell_delta": -73,
+      "fmax_delta_mhz": -0.21306514739990234,
+      "decision": "accepted; fixed correctness with preserved 10 MHz timing and baseline output"
+    },
+    {
+      "id": "Q-001-02",
+      "event": "accepted_Q_revision",
+      "iteration": 2,
+      "sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+      "previous_sha": "f45ad424657f5c85d47cbc4134f88a1326e6a0fd",
+      "hypothesis": "Stale hashes and mixed newline encodings prevent source identification",
+      "evidence": "3 stale content hashes in original 35-entry inventory; current 41/41 pass; false RTL hash rejected; clean archive reproduces all 46 simulations and identical bitstream",
+      "decision": "accepted; no RTL change in this iteration"
+    },
+    {
+      "id": "05S-002",
+      "event": "selection_retained_after_coverage_improvement",
+      "selected_id": "05B",
+      "previous_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+      "selected_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+      "completed_at_utc": "2026-11-13T07:16:15.997198+00:00",
+      "iteration_count": 1,
+      "evidence": "cycles/05S-002/continuous-receipt.json",
+      "newly_reviewed_candidate_shas": {
+        "05B": "9e172a865a543b03e226596689fd6691ffa2b779",
+        "05C": "f4e8eedcb55d73f5f3adc97431a4a1a3a9c65c87",
+        "05D": "51c223336f3d4d23854907bdee87dfd5ac1f2e98",
+        "05A": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29"
+      }
+    },
+    {
+      "id": "05S-003",
+      "event": "best_retained_after_five_evidence_and_reproducibility_iterations",
+      "selected_id": "05B",
+      "previous_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+      "selected_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+      "completed_at_utc": "2026-11-13T09:28:01.127733+00:00",
+      "iteration_count": 5,
+      "separate_bonus_experiment_sha": "4bf5e02856b6874c82a8eaf7983d54de4755c2e6",
+      "previous_checkpoint": "cycles/05S-003/previous-checkpoint",
+      "implementation_changed": false
+    },
+    {
+      "id": "05S-004",
+      "event": "best_retained_after_checkpoint_and_host_readiness_improvements",
+      "selected_id": "05B",
+      "previous_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+      "selected_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+      "completed_at_utc": "2026-11-13T16:56:14.782708+00:00",
+      "iteration_count": 2,
+      "implementation_changed": false,
+      "previous_checkpoint_commit": "ab71ea88c7853fed7917c31c59c2f0b6abc83d96",
+      "evidence": "cycles/05S-004"
+    }
+  ]
+}

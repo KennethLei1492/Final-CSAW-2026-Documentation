@@ -1,0 +1,15 @@
+{
+  "original_cycle003_commit": "df22816fe29c479d404314bf0ae9e8baacdd1d3d",
+  "recovered_commit": "ab71ea88c7853fed7917c31c59c2f0b6abc83d96",
+  "trees": {
+    "df22816fe29c479d404314bf0ae9e8baacdd1d3d": "d54f94500a282cbf43f59f11a6a7c282a5e91ee4",
+    "ab71ea88c7853fed7917c31c59c2f0b6abc83d96": "d54f94500a282cbf43f59f11a6a7c282a5e91ee4"
+  },
+  "identical_trees": true,
+  "original_ref_status": "corrupted_NUL_ref_preserved",
+  "shared_prior_cycle": "05S-002",
+  "authoritative_previous_cycle": "05S-003",
+  "best_commit_available": true,
+  "candidate_source_diff": [],
+  "original_commit_preserved_ref": "refs/heads/challenge3/05s-cycle-03-preserved"
+}

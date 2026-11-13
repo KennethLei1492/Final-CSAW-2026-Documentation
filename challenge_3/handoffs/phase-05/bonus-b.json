@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "phase": "05BB",
+  "branch": "challenge3/05bb-bonus-b",
+  "source_candidate": "Subphase Q corrected 05B Astra reliability",
+  "source_commit_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+  "experiment_commit_sha": "4bf5e02856b6874c82a8eaf7983d54de4755c2e6",
+  "commit_semantics": "experiment_commit_sha is the immutable validated implementation/evidence commit; later branch commits add handoff documentation only.",
+  "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN/.worktrees/phase-05bb/",
+  "experiment_directory": "experiments/phase05/05bb-bonus-b/",
+  "source_preserved": true,
+  "golden_modified": false,
+  "candidate_selection": "experiments/phase05/05bb-bonus-b/docs/candidate-selection.md",
+  "official_rubric": "https://github.com/JBlocklove/CSAW-AI-Hardware-Attack-Challenge-2026/blob/main/finals/challenge_3/README.md#bonus-b---covert-channel-up-to-10-points",
+  "status": "PARTIAL DEMONSTRATION",
+  "supported_credit": "simulation-only evidence tier",
+  "potential_bonus_points": 5,
+  "maximum_bonus_points": 10,
+  "judges_award_not_claimed": true,
+  "test_message": "CSAW26-BONUS-B",
+  "measurement_source": "serialized I2S_SD_OUT monitor, left channel PCM16 mono WAV only",
+  "simulation": [
+    {
+      "sample_rate_hz": 31250,
+      "attempted_frames": 3,
+      "recovered_frames": 3,
+      "compared_bits": 336,
+      "incorrect_bits": 0,
+      "ber": 0,
+      "elapsed_seconds": 0.537344,
+      "net_payload_bps": 625.2977608384945,
+      "raw_signaling_bps": 976.5625
+    },
+    {
+      "sample_rate_hz": 15625,
+      "attempted_frames": 3,
+      "recovered_frames": 3,
+      "compared_bits": 336,
+      "incorrect_bits": 0,
+      "ber": 0,
+      "elapsed_seconds": 1.074688,
+      "net_payload_bps": 312.64888041924723,
+      "raw_signaling_bps": 488.28125
+    }
+  ],
+  "duration_basis": "Full simulated capture sample count / actual simulated sample rate; includes trigger, framing and guard intervals. Not simulator wall runtime or measured hardware USB throughput.",
+  "negative_controls": {
+    "original_input": "no_recovery",
+    "right_echo": "no_recovery",
+    "source_candidate_filtered_left": "no_recovery",
+    "silence": "no_recovery",
+    "software_corruption": "1/336 incorrect bits; CRC rejects one packet at each rate",
+    "software_truncation": "alignment invalid; BER null; accepted net throughput conservatively zero"
+  },
+  "baseline": {
+    "serial_simulations_passed": 42,
+    "serial_simulations_failed": 0,
+    "words_compared": 56596,
+    "mismatches": 0,
+    "framework_tests_passed": 15,
+    "lab_boundary_pcm_samples_checked": 10752,
+    "decoder_tests_passed": 3
+  },
+  "fpga": {
+    "elaboration": "passed",
+    "synthesis": "passed",
+    "place_and_route": "passed",
+    "bitstream_generation": "passed",
+    "icepack_roundtrip": "passed",
+    "icetime": "passed",
+    "constraint_mhz": 10,
+    "achieved_nextpnr_fmax_mhz": 15.433290481567383,
+    "logic_cells": 3455,
+    "available_logic_cells": 5280,
+    "dsp": 0,
+    "ram": 0,
+    "bitstream_sha256": "4c27a28220f5cb3f254f1bb82f4f47c6ae1c5dd0d3bcd700459bdf35e2c70056"
+  },
+  "hardware": {
+    "status": "not_run",
+    "verified": false,
+    "captures": [],
+    "reason": "Windows serial inventory showed only COM4/COM5 Bluetooth links; no identified authorized Hackster available."
+  },
+  "evidence_archive": {
+    "path": "experiments/phase05/05bb-bonus-b/verification-evidence.zip",
+    "sha256": "13c2218663d19058a344cc1010c1101447919ba1f06a06d40f2a887678e2e1d8",
+    "files": 634,
+    "extract_relative_to": "experiments/phase05/05bb-bonus-b/"
+  },
+  "evidence_paths": {
+    "source_inventory": "experiments/phase05/05bb-bonus-b/source-inventory.json",
+    "archive_inventory": "experiments/phase05/05bb-bonus-b/evidence-inventory.json",
+    "original_bits": "experiments/phase05/05bb-bonus-b/inputs/original.bits",
+    "protocol": "experiments/phase05/05bb-bonus-b/inputs/protocol.json",
+    "channel_results": "experiments/phase05/05bb-bonus-b/evidence/channel-run-1/channel-summary.json",
+    "captured_simulation_audio": "experiments/phase05/05bb-bonus-b/evidence/channel-run-1/channel-31250/simulation-filtered-left.wav",
+    "recovered_bits": "experiments/phase05/05bb-bonus-b/evidence/channel-run-1/channel-31250/recovery/recovered.bits",
+    "bit_comparison": "experiments/phase05/05bb-bonus-b/evidence/channel-run-1/channel-31250/recovery/evaluation/bit-comparison.csv",
+    "rtl_results": "experiments/phase05/05bb-bonus-b/reports/rtl-verification-summary.json",
+    "build": "experiments/phase05/05bb-bonus-b/reports/baseline-build-run1/fpga-build/build-summary.json",
+    "timing": "experiments/phase05/05bb-bonus-b/reports/baseline-build-run1/fpga-build/timing.json",
+    "bitstream": "experiments/phase05/05bb-bonus-b/reports/baseline-build-run1/fpga-build/bitstream.bin",
+    "provenance": "experiments/phase05/05bb-bonus-b/ai/provenance.md",
+    "documentation_receipt": "experiments/phase05/05bb-bonus-b/docs/documentation-receipt.json"
+  },
+  "provenance": {
+    "runtime": "Codex based on GPT-6; exact snapshot unknown",
+    "requested_role": "Claude Code Opus 4.8; not runtime evidence",
+    "new_implementation": "AI authored",
+    "transcript_completeness": "unverified; full session and historical export required before submission"
+  },
+  "documentation_agent": {
+    "existing": "Project Scribe csaw-fin-scribe",
+    "record_test": "passed",
+    "preview": "completed locally",
+    "model_synthesis": "not_run: configured model placeholder",
+    "publication": false
+  },
+  "limitations": [
+    "No physical board proof; cannot claim full 10-point tier.",
+    "Digital PCM decoder assumes no sample-rate conversion or clock drift; no acoustic robustness claim.",
+    "Tentative inherited LED-role mapping; system-clock timing pass is not complete board timing signoff.",
+    "Fresh baseline covers golden/directed/1024-frame noisy audio; full long-audio evidence belongs to source candidate.",
+    "Full AI transcript sufficiency and documentation-model synthesis remain unverified."
+  ],
+  "downstream": [
+    "Phase 5S comparison: separate optional experimental candidate, no merge",
+    "Phase 8 packaging: retain simulation labels and provenance gaps"
+  ],
+  "remote_push": false,
+  "merged_into_candidate": false
+}

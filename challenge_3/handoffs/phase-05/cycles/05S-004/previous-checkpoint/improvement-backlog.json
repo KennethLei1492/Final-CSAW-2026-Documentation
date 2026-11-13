@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "last_evaluation_cycle_id": "05S-003",
+  "items": [
+    {
+      "id": "P1-BOARD",
+      "priority": 1,
+      "status": "blocked_external_evidence",
+      "issue": "Physical stock/candidate baseline, echo and controlled activation unverified",
+      "next": "Connect and identify Hackster; use selected immutable bitstream receipt and capture exact input/output and host log. Do not guess a Bluetooth COM port."
+    },
+    {
+      "id": "P1-CONTINUOUS",
+      "priority": 1,
+      "status": "closed",
+      "evidence": "480260 exact words, 0 mismatches in single power-up run"
+    },
+    {
+      "id": "P2-BOUNDARY",
+      "priority": 2,
+      "status": "closed_by_Q",
+      "evidence": "f45ad424657f5c85d47cbc4134f88a1326e6a0fd; 30/30 directed cases"
+    },
+    {
+      "id": "P5-PROVENANCE",
+      "priority": 5,
+      "status": "partially_closed",
+      "issue": "Closed Q log privately exported; comprehensive successful-write attribution and submission sufficiency remain open",
+      "evidence": "cycles/05S-003/iteration-03-provenance.json"
+    },
+    {
+      "id": "P5-D-PORTABILITY",
+      "priority": 5,
+      "status": "open_nonwinning_candidate",
+      "issue": "D new analysis scripts hard-code original paths; verify_equivalence.json missing and verify_payload.json predates satsearch fields",
+      "next": "If D is pursued, rerun portable immutable scripts with complete receipts; do not write into original worktree."
+    },
+    {
+      "id": "P5-INVENTORY",
+      "priority": 5,
+      "status": "closed_by_Q_reconfirmed",
+      "evidence": "41/41 source entries, 230/230 retained artifact hashes"
+    },
+    {
+      "id": "P5-PORT-DEPENDENCY",
+      "priority": 5,
+      "status": "open",
+      "issue": "Selected OSS CAD Python lacks pyserial; Windows CIM/PnP inventory shows only Bluetooth COM4/COM5",
+      "next": "Use a verified board-driving Python environment with required dependencies when hardware is available."
+    },
+    {
+      "id": "P6-BONUS-B",
+      "priority": 6,
+      "status": "simulation_evidence_verified_physical_pending",
+      "issue": "05BB has bit recovery/rate/BER proof at two simulated rates; no hardware evidence; original main candidate unchanged",
+      "evidence": "cycles/05S-003/iteration-02-bonus.json"
+    },
+    {
+      "id": "P7-SCRIBE",
+      "priority": 7,
+      "status": "open_external_configuration",
+      "issue": "Scribe model placeholder; local handoff and controller evidence only"
+    },
+    {
+      "id": "P5-SOURCE-DISCOVERY",
+      "priority": 5,
+      "status": "closed_cycle003",
+      "evidence": "Additional local/remote supporting refs now inventoried"
+    },
+    {
+      "id": "P5-STATE-CONSISTENCY",
+      "priority": 5,
+      "status": "closed_after_13_tests",
+      "evidence": "Canonical current-cycle fields and reusable validator added"
+    }
+  ]
+}

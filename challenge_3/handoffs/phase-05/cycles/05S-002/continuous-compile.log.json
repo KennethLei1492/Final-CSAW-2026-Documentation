@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "C:\\Users\\lowbr\\oss-cad-suite\\bin\\iverilog.EXE",
+    "-g2012",
+    "-Wall",
+    "-s",
+    "tb_i2s",
+    "-o",
+    "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-02\\build\\05s-cycle-02-continuous\\simulation.vvp",
+    "-Ptb_i2s.SAMPLE_BITS=16",
+    "-Ptb_i2s.SLOT_BITS=16",
+    "-Ptb_i2s.MSB_DELAY=1",
+    "-Ptb_i2s.LEFT_LEVEL=0",
+    "-Ptb_i2s.HALF_PERIOD_NS=500",
+    "-Ptb_i2s.CLOCK_HALF_NS=50",
+    "-Ptb_i2s.RESET_CYCLES=10",
+    "-Ptb_i2s.MAX_WORDS=480260",
+    "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-02\\build\\05s-cycle-02-continuous\\source\\infrastructure\\hdl\\i2s_driver.sv",
+    "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-02\\build\\05s-cycle-02-continuous\\source\\infrastructure\\hdl\\i2s_monitor.sv",
+    "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-02\\build\\05s-cycle-02-continuous\\source\\infrastructure\\hdl\\tb_i2s.sv",
+    "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-02\\build\\05s-cycle-02-continuous\\source\\experiments\\phase05\\05b-astra\\rtl\\fir_audio_top.v",
+    "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-02\\build\\05s-cycle-02-continuous\\source\\experiments\\phase05\\05b-astra\\rtl\\phase4_dut.sv"
+  ],
+  "cwd": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-02\\build\\05s-cycle-02-continuous",
+  "timeout_seconds": 120,
+  "exit_code": 0,
+  "elapsed_seconds": 1.594,
+  "log_sha256": "4491b86e230b8fc5829fc2e011d08d8edced12cc994464303b5afea1afd96980"
+}

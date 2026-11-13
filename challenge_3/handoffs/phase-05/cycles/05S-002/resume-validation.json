@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "checks": [
+    "Current checkpoint resumes B with best commit available; no changed candidates",
+    "Old D snapshot identifies exactly 12 changed paths, no changes to other candidates",
+    "Empty repository enters A and records all candidates unavailable, not failed",
+    "Missing origin is recorded as remote discovery error without promotion"
+  ]
+}

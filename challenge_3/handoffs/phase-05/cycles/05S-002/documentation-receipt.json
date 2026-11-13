@@ -1,0 +1,20 @@
+{
+  "agent": "Project Scribe (csaw-fin-scribe)",
+  "delivery": "local controller record-test and evidence preview",
+  "recorded": true,
+  "test_exit_code": 0,
+  "tracked_state_stable": true,
+  "evidence_commit": "d9c2403d8093ef448b14763524370dbfaf76b167",
+  "preview_events": 97,
+  "remaining_events": 0,
+  "cursor_advanced": false,
+  "model_synthesis": "not_run_placeholder_model",
+  "google_publication": false,
+  "coordinator_thread_message": "not_delivered: target has active writer; shared handoff provided instead",
+  "preview_sha256": {
+    "preview.md": "2006f6f3d4fa7359f7690270ed391c29675bdf831360af127d9a66edfe6d2658",
+    "preview-evidence.json": "01e0b874184830195807436a0f3771fe9889bfb4bf30dc9931cb2a9baca431e9"
+  },
+  "handoff": "handoffs/phase-05/selection.md",
+  "remote_push": "not_performed"
+}

@@ -1,0 +1,65 @@
+{
+  "source_commit_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+  "passed": true,
+  "hardware_verified": false,
+  "hypothesis": "The full recording remains bit-exact without intermediate reset.",
+  "implementation_changed": false,
+  "source_audio": {
+    "channels": 1,
+    "sample_rate_hz": 16000,
+    "sample_width_bytes": 2,
+    "frames": 240000
+  },
+  "audio_sha256": "403bab7faa0d0a898385a49d5c942b19890a5f166045fe9ba18c0a0cf919abb0",
+  "reset_count": 1,
+  "flush_frames": 130,
+  "trigger_hits": [],
+  "parameters": {
+    "SAMPLE_BITS": 16,
+    "SLOT_BITS": 16,
+    "MSB_DELAY": 1,
+    "LEFT_LEVEL": 0,
+    "HALF_PERIOD_NS": 500,
+    "CLOCK_HALF_NS": 50,
+    "RESET_CYCLES": 10,
+    "MAX_WORDS": 480260
+  },
+  "input_sha256": {
+    "infrastructure\\hdl\\i2s_driver.sv": "87d9d21d4985f01992df92d1f48c30aeec1b3bbc3164e675d457aac5d8bd243e",
+    "infrastructure\\hdl\\i2s_monitor.sv": "4202d551092f4825b02b95b143775ec4a0ef45b6ca24d79c88ed57d85ccce12d",
+    "infrastructure\\hdl\\tb_i2s.sv": "65812d1698aaa644f759e59bdb962043626a1ba91d7d0e3598aef2618f0f793a",
+    "experiments\\phase05\\05b-astra\\rtl\\fir_audio_top.v": "f86438af7abfd1761e7dfc8f433b3c795c55a0e43906b8a3c39a767fe3e2a766",
+    "experiments\\phase05\\05b-astra\\rtl\\phase4_dut.sv": "1d53da1d936deea3e491c1f35e38d48ff4f9408b80311badb1d7a898b9eed28c"
+  },
+  "runner_sha256": "7ed7bc4536f07719ed28c9e33e9719d1d6700c39dff3869b39d2f2a08094064b",
+  "tool_sha256": {
+    "iverilog": "5c6e57860a8d0d6303fc0999612421f2a0546e5f1a04a5914f6c14cff15aa7c4",
+    "vvp": "546a1c30c7ad2410cda9b1a1a055bf83f992516e718c35b7a769dec4e1b97b27"
+  },
+  "comparison": {
+    "passed": true,
+    "samples_compared": 480260,
+    "mismatch_count": 0,
+    "max_abs_error": 0,
+    "rmse": 0.0,
+    "tolerance": 0,
+    "latency_words": 0,
+    "sample_bits": 16,
+    "first_mismatches": []
+  },
+  "artifact_sha256": {
+    "actual.csv": "e4ad41797308b8e602ec506837b8b049c29c9fd2cebc90847c099764723f1959",
+    "comparison.json": "5086dcae3dce18c65d668ed5ec3372d4aa64af7c9f057b87b6d0ed0be6ce50f7",
+    "compile.log": "4491b86e230b8fc5829fc2e011d08d8edced12cc994464303b5afea1afd96980",
+    "compile.log.json": "d543975385b4f189e1f01cbd1cb9e8aba5bdadaba42fec50956ddfdd7a517d2f",
+    "expected.csv": "e4ad41797308b8e602ec506837b8b049c29c9fd2cebc90847c099764723f1959",
+    "input.csv": "d4dbc0319369b1baa2441fbaacec5dae43deb4ea857637115515d23296f2ab14",
+    "input.hex": "626aa6336b072237a699f0def0215fbebaa2387b7b32db9bce7e8c25f306e1f7",
+    "inventory.json": "153a6c0b8704bac4155d34bc6542857d30209391211690a69e14ff3f2bd82447",
+    "inventory.log": "ba189b9845b144ad4506b3e67f081efebdab93459811727c14742d225417cb92",
+    "inventory.log.json": "6e91f275cec832d7de64fd346b3fa81772dffed9f710353e688f5750b87f2c24",
+    "simulation.log": "ba2ef1897bc25660c2844af3d3620b3dafdc3a460070adab610083c27b348cd2",
+    "simulation.log.json": "eabdba38a9bef4f5ede70a34588df6241e52e10b744eefee1ed65277b921f43f",
+    "simulation.vvp": "d22a6989a0ae9728fb7524e4c6787117aa06c9985ed12f8e79501c0d53e102a4"
+  }
+}

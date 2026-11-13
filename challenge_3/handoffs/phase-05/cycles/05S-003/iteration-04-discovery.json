@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "hypothesis": "Original-only candidate discovery omits new supporting evidence.",
+  "before": "Only four named candidate records, no supporting source records.",
+  "after_supporting_source_count": 21,
+  "bonus_branch_discovered": true,
+  "remote_evidence_branch_discovered": true,
+  "decision": "Accepted broader read-only inventory; remote-only unavailable objects are explicit, no automatic promotion."
+}

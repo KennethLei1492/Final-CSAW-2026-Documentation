@@ -1,0 +1,402 @@
+{
+  "schema_version": 3,
+  "previous_checkpoint_commit_sha": "bcca3c88ca4748f8b6f9ccb189e137aee321fa69",
+  "phase": "05S",
+  "cycle_number": 3,
+  "last_evaluation_cycle_id": "05S-003",
+  "mode": [
+    "C"
+  ],
+  "status": "bounded_cycle_complete_provisional_selection",
+  "completed_at_utc": "2026-11-13T09:28:01.127733+00:00",
+  "original_candidate_id": "05B",
+  "original_candidate_commit_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
+  "current_best_known_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+  "previous_best_known_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+  "common_baseline_commit_sha": "e72522f265ac36da713cd7a0dcf8dbc64ab21209",
+  "winner": {
+    "candidate_id": "05B",
+    "immutable_package_commit_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
+    "unchanged_rtl_origin_commit_sha": "15a8a6525e225ad82d931b3bc75399f744638b2e",
+    "current_best_known_commit_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6"
+  },
+  "original_candidate_shas": {
+    "05B": "9e172a865a543b03e226596689fd6691ffa2b779",
+    "05C": "f4e8eedcb55d73f5f3adc97431a4a1a3a9c65c87",
+    "05D": "629c7d4a1dd158ff1b6585e0e84e9aff74f8810f",
+    "05A": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29"
+  },
+  "last_reviewed_candidate_shas": {
+    "05B": "9e172a865a543b03e226596689fd6691ffa2b779",
+    "05C": "f4e8eedcb55d73f5f3adc97431a4a1a3a9c65c87",
+    "05D": "51c223336f3d4d23854907bdee87dfd5ac1f2e98",
+    "05A": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29"
+  },
+  "ranking": [
+    {
+      "rank": 1,
+      "candidate_id": "05B",
+      "snapshot_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
+      "role": "primary"
+    },
+    {
+      "rank": 2,
+      "candidate_id": "05C",
+      "snapshot_sha": "f4e8eedcb55d73f5f3adc97431a4a1a3a9c65c87",
+      "role": "backup"
+    },
+    {
+      "rank": 3,
+      "candidate_id": "05D",
+      "snapshot_sha": "629c7d4a1dd158ff1b6585e0e84e9aff74f8810f",
+      "role": "independent DSP coverage"
+    },
+    {
+      "rank": 4,
+      "candidate_id": "05A",
+      "snapshot_sha": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29",
+      "role": "minimal-payload comparison"
+    }
+  ],
+  "candidate_availability": {
+    "05B": "available_local",
+    "05C": "available_local",
+    "05D": "available_local",
+    "05A": "available_local"
+  },
+  "gate_results": {
+    "05B": {
+      "1_source_integrity_and_provenance": "source_pass_provenance_incomplete",
+      "2_baseline_equivalence": "simulation_pass_physical_open",
+      "3_functional_verification": "pass_available_simulations",
+      "4_regression_reliability": "pass_in_tested_scope",
+      "5_fpga_synthesis": "pass_retained_immutable_receipt",
+      "6_timing_resources": "pass_10mhz_up5k_sg48_seed1",
+      "7_reproducibility": "pass_clean_archive_and_inventory",
+      "8_physical_evidence": "not_run",
+      "9_documentation_completeness": "partial_transcript_and_board_evidence_open",
+      "10_optional_bonus": "simulation_only_additional_candidate_evidence_no_data_recovery"
+    },
+    "05C": {
+      "1_source_integrity_and_provenance": "historical_source_pass_with_packaging_caveats_provenance_incomplete",
+      "2_baseline_equivalence": "simulation_pass_physical_open",
+      "3_functional_verification": "pass_available_simulations",
+      "4_regression_reliability": "pass_in_tested_scope",
+      "5_fpga_synthesis": "pass_retained_immutable_receipt",
+      "6_timing_resources": "pass_10mhz_up5k_sg48_seed1",
+      "7_reproducibility": "pass_historical_rerun_with_preparation_caveats",
+      "8_physical_evidence": "not_run",
+      "9_documentation_completeness": "partial_transcript_and_board_evidence_open",
+      "10_optional_bonus": "simulation_only_additional_candidate_evidence_no_data_recovery"
+    },
+    "05D": {
+      "1_source_integrity_and_provenance": "historical_source_pass_with_packaging_caveats_provenance_incomplete",
+      "2_baseline_equivalence": "simulation_pass_physical_open",
+      "3_functional_verification": "pass_available_simulations",
+      "4_regression_reliability": "pass_in_tested_scope",
+      "5_fpga_synthesis": "pass_retained_immutable_receipt",
+      "6_timing_resources": "pass_10mhz_up5k_sg48_seed1",
+      "7_reproducibility": "pass_historical_rerun_with_preparation_caveats",
+      "8_physical_evidence": "not_run",
+      "9_documentation_completeness": "partial_transcript_and_board_evidence_open",
+      "10_optional_bonus": "simulation_only_additional_candidate_evidence_no_data_recovery"
+    },
+    "05A": {
+      "1_source_integrity_and_provenance": "historical_source_pass_with_packaging_caveats_provenance_incomplete",
+      "2_baseline_equivalence": "simulation_pass_physical_open",
+      "3_functional_verification": "pass_available_simulations",
+      "4_regression_reliability": "pass_in_tested_scope",
+      "5_fpga_synthesis": "pass_retained_immutable_receipt",
+      "6_timing_resources": "pass_10mhz_up5k_sg48_seed1",
+      "7_reproducibility": "pass_historical_rerun_with_preparation_caveats",
+      "8_physical_evidence": "not_run",
+      "9_documentation_completeness": "partial_transcript_and_board_evidence_open",
+      "10_optional_bonus": "simulation_only_additional_candidate_evidence_no_data_recovery"
+    }
+  },
+  "best_results": {
+    "standard_simulations_passed": 10,
+    "framework_tests_passed": 15,
+    "common_vector_simulations_passed": 2,
+    "directed_simulations_passed": 30,
+    "full_audio_simulations_passed": 4,
+    "total_simulations_passed": 47,
+    "baseline_normal_words": 22248,
+    "baseline_normal_mismatches": 0,
+    "full_audio_words": 481082,
+    "full_audio_mismatches": 0,
+    "all_standard_and_full_audio_captures_byte_identical_to_original": true,
+    "source_inventory_entries_passed": 41,
+    "build": {
+      "passed": true,
+      "frequency_mhz": 10.0,
+      "fmax": {
+        "ICE_CLK$SB_IO_IN_$glb_clk": {
+          "achieved": 15.271604537963867,
+          "constraint": 10
+        }
+      },
+      "seed": 1,
+      "utilization": {
+        "ICESTORM_DSP": {
+          "available": 8,
+          "used": 0
+        },
+        "ICESTORM_HFOSC": {
+          "available": 1,
+          "used": 0
+        },
+        "ICESTORM_LC": {
+          "available": 5280,
+          "used": 3240
+        },
+        "ICESTORM_LFOSC": {
+          "available": 1,
+          "used": 0
+        },
+        "ICESTORM_PLL": {
+          "available": 1,
+          "used": 0
+        },
+        "ICESTORM_RAM": {
+          "available": 30,
+          "used": 0
+        },
+        "ICESTORM_SPRAM": {
+          "available": 4,
+          "used": 0
+        },
+        "IO_I3C": {
+          "available": 2,
+          "used": 0
+        },
+        "SB_GB": {
+          "available": 8,
+          "used": 3
+        },
+        "SB_I2C": {
+          "available": 2,
+          "used": 0
+        },
+        "SB_IO": {
+          "available": 39,
+          "used": 9
+        },
+        "SB_LEDDA_IP": {
+          "available": 1,
+          "used": 0
+        },
+        "SB_RGBA_DRV": {
+          "available": 1,
+          "used": 0
+        },
+        "SB_SPI": {
+          "available": 2,
+          "used": 0
+        },
+        "SB_WARMBOOT": {
+          "available": 1,
+          "used": 0
+        }
+      },
+      "constrained_pins": true,
+      "hardware_validated": false,
+      "bitstream_sha256": "2742912e31ec6c058756e5623d84736285dc2d46695d8ece616494e3152a89b0"
+    },
+    "reproduced_from_clean_archive": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+    "bitstream_repeat_identical": true,
+    "regression_status": "passed_all_available_checks",
+    "hardware_status": "not_run",
+    "continuous_audio_words": 480260,
+    "continuous_audio_mismatches": 0,
+    "retained_quality_simulations_passed": 46,
+    "continuous_audio_simulations_passed": 1
+  },
+  "new_evidence": {
+    "scope": "New remote receipts, 05BB package, completed Q session, and reporting-tool regressions.",
+    "hdl_simulations_rerun": 0,
+    "synthesis_rerun": false,
+    "original_candidates_changed": false,
+    "prior_verification_retained": "Q 46 simulations, cycle002 continuous 480260 exact words, Q synthesis 3240 LC / 15.2716 MHz",
+    "previous_cycle": "cycles/05S-003/previous-checkpoint/selection.json"
+  },
+  "official_rubric": {
+    "source": "https://github.com/JBlocklove/CSAW-AI-Hardware-Attack-Challenge-2026/blob/main/finals/challenge_3/README.md",
+    "base_categories_max": {
+      "creative_ai": 35,
+      "trojan_quality": 25,
+      "system_automation": 15,
+      "documentation_reproducibility": 15,
+      "hardware_demonstration": 10
+    },
+    "note": "The category estimates below are evaluator judgments from submitted and fresh local evidence, not official judge scores. Creative AI is unscored because complete main-session prompt/response logs are not in these packages. No total is assigned."
+  },
+  "main_score_assessment": {
+    "creative_ai": null,
+    "quality_engineering_estimate_conditional_on_board": 20,
+    "automation_provisional": 9,
+    "documentation_provisional": 9,
+    "physical_demo": 0,
+    "total": null,
+    "qualification": "Physical baseline/exploit and transcript sufficiency unresolved. No competition-ready total."
+  },
+  "bonus": {
+    "A": {
+      "status": "distinct_additional_candidates_demonstrated_in_simulation_only",
+      "candidates": [
+        "05A",
+        "05D"
+      ],
+      "rubric_evidence_level_each": 5,
+      "conditional_evaluator_estimate": 10,
+      "official_award": null,
+      "physical_points_supported": 0,
+      "basis": "05A one-bit corruption and 05D spectral inversion use distinct triggers and mechanisms. Initial selection independently observed activation, preserved baseline and fitted both; see frozen cycle 01 results. Simulation tier only, subject to complete documented submission/provenance. 05C is backup and not counted as a third bonus."
+    },
+    "B": {
+      "status": "separate_05BB_simulation_recovery_verified",
+      "evaluator_estimate": 5,
+      "official_award": null,
+      "selected_main_implementation_has_channel": false,
+      "experiment_commit_sha": "4bf5e02856b6874c82a8eaf7983d54de4755c2e6",
+      "reviewed_package_sha": "83acf059f7b29fd0c8b1be16e952444ff5ccd84b",
+      "audit": "cycles/05S-003/iteration-02-bonus.json",
+      "simulation": [
+        {
+          "sample_rate_hz": 31250,
+          "attempted_frames": 3,
+          "recovered_frames": 3,
+          "compared_bits": 336,
+          "incorrect_bits": 0,
+          "ber": 0,
+          "elapsed_seconds": 0.537344,
+          "net_payload_bps": 625.2977608384945,
+          "raw_signaling_bps": 976.5625
+        },
+        {
+          "sample_rate_hz": 15625,
+          "attempted_frames": 3,
+          "recovered_frames": 3,
+          "compared_bits": 336,
+          "incorrect_bits": 0,
+          "ber": 0,
+          "elapsed_seconds": 1.074688,
+          "net_payload_bps": 312.64888041924723,
+          "raw_signaling_bps": 488.28125
+        }
+      ],
+      "hardware_verified": false,
+      "limitations": [
+        "No physical board proof; cannot claim full 10-point tier.",
+        "Digital PCM decoder assumes no sample-rate conversion or clock drift; no acoustic robustness claim.",
+        "Tentative inherited LED-role mapping; system-clock timing pass is not complete board timing signoff.",
+        "Fresh baseline covers golden/directed/1024-frame noisy audio; full long-audio evidence belongs to source candidate.",
+        "Full AI transcript sufficiency and documentation-model synthesis remain unverified."
+      ],
+      "recommendation": "Retain separate optional 05BB package. Do not replace main 05B or inherit its long-audio verification for changed RTL."
+    }
+  },
+  "stop_reason": "Five focused evaluation/improvement iterations completed; next implementation signoff requires physical evidence.",
+  "evaluation_branch": "challenge3/05s-cycle-03",
+  "evaluation_worktree": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-03",
+  "history": "selection-history.json",
+  "backlog": "improvement-backlog.json",
+  "resume": {
+    "first_read": [
+      "selection.json",
+      "selection-history.json",
+      "improvement-backlog.json",
+      "../quality-review/current-best.json"
+    ],
+    "inspect_command": "python experiments/phase05s/inspect.py --repo . --state handoffs/phase-05/selection.json --output build/NEXT-discovery.json",
+    "next_cycle_number": 4,
+    "policy": "Inspect only changes since reviewed SHAs. Retain fd0ca7f unless isolated revision passes relevant gates and measurably improves evidence or behavior. Maximum five iterations, stop earlier for hardware wait.",
+    "verify_command": "python experiments/phase05s/verify_state.py --root ."
+  },
+  "iterations_completed": 5,
+  "last_reviewed_source_refs": {
+    "refs/heads/challenge3/02-reverse-engineering": "1befb30e99a506698c45d4ca9394a3c7ec95c966",
+    "refs/heads/challenge3/03-baseline": "5dedf4c4ed10f47fbe9ec138c7db2019446cdb7f",
+    "refs/heads/challenge3/04-infrastructure": "e72522f265ac36da713cd7a0dcf8dbc64ab21209",
+    "refs/heads/challenge3/05bb-bonus-b": "83acf059f7b29fd0c8b1be16e952444ff5ccd84b",
+    "refs/heads/challenge3/05s-cycle-02": "bcca3c88ca4748f8b6f9ccb189e137aee321fa69",
+    "refs/heads/challenge3/05s-cycle-03": "bcca3c88ca4748f8b6f9ccb189e137aee321fa69",
+    "refs/heads/challenge3/05s-selection": "6d9cacf4e12a7f2357c4f36fa91d9ef87429d046",
+    "refs/heads/challenge3/phase-t-audio-testing": "d92e9f8e16ed112464fd046bc96bf702e6191e9a",
+    "refs/heads/challenge3/quality-winner": "d953ddfd494b932b1a1546aeca2a9549d1ee70d3",
+    "refs/heads/challenge3/reconstruction-review": "e12aff7607664cad2cb98b47422ed73d07953869",
+    "refs/heads/codex/challenge3-phase-06-validation": "8daabe8bbe73af537143dc97181dbc3bb8c88c61",
+    "refs/heads/codex/challenge3-phase-08-release": "84f1e550f7cca53a8e57f9e4a2eab9bf2e026066",
+    "refs/remotes/origin/challenge3/02-reverse-engineering": "1befb30e99a506698c45d4ca9394a3c7ec95c966",
+    "refs/remotes/origin/challenge3/03-baseline": "5dedf4c4ed10f47fbe9ec138c7db2019446cdb7f",
+    "refs/remotes/origin/challenge3/04-infrastructure": "e72522f265ac36da713cd7a0dcf8dbc64ab21209",
+    "refs/remotes/origin/challenge3/quality-winner": "d953ddfd494b932b1a1546aeca2a9549d1ee70d3",
+    "refs/remotes/origin/challenge3/reconstruction-review": "e12aff7607664cad2cb98b47422ed73d07953869",
+    "refs/remotes/origin/codex/challenge3-phase-06-validation": "a1d3f7f054a87ac7a9a69e13f51154752660a8ea",
+    "refs/remotes/origin/codex/challenge3-phase-08-release": "babb81ad46c12d069427a7b39ab974ac93b76beb",
+    "refs/remotes/origin/codex/challenge3-worktree-evidence": "37e65ac6ffb3a10150ef84d549586c52743e6467",
+    "refs/remotes/origin/challenge3/phase-t-audio-testing": "1d9acbef21e0daffa5de5fdc658b056742e3f912"
+  },
+  "previous_checkpoint_history": "handoffs/phase-05/cycles/05S-003/previous-checkpoint/selection-history.json",
+  "iterations": [
+    {
+      "number": 1,
+      "focus": "Published remote evidence",
+      "status": "accepted_evidence_mapping",
+      "receipt": "iteration-01-published.json"
+    },
+    {
+      "number": 2,
+      "focus": "New 05BB proof",
+      "status": "accepted_simulation_only_bonus_evidence",
+      "receipt": "iteration-02-bonus.json"
+    },
+    {
+      "number": 3,
+      "focus": "Closed Q transcript",
+      "status": "accepted_private_closure_export",
+      "receipt": "iteration-03-provenance.json"
+    },
+    {
+      "number": 4,
+      "focus": "Supporting source discovery",
+      "status": "accepted_reporting_tool_improvement",
+      "receipt": "iteration-04-discovery.json"
+    },
+    {
+      "number": 5,
+      "focus": "Checkpoint consistency",
+      "status": "accepted_after_13_focused_tests",
+      "receipt": "iteration-05-validation.json"
+    }
+  ],
+  "cycle_evidence": [
+    {
+      "path": "handoffs/phase-05/cycles/05S-003/iteration-01-published.json",
+      "sha256_lf": "06f3c6820701315c5633bad0f71104de390a1e3427bf3a2bb314b9c909f1e58b"
+    },
+    {
+      "path": "handoffs/phase-05/cycles/05S-003/iteration-02-bonus.json",
+      "sha256_lf": "eb041d3ae1072931177048ee34370c73515616f767792241422a7b2b0d6da684"
+    },
+    {
+      "path": "handoffs/phase-05/cycles/05S-003/iteration-03-provenance.json",
+      "sha256_lf": "54498883f84968d797067652f35ec599139b6b796e33d97ba5ea98fb14e921c6"
+    },
+    {
+      "path": "handoffs/phase-05/cycles/05S-003/iteration-04-discovery.json",
+      "sha256_lf": "d0e7e81e4e12a35f2619bbae7a7df064fd6748085a38c7bbc1c0ed7817418bc3"
+    },
+    {
+      "path": "handoffs/phase-05/cycles/05S-003/iteration-05-validation.json",
+      "sha256_lf": "e54d0a90b6403eb30fdbb7246d813794e34e3bf627e94c03d1481583323c5584"
+    }
+  ],
+  "cycle_evidence_hash_policy": "SHA256; JSON text CRLF normalized to LF; original raw audit digests remain in receipts",
+  "last_reviewed_remote_candidate_shas": {
+    "05B": "9e172a865a543b03e226596689fd6691ffa2b779",
+    "05C": "f4e8eedcb55d73f5f3adc97431a4a1a3a9c65c87",
+    "05D": "51c223336f3d4d23854907bdee87dfd5ac1f2e98",
+    "05A": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29"
+  }
+}

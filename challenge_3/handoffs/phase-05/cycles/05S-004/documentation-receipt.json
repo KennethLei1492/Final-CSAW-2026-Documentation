@@ -1,0 +1,18 @@
+{
+  "agent": "Project Scribe (csaw-fin-scribe)",
+  "delivery": "local existing controller record-test plus evidence preview",
+  "recorded": true,
+  "test_exit_code": 0,
+  "tracked_state_stable": true,
+  "evidence_commit": "5248206306193dab184397fe8760b75913638ee9",
+  "preview_events": 98,
+  "remaining_events": 0,
+  "cursor_advanced": false,
+  "preview_sha256": {
+    "preview.md": "c26aa291fde051e17375b924cce038ff4309883f771a300e6ac37715d7a0f02e",
+    "preview-evidence.json": "b5bc3db80165155bf4de6d93bff1ffef22cd920bdf7702f11ebcdf8bb70668da"
+  },
+  "model_synthesis": "not_run_placeholder_model",
+  "external_publication": false,
+  "handoff": "handoffs/phase-05/documentation-agent-handoff.md"
+}

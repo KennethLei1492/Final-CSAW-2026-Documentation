@@ -1,0 +1,26 @@
+python3.exe : test_contradictory_physical_status_rejected 
+(__main__.StateTests.test_contradictory_physical_status_rejected) ... ok
+At line:2 char:1
++ & C:/Users/lowbr/oss-cad-suite/lib/python3.exe experiments/phase05s/c ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (test_contradict...ejected) ... ok:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+test_current_cycle_and_full_integrity (__main__.StateTests.test_current_cycle_and_full_integrity) ... ok
+test_evidence_tampering_rejected (__main__.StateTests.test_evidence_tampering_rejected) ... ok
+test_forged_previous_best_cannot_bypass_promotion 
+(__main__.StateTests.test_forged_previous_best_cannot_bypass_promotion) ... ok
+test_future_cycle_is_not_hardcoded (__main__.StateTests.test_future_cycle_is_not_hardcoded) ... ok
+test_history_rewrite_rejected (__main__.StateTests.test_history_rewrite_rejected) ... ok
+test_joint_history_rewrite_rejected (__main__.StateTests.test_joint_history_rewrite_rejected) ... ok
+test_new_bonus_source_discovered (__main__.StateTests.test_new_bonus_source_discovered) ... ok
+test_old_cycle_rejected (__main__.StateTests.test_old_cycle_rejected) ... ok
+test_pending_verification_rejected (__main__.StateTests.test_pending_verification_rejected) ... ok
+test_remote_only_is_not_failed_candidate (__main__.StateTests.test_remote_only_is_not_failed_candidate) ... ok
+test_unsupported_physical_claim_rejected (__main__.StateTests.test_unsupported_physical_claim_rejected) ... ok
+test_unverified_promotion_rejected (__main__.StateTests.test_unverified_promotion_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 3.825s
+
+OK

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "name": "csaw-challenge3-baseline-for-05a",
+  "kind": "verified_design",
+  "ready": true,
+  "verification_evidence": [
+    "rtl/baseline/fir_audio_top_reference.v",
+    "../../../handoffs/phase-04/integration-validation.json"
+  ],
+  "simulation": {
+    "sources": [
+      "rtl/baseline/fir_audio_top_reference.v",
+      "rtl/baseline/phase4_dut_reference.v"
+    ],
+    "parameters": {
+      "SAMPLE_BITS": 16,
+      "SLOT_BITS": 16,
+      "MSB_DELAY": 1,
+      "LEFT_LEVEL": 0,
+      "HALF_PERIOD_NS": 500,
+      "CLOCK_HALF_NS": 50,
+      "RESET_CYCLES": 10
+    },
+    "reference_command": [
+      "{python}",
+      "tests/run_reference.py",
+      "{input}",
+      "{output}",
+      "--coeffs",
+      "tests/coeffs.json"
+    ],
+    "reference_sources": [
+      "tests/run_reference.py",
+      "tests/coeffs.json"
+    ],
+    "timeout_seconds": 180
+  },
+  "cases": [
+    {"name": "canonical-inactive", "input_csv": "tests/canonical-inactive.csv", "tolerance": 0, "latency_words": 0},
+    {"name": "inactive", "input_csv": "tests/inactive.csv", "tolerance": 0, "latency_words": 0},
+    {"name": "negative-near-miss", "input_csv": "tests/negative-near-miss.csv", "tolerance": 0, "latency_words": 0},
+    {"name": "random-inactive", "input_csv": "tests/random-inactive.csv", "tolerance": 0, "latency_words": 0},
+    {"name": "boundary-early-trigger", "input_csv": "tests/boundary-early-trigger.csv", "tolerance": 0, "latency_words": 0},
+    {"name": "activation", "input_csv": "tests/activation.csv", "tolerance": 0, "latency_words": 0},
+    {"name": "provided-audio", "input_wav": "../../../what_a_piece_of_work-noisy.wav", "frames": 256, "tolerance": 0, "latency_words": 0}
+  ],
+  "build": {
+    "sources": [
+      "rtl/baseline/fir_audio_top_reference.v",
+      "rtl/baseline/phase4_dut_reference.v"
+    ],
+    "top": "phase4_audio_top",
+    "device": "up5k",
+    "package": "sg48",
+    "pcf": "rtl/candidate/fir_audio_top_hackster.pcf",
+    "frequency_mhz": 10,
+    "seed": 1,
+    "allow_unconstrained": false,
+    "timeout_seconds": 300
+  }
+}

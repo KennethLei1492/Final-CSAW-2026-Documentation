@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "tests_passed": 13,
+  "tests_failed": 0,
+  "log": "state-tests.log",
+  "log_sha256": "90bcc94c8f997f7a6c6a56f73681f5d5c3ecf585c4c583bab68e0e3589392e80",
+  "decision": "Accepted canonical latest-cycle metadata and general fail-closed state checker.",
+  "checks": [
+    "Current and future cycles",
+    "Stale cycle rejected",
+    "Pending verification rejected",
+    "Unapproved best change rejected",
+    "Forged predecessor rejected",
+    "History rewrite rejected",
+    "Joint previous/current history rewrite rejected against immutable Git checkpoint",
+    "Evidence tampering rejected",
+    "Missing and contradictory physical proof rejected",
+    "Local bonus and remote-only original/supporting branches discovered"
+  ],
+  "review_findings_fixed": [
+    "Remote original candidates previously lacked structured discovery",
+    "Previous best not bound to immutable history",
+    "Physical claim contradicted not-run metadata"
+  ],
+  "implementation_changed": false,
+  "hdl_tests_rerun": 0
+}

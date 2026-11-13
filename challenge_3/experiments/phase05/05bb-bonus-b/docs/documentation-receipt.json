@@ -1,0 +1,38 @@
+{
+  "agent": "Project Scribe (csaw-fin-scribe)",
+  "delivery": "existing local controller record-test and evidence preview",
+  "isolated_config": "C:/Users/lowbr/AppData/Local/openclaw-project-scribe/CSAW_FIN-phase05bb/config.json",
+  "shared_config_modified": false,
+  "command": [
+    "C:/Users/lowbr/oss-cad-suite/lib/python3.exe",
+    "experiments/phase05/05bb-bonus-b/tools/verify_package.py"
+  ],
+  "recorded": true,
+  "test_exit_code": 0,
+  "tracked_state_stable": true,
+  "observed_head_before_experiment_commit": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+  "validation": {
+    "source_files": 27,
+    "archived_evidence_files": 634,
+    "source_candidate_unchanged": true,
+    "hardware_verified": false,
+    "classification": "PARTIAL DEMONSTRATION"
+  },
+  "recorded_output_sha256": "4b4359b122fc03c728478bf15ef2fdfc805208422d5718d6a73d6824ab4aaadb",
+  "preview_events": 1,
+  "remaining_events": 0,
+  "cursor_advanced": false,
+  "model_synthesis": "not_run: configured existing model remains FILL_PROVIDER/MODEL_ID",
+  "google_publication": false,
+  "private_transcripts_read_or_exported": false,
+  "recoverable_failure": {
+    "action": "initial preview",
+    "reason": "Configured source handoffs/phase-05/bonus-b.json did not yet exist before the implementation commit and final handoff generation.",
+    "resolution": "Isolated config sourceFiles changed to existing candidate selection, verification contract, results, provenance and RTL/channel summary files; preview rerun succeeded."
+  },
+  "preview_sha256": {
+    "scribe-preview.md": "246b50ca2fa10fc59e689b524cd3190c7c63bf44b6410388bd83ee3459c760bb",
+    "scribe-preview-evidence.json": "ed805c42209431a444218f5ce0b4d676645fe44a335193bbdd0b22a582065567"
+  },
+  "remote_push": "not_performed"
+}
