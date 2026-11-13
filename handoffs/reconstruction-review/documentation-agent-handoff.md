@@ -19,8 +19,11 @@ Source reviewed: Phase 2 `1befb30`, Phase 4 `2da1d72`. Reviewer branch:
    - Interface (pins/format/2-frame latency) re-confirmed against the official repo `audio_bridge.py` + README.
    - Coefficients re-derived **blind** (separate agent, never read `coeffs.json`) → identical 63 taps.
    - Real-audio bit-exactness reproduced 2048/2048 on two datasets; recon RTL == netlist 1024/1024.
-3. **One actionable finding R-001**: Phase 4 recovered-design path BLOCKED by a
-   golden-CSV schema + adapter gap; verified fix provided. See `R-001-phase4-golden-format.md`.
+3. **One actionable finding R-001** (revised vs Phase 3 `5dedf4c`): Phase 3 added the
+   `phase4_dut` adapter + `index,channel,value` reference, and its golden **values are
+   independently validated** (254/254 vs my model). Residual: the `index` column is
+   frame-index where Phase 4 requires sequential word-index, so Phase 4's reader still
+   rejects it (trivial fix shown). See `R-001-phase4-golden-format.md`.
 
 ## How to ingest (operator, model-free; optional — not done here)
 Additively (do **not** replace existing roots/entries) add to `git.sourceFiles`:

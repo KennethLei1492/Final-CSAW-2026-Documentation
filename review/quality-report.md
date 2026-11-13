@@ -17,7 +17,7 @@
 | Unresolved items total | **4** (O1 micro-arch *low*, O2 LED roles *low*, O3 hardware *later-phase*, O4 Phase4 handoff *fix proposed*) |
 | Defects found in the reconstruction | **0** |
 | Actionable integration findings | **1** (R-001, verified fix provided) |
-| Review regression experiments passing | **10 / 10** |
+| Review regression experiments passing | **11 / 11** |
 
 ## Review regression suite (this branch)
 
@@ -33,6 +33,7 @@
 | Phase 4 golden format (fix) | `rv_make_phase4_golden.py` | passes Phase 4 `read_samples`/`compare` |
 | Recon-RTL equivalence + measured latency | workflow agent (sim) | recon==netlist==model 1024/1024; LAT measured=2; 0 DSP/0 BRAM synth |
 | Blind coefficient re-derivation | workflow agent (sim) | own gen/decode, never read `coeffs.json` → identical 63 taps (max diff 0) |
+| Phase 3 golden cross-check (`5dedf4c`) | `rv_phase3_golden_check.py` | values 254/254 vs my model; format rejected by Phase 4 reader (R-001 residual) |
 
 ## Upgrades vs Phase 2 (claims strengthened by independent review)
 

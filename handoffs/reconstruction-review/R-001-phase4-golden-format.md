@@ -1,66 +1,72 @@
-# R-001 — Phase 4 recovered-design path is BLOCKED by a golden-vector format/adapter gap
+# R-001 — Phase 3 golden reference: values validated, but index convention still fails Phase 4
 
-- **Source commits:** Phase 2 `1befb30`, Phase 4 `2da1d72`.
-- **Severity:** high for end-to-end hardware verification (not a reconstruction defect).
-- **Owner to integrate:** Phase 3 (baseline/verification owner).
-- **Confidence:** very high (verified against Phase 4's own code).
+- **Source commits:** found at Phase 2 `1befb30` / Phase 4 `2da1d72`; **re-checked
+  against Phase 3 `challenge3/03-baseline` 5dedf4c** (committed after this review began).
+- **Severity:** medium — blocks automated Phase 4 ingestion; trivial fix.
+- **Owner to integrate:** Phase 3.
+- **Confidence:** very high (ran Phase 4's own reader + an independent value cross-check).
 
-## Identified issue
-Phase 4's reusable harness returns **BLOCKED (exit 2)** for the recovered design
-because the Phase 2 deliverables do not match the two contracts it requires:
+## History / current state
+- **Original (at 1befb30):** no `phase4_dut` adapter and the only reference CSV
+  (`handoffs/phase-02/reference_vectors.csv`, header `n,x_in_int16,y_filtered_int16`)
+  was unreadable by Phase 4 and lacked the echo channel.
+- **Phase 3 `5dedf4c` has since addressed most of this** (`handoffs/phase-03/`):
+  `phase4_dut.v` adapter ✓, `run_reference.py` ✓, `reference_io.csv` with an
+  `index,channel,value` header and correct channel semantics (0=filtered, 1=echo) ✓,
+  `INTERFACE.md` + SG48 `.pcf` ✓.
+- **Independent value check — PASS.** Phase 3's golden filtered and echo values
+  match this reviewer's independent fixed-point model **bit-for-bit (254/254 each)**
+  once the 2-frame latency baked into the stream is accounted for
+  (`Phase3[n] == model[n−2]`). Phase 3's golden is numerically correct.
 
-1. **Reference-CSV schema.** `infrastructure/results.py::read_samples()` requires the
-   header to be **exactly `index,channel,value`** with sequential zero-based `index`,
-   `channel ∈ {0,1}` (interleaved L/R), signed decimal `value`. The Phase 2 handoff
-   `handoffs/phase-02/reference_vectors.csv` uses header `n,x_in_int16,y_filtered_int16`
-   and carries only input + filtered-left (no echo/right channel). It cannot be read
-   by Phase 4 and does not represent the 2-channel output stream.
-2. **DUT adapter.** Phase 4 expects module `phase4_dut(input clk, rst, bclk, lrclk,
-   sd_in, output sd_out)` with **active-high `rst`**. The recovered design has no
-   reset port and raw `io_*`/named ports; no adapter was handed off.
+## Residual defect (still blocks Phase 4)
+Phase 3's `reference_io.csv` puts a **frame index** in the `index` column,
+duplicated across the two channels: `0,0 / 0,1 / 1,0 / 1,1 / 2,0 …`. Phase 4's
+`infrastructure/results.py::read_samples()` requires the `index` column to equal
+the **per-row (word) index** `0,1,2,3,…`:
+```python
+for n, row in enumerate(reader):
+    if item['index'] != n or item['channel'] not in (0,1):
+        raise ValueError('nonsequential index or invalid channel at %d' % n)
+```
+So Phase 4 rejects the file at the 2nd row.
 
-## Evidence
-- `infrastructure/results.py` line ~12: `if reader.fieldnames != ['index','channel','value']: raise ValueError`.
-- `handoffs/phase-04/STATUS.md`: "The recovered-design template returns BLOCKED (exit 2) until supplied";
-  "Adapter contract: module `phase4_dut(input clk, rst, bclk, lrclk, sd_in, output sd_out)`. `rst` active high".
-- `handoffs/phase-02/reference_vectors.csv` header is `n,x_in_int16,y_filtered_int16`.
-
-## Proposed correction (provided & self-verified)
-`review/scripts/rv_make_phase4_golden.py` emits BOTH streams in Phase 4's schema:
-- `input.csv` — mono duplicated to L/R: frame n → `(2n,0,x[n])`,`(2n+1,1,x[n])`.
-- `golden_output.csv` — frame n → `(2n,0,filtered[n])`,`(2n+1,1,echo[n]=x[n])`,
-  with `filtered[n]=sat16((Σ x[n−k]·h[k] + 2¹⁴) >> 15)`.
-Ready-made samples (first 256 audio frames of `what_a_piece_of_work-noisy.wav`):
-`handoffs/reconstruction-review/phase4-golden/{input,golden_output}.csv`.
-
-**Latency:** pass **`latency_words = 4`** to `compare()` (2-frame pipeline × 2
-interleaved channels).
-
-**Adapter:** wrap `recovered/rtl/fir_audio_top.v` so `phase4_dut`'s
-`clk→ICE_CLK, bclk→I2S_BCLK, lrclk→I2S_WS, sd_in→I2S_SD_IN, sd_out→I2S_SD_OUT`,
-tie off LEDs, and ignore active-high `rst` (the design is free-running, power-up
-state only). The existing sim adapter `scripts/recon_chip_wrap.v` shows the port
-mapping; a Phase-4 synthesis adapter adds the `rst`/clock-name translation.
-
-## Exact reproduction
+## Decisive reproduction
 ```bash
-cd <reconstruction-review worktree>
-python review/scripts/rv_make_phase4_golden.py \
-    what_a_piece_of_work-noisy.wav 256 recovered/coeffs.json \
-    handoffs/reconstruction-review/phase4-golden
+git show origin/challenge3/03-baseline:handoffs/phase-03/reference_io.in.csv > p3_in.csv
+git show origin/challenge3/03-baseline:handoffs/phase-03/reference_io.csv    > p3_io.csv
+python review/scripts/rv_phase3_golden_check.py p3_in.csv p3_io.csv recovered/coeffs.json \
+    ../phase-04/infrastructure/results.py
+```
+Result (log `review/logs/rv_phase3_golden_check.log`):
+```
+(A) best shift=2: filtered 254/254, echo 254/254  (values CORRECT; latency baked in)
+(B) REJECTED: ValueError - nonsequential index or invalid channel at 1
+    first 6 index values: [0, 0, 1, 1, 2, 2]  (Phase4 requires 0,1,2,3,4,5)
 ```
 
-## Test results
+## Proposed correction (trivial; pattern already provided)
+Emit the `index` column as the **running row/word index**, not the frame index:
 ```
-wrote .../input.csv and .../golden_output.csv: 256 audio frames -> 512 words each
-latency_words to pass to Phase4 compare(): 4
-Phase4 read_samples(input)  OK: 512 words, header accepted
-Phase4 read_samples(golden) OK: 512 words, header accepted
-Phase4 compare(golden,golden): passed=True samples=512 max_abs_err=0
+index,channel,value
+0,0,<filtered[0]>
+1,1,<echo[0]>
+2,0,<filtered[1]>
+3,1,<echo[1]>
+...
 ```
-Cross-checks: filtered[0]=1 and the echo column match the Phase 2
-`reference_vectors.csv` content exactly (same data, corrected schema + echo added).
+i.e. for audio frame n write rows `(2n,0,filtered[n])` and `(2n+1,1,echo[n])`.
+`review/scripts/rv_make_phase4_golden.py` already does exactly this and its output
+passes Phase 4 `read_samples()`/`compare()` (see `handoffs/reconstruction-review/phase4-golden/`).
+Point `run_reference.py`'s writer at the running counter and the file will ingest.
+
+## Latency note
+Phase 3 bakes the 2-frame latency into the stream (output[0..1]=startup zeros),
+so compare with **`latency_words = 0`** against a same-latency actual capture.
+(A latency-*aligned* golden like this reviewer's `phase4-golden/golden_output.csv`
+instead uses `latency_words = 4` = 2 frames × 2 channels.) Pick one convention and
+keep expected and actual consistent.
 
 ## Regression status
-No regressions possible — additive artifacts only; nothing in Phase 2/3/4 was
-modified. The converter imports Phase 4's `results.py` **read-only** to self-verify.
+Additive review artifacts only; no Phase 2/3/4 files modified. The checks import
+Phase 4's `results.py` read-only.

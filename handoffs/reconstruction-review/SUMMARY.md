@@ -6,8 +6,10 @@ Not merged into any engineering branch; no force-push; no Phase 2/3/4 files modi
 ## Commits
 - **Reviewed (source):** Phase 2 `challenge3/02-reverse-engineering` **1befb30**;
   Phase 4 `challenge3/04-infrastructure` **2da1d72**.
-- **Phase 3** `challenge3/03-baseline` was at **1befb30** (no commits beyond Phase 2
-  at review time; its uncommitted WIP was not read).
+- **Phase 3** `challenge3/03-baseline` advanced to **5dedf4c** *during* this review
+  (golden reference + verification; it was at 1befb30 when the review started). Its
+  `handoffs/phase-03/` outputs were re-checked for R-001 (below); its source was not
+  otherwise re-reviewed this invocation — see "Resume" note.
 - **Review branch:** `challenge3/reconstruction-review` (based on 1befb30); this
   handoff + `review/` are its only additions.
 
@@ -47,17 +49,32 @@ official repo (not just comments).
   LED/RGB logic is a **plausible guess, not recovered** — fine for the audio path,
   but don't rely on LED behavior for any bit-identity check.
 - **O3** no on-hardware run yet (all evidence is bitstream + gate-level sim).
-- **O4 → R-001** Phase 4 golden-CSV/adapter handoff gap; fix provided.
+- **O4 → R-001 (revised)** Phase 3 `5dedf4c` added the `phase4_dut` adapter +
+  `index,channel,value` reference, and its golden **values are independently
+  validated** (254/254 filtered & echo vs my model, at 2-frame latency). One
+  residual bug remains: the `index` column is frame-index (`0,0,1,1,…`) where Phase 4
+  requires per-row word index (`0,1,2,3,…`), so Phase 4's reader still rejects it.
 
 ## For Phase 3
-1. You may build the Trojan baseline on `recovered/rtl/fir_audio_top.v` with high
-   confidence that untriggered filtered output is bit-identical to the original.
-2. To unblock Phase 4 end-to-end verification, consume the R-001 artifacts
-   (`handoffs/reconstruction-review/phase4-golden/` + `rv_make_phase4_golden.py`)
-   and provide a `phase4_dut(clk,rst,bclk,lrclk,sd_in,sd_out)` adapter. See R-001.
+1. The reconstruction baseline (`recovered/rtl/fir_audio_top.v`) is sound: untriggered
+   filtered output is bit-identical to the original (recon==netlist==model, confirmed).
+   Your 5dedf4c golden reference's values are independently confirmed correct.
+2. **R-001 residual (small):** make `run_reference.py` emit the running row/word index
+   (`2n,0,filtered` / `2n+1,1,echo`) instead of the repeated frame index, so Phase 4
+   `read_samples()` accepts it. `review/scripts/rv_make_phase4_golden.py` +
+   `handoffs/reconstruction-review/phase4-golden/` show the exact passing format and
+   the `latency_words` convention. See `R-001-phase4-golden-format.md`.
 
 ## Process note
 An adversarial 3-lens refutation panel was launched to stress-test these claims
 but was **stopped before completion per operator request**; the inline skeptical
 analysis above (4-way rounding discrimination, worst-case saturation, R≠L,
 two datasets, external ground-truth, blind re-derivation) stands on its own.
+
+## Resume (next Subphase-R invocation)
+The reviewed snapshot was Phase 2 `1befb30` (+ Phase 4 `2da1d72`). Phase 3 has
+since reached `5dedf4c`; only its `handoffs/phase-03/` were spot-checked here (for
+R-001). Next invocation: review the Phase 3 `5dedf4c` source
+(`baseline/ref_fir.py`, `regression.py`, the P&R/PCF results) and investigate
+changes since `1befb30`/`2da1d72`. Do not repeat the experiments in
+`review/quality-report.md` without a new reason.

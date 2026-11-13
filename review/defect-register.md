@@ -82,18 +82,20 @@ claims were *strengthened* beyond Phase 2 (see quality report §"Upgrades").
   on-board confirmation is a later step (no hardware used this phase).
 
 ### P5 — Maintainability / integration
-- **R-001 / OPEN O4 (ACTIONABLE, blocks end-to-end verification).** Phase 4's
-  recovered-design path is BLOCKED because the Phase 2 reference CSV schema
-  (`n,x_in_int16,y_filtered_int16`) is incompatible with Phase 4
-  `results.read_samples()` which requires exactly `index,channel,value`
-  (interleaved L/R). Also no `phase4_dut(clk,rst,bclk,lrclk,sd_in,sd_out)` adapter
-  was handed off. **Proposed fix provided & self-verified** against Phase 4's own
-  reader: `handoffs/reconstruction-review/phase4-golden/{input,golden_output}.csv`
-  + `review/scripts/rv_make_phase4_golden.py`; use `latency_words=4`. This is a
-  *handoff/format* gap, not a reconstruction defect. Owner: Phase 3.
+- **R-001 (ACTIONABLE, revised vs Phase 3 `5dedf4c`).** Originally (at 1befb30): no
+  `phase4_dut` adapter and the only reference CSV was unreadable by Phase 4. Phase 3
+  `5dedf4c` has since added the adapter + an `index,channel,value` reference whose
+  **values are independently validated** (254/254 filtered & echo vs my model, at
+  2-frame latency — `rv_phase3_golden_check.py`). **Residual bug:** Phase 3's
+  `reference_io.csv` `index` column is frame-index (`0,0,1,1,…`) where Phase 4
+  `results.read_samples()` requires per-row word index (`0,1,2,3,…`) — Phase 4
+  **rejects it** ("nonsequential index … at 1"). Fix is trivial (emit running
+  index; `rv_make_phase4_golden.py` shows the passing pattern +
+  `latency_words` convention). Handoff/format gap, not a reconstruction defect. Owner: Phase 3.
 
 ## Open uncertainties (carried forward)
 - **O1** original MAC micro-architecture (behavior-irrelevant). *low*
 - **O2** individual LED vs R/G/B pin roles (38–41), not on the audio path. *low*
 - **O3** no on-hardware run yet; all evidence is bitstream + gate-level sim. *medium (later phase)*
-- **O4** Phase 4 golden-format/adapter handoff (R-001) — fix proposed. *high for E2E, owner Phase 3*
+- **O4 → R-001 (revised)** Phase 3 `5dedf4c` adapter + reference landed; values
+  validated; residual index-convention bug still fails Phase 4's reader. *medium, owner Phase 3*
