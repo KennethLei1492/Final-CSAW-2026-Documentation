@@ -161,6 +161,38 @@ regression. Generated build products/tool archives are ignored by Git.
 
 ## Coordination
 
+### Recovered Phase 2 integration
+
+The Phase 2 v2 handoff is now supported by `prepare_recovered.py`. It reads a
+specific Git commit with `git show`, snapshots the supplied RTL/model/coefficients
+and handoffs byte-for-byte into a fresh ignored directory, and records hashes and
+the full commit ID. It never reads in-progress Phase 3 model edits or modifies
+Claude's sources. In a checkout with the Phase 2 commit available:
+
+```text
+python infrastructure/prepare_recovered.py --source-root . --ref 1befb30e99a506698c45d4ca9394a3c7ec95c966 --output build/recovered-inputs
+python infrastructure/run.py validate --manifest build/recovered-inputs/manifest.json --output build/recovered-validation
+```
+
+On Windows, use `.tools/oss-cad-suite/lib/python3.exe` for the first command and
+`infrastructure/run.ps1` for the second. Choose new output directories on repeats.
+
+Eight simulations compare all output words, including zero startup frames and
+the last two delayed outputs flushed by two zero input frames. Two use the supplied
+256-frame golden vector at BCLK 1 MHz and 625 kHz. Six call the unchanged supplied
+`sw_fir.py` through a CSV/framing adapter (edge values, impulse, seeded random,
+sine, silence, and 1,024 provided audio frames). Arithmetic remains in the supplied
+model; the adapter only selects left input and maps filtered-left/echo-right with
+the handoff's two-frame latency. No automatic latency fitting is performed.
+
+`adapters/recovered.sv` also exposes an **audio-only** synthesis top. The five
+clock/audio pins in `constraints/recovered-audio.pcf` come from the verified Phase 2
+port table. The LED/RGB outputs are omitted because their individual board roles
+remain provisional. Accordingly this is not a full-board replacement image or
+hardware validation. The default generic recovered template remains blocked;
+use the explicitly generated manifest for this verified input revision. A later
+Phase 3 handoff requires its own integration run and is not implicitly covered.
+
 Read `handoffs/phase-02/` and `handoffs/phase-03/`; report infrastructure facts through
 `handoffs/phase-04/`. See `handoffs/phase-04/STATUS.md` for execution evidence and
 remaining dependencies. Project Scribe in the main checkout receives this status,
