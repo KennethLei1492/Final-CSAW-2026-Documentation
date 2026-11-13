@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "evaluated_at_utc": "2026-11-13T07:18:07.132618+00:00",
+  "mode": "B",
+  "state_file": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-02\\handoffs\\phase-05\\selection.json",
+  "current_best_known_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+  "best_object_available": true,
+  "candidates": {
+    "05A": {
+      "branch": "challenge3/05a-luna",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN_worktrees/05a-luna",
+      "availability": "available",
+      "snapshot_sha": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29",
+      "previously_reviewed_sha": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29",
+      "changed": false,
+      "changed_paths": [],
+      "diff_error": null,
+      "working_changes_excluded": [
+        " M README.md"
+      ]
+    },
+    "05B": {
+      "branch": "challenge3/05b-astra",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN_worktrees/05b-astra",
+      "availability": "available",
+      "snapshot_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
+      "previously_reviewed_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
+      "changed": false,
+      "changed_paths": [],
+      "diff_error": null,
+      "working_changes_excluded": []
+    },
+    "05C": {
+      "branch": "challenge3/05c-opus-architecture",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN_worktrees/05c-opus-architecture",
+      "availability": "available",
+      "snapshot_sha": "f4e8eedcb55d73f5f3adc97431a4a1a3a9c65c87",
+      "previously_reviewed_sha": "f4e8eedcb55d73f5f3adc97431a4a1a3a9c65c87",
+      "changed": false,
+      "changed_paths": [],
+      "diff_error": null,
+      "working_changes_excluded": []
+    },
+    "05D": {
+      "branch": "challenge3/05d-opus-dsp",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN_worktrees/05d-opus-dsp",
+      "availability": "available",
+      "snapshot_sha": "51c223336f3d4d23854907bdee87dfd5ac1f2e98",
+      "previously_reviewed_sha": "51c223336f3d4d23854907bdee87dfd5ac1f2e98",
+      "changed": false,
+      "changed_paths": [],
+      "diff_error": null,
+      "working_changes_excluded": []
+    }
+  },
+  "remote_heads": [
+    "1befb30e99a506698c45d4ca9394a3c7ec95c966\trefs/heads/challenge3/02-reverse-engineering",
+    "5dedf4c4ed10f47fbe9ec138c7db2019446cdb7f\trefs/heads/challenge3/03-baseline",
+    "e72522f265ac36da713cd7a0dcf8dbc64ab21209\trefs/heads/challenge3/04-infrastructure",
+    "15a8a6525e225ad82d931b3bc75399f744638b2e\trefs/heads/challenge3/05b-astra",
+    "1d9acbef21e0daffa5de5fdc658b056742e3f912\trefs/heads/challenge3/phase-t-audio-testing",
+    "e12aff7607664cad2cb98b47422ed73d07953869\trefs/heads/challenge3/reconstruction-review",
+    "177df580a16862327ff008d0282962ebece6a0fa\trefs/heads/main",
+    "dc064b273684eab7c5c6f1b32e1e22ffc266fd15\trefs/heads/phase1/initialization-and-research"
+  ],
+  "remote_discovery_error": null,
+  "policy": "Review changed source and new evidence only. Mode C requires isolated experiment and passing gates. No promotion performed."
+}

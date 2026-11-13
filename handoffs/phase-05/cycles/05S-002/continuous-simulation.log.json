@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "C:\\Users\\lowbr\\oss-cad-suite\\bin\\vvp.EXE",
+    "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-02\\build\\05s-cycle-02-continuous\\simulation.vvp",
+    "+VECTORS=C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-02\\build\\05s-cycle-02-continuous\\input.hex",
+    "+CAPTURE=C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-02\\build\\05s-cycle-02-continuous\\actual.csv",
+    "+WORDS=480260"
+  ],
+  "cwd": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN\\.worktrees\\phase-05s-cycle-02\\build\\05s-cycle-02-continuous",
+  "timeout_seconds": 1200,
+  "exit_code": 0,
+  "elapsed_seconds": 336.937,
+  "log_sha256": "ba2ef1897bc25660c2844af3d3620b3dafdc3a460070adab610083c27b348cd2"
+}

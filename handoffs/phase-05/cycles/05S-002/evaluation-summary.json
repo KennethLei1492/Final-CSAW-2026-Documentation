@@ -1,0 +1,38 @@
+{
+  "cycle": "05S-002",
+  "passed": true,
+  "Q_artifacts": 230,
+  "source_inventory": 41,
+  "framework_tests": 15,
+  "continuous_words": 480260,
+  "mismatches": 0,
+  "source_best": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+  "no_implementation_change": true,
+  "hardware_inventory": "Only Bluetooth COM4 and COM5. No matching present Hackster/RP2040/Pico/USB Serial devices.",
+  "setup_attempts": [
+    {
+      "test": "framework initial",
+      "result": "11 passed, HDL class skipped because suite env missing; not counted as full pass"
+    },
+    {
+      "test": "framework corrected suite environment",
+      "result": "15 passed"
+    },
+    {
+      "test": "serial.tools.list_ports",
+      "result": "pyserial not installed in selected Python; fallback CIM/PnP inventory succeeded"
+    }
+  ],
+  "model_provenance": {
+    "agent": "Codex",
+    "requested": "Codex Astra, maximum reasoning",
+    "exact_runtime_model": "not independently attested in this report",
+    "authored": "Evaluation-only Python and reports; no RTL or exploit changes"
+  },
+  "official_rubric_url": "https://github.com/JBlocklove/CSAW-AI-Hardware-Attack-Challenge-2026/blob/main/finals/challenge_3/README.md",
+  "official_readme_git_blob": "4159341c417f652fea45cd412d79cc52f0d9cad4",
+  "reporting_notes": [
+    "reset_count in raw runner receipt means startup testbench reset only; adapter ignores reset",
+    "WAV metadata 16 kHz; simulated transport 31250 frames/sec; no physical rate claimed"
+  ]
+}
