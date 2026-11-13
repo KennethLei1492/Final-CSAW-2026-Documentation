@@ -1,6 +1,10 @@
 // tb_crypto.v - functional self-test + golden-vector check + Trojan demos for
-// the Ascon-AEAD128 accelerator. Mirrors tools/fpga_selftest.py exactly, and
-// additionally verifies the DUT ciphertext/tag against the validated reference.
+// the Ascon-AEAD128 accelerator. It follows the same self-test sequence as
+// tools/fpga_selftest.py (Link / Encrypt-decrypt / Authentication / Consistency)
+// over the parallel command interface, and additionally - unlike that script -
+// verifies the DUT ciphertext/tag byte-for-byte against the golden vectors from
+// the validated reference. (The SPI-framed version of the normal-operation check
+// is tb/tb_spi.v.) It is not a line-for-line port of fpga_selftest.py.
 //
 // Build clean:   iverilog -g2012 -s tb_crypto -o sim tb/tb_crypto.v rtl/*.v
 // Build Trojan:  iverilog -g2012 -DTROJAN_A ... (A/B/C)

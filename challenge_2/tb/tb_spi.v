@@ -1,7 +1,11 @@
-// tb_spi.v - verifies the SPI peripheral shell maps real bit-serial SPI mode-0
-// frames onto crypto_top, by driving an encrypt through SPI and checking the
-// ciphertext/tag against the golden vectors. (Board-integration layer check; no
-// physical board / no I2C loader here - keys provisioned directly.)
+// tb_spi.v - SPI-path self-test. Drives the normal-operation self-test over REAL
+// bit-serial SPI mode-0 framing (SCK/CS_N/MOSI/MISO through spi_peripheral), not
+// the parallel register interface, to show normal operation is preserved end to
+// end at the board's actual command protocol: keys-loaded status, an encrypt
+// matching the golden ciphertext/tag, a decrypt that authenticates and recovers
+// the plaintext, and a tampered-tag frame that is rejected with the plaintext
+// withheld. (Board-integration layer; no physical board / no I2C loader here -
+// keys provisioned directly.)
 `timescale 1ns/1ps
 `default_nettype none
 module tb_spi;
@@ -63,7 +67,7 @@ module tb_spi;
     endtask
 
     integer pass=0, fail=0;
-    task chk(input [255:0] nm, input ok); begin
+    task chk(input [511:0] nm, input ok); begin
         if(ok) begin pass=pass+1; $display("  PASS %0s",nm); end
         else   begin fail=fail+1; $display("  FAIL %0s",nm); end end
     endtask
@@ -85,6 +89,25 @@ module tb_spi;
         chk("SPI-driven ciphertext matches golden", outbuf[8*44-1 -:352]===V_CT);
         rd(16'h610,16);
         chk("SPI-driven tag matches golden", outbuf[8*16-1 -:128]===V_TAG);
+
+        // ---- decrypt the ciphertext back over SPI: AUTH_OK + correct plaintext ----
+        wr(16'h200,44,V_CT);                      // captured ciphertext
+        wr(16'h600,16,V_TAG);                     // its real tag
+        do_start(8'h06, 10'd17, 10'd44);          // host nonce + decrypt
+        do_status(st); while (st & 8'h01) do_status(st);
+        chk("SPI-driven decrypt reports AUTH_OK", (st & 8'h04)!=0);
+        rd(16'h400,44);
+        chk("SPI-driven decrypt recovers plaintext", outbuf[8*44-1 -:352]===V_MSG);
+
+        // ---- tamper over SPI: modified tag -> AUTH_FAIL + plaintext withheld ----
+        wr(16'h200,44,V_CT);
+        wr(16'h600,16,V_TAG ^ (128'h1<<120));     // flip one tag bit
+        do_start(8'h06, 10'd17, 10'd44);
+        do_status(st); while (st & 8'h01) do_status(st);
+        chk("SPI-driven tampered tag rejected (AUTH_FAIL)", (st & 8'h08)!=0);
+        rd(16'h400,44);
+        chk("SPI-driven rejected plaintext withheld (zeros)", outbuf[8*44-1 -:352]===352'b0);
+
         $display("%0s (pass=%0d fail=%0d)", fail?"SPI SHELL FAIL":"SPI SHELL OK", pass, fail);
         if (fail) $fatal(1,"spi shell mismatch");
         $finish;

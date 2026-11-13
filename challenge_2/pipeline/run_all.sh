@@ -146,6 +146,12 @@ stage "6. I2C EEPROM key-loader (real master <-> EEPROM model)"
 "$VVP" work/sim/build/sim_loader > work/sim/loader.log 2>&1
 grep -q "LOADER PASS" work/sim/loader.log && note "- $(grep 'LOADER PASS' work/sim/loader.log)" || { note "- FAIL loader"; FAIL=1; }
 
+# ---------------------------------------------------------------- 6b. SPI self-test
+stage "6b. SPI-path self-test (normal operation preserved over real SPI framing)"
+"$IVERILOG" -g2012 -I tb -s tb_spi -o work/sim/build/sim_spi tb/tb_spi.v rtl/spi_peripheral.v rtl/crypto_top.v rtl/ascon_engine.v 2>/dev/null
+"$VVP" work/sim/build/sim_spi > work/sim/spi.log 2>&1
+if grep -q "SPI SHELL OK" work/sim/spi.log; then note "- $(grep 'SPI SHELL OK' work/sim/spi.log) (encrypt+decrypt+auth+withhold driven through SCK/CS/MOSI/MISO)"; else note "- FAIL SPI self-test"; FAIL=1; fi
+
 # ---------------------------------------------------------------- 7. synth overhead
 stage "7. iCE40-UP5K synthesis (core) + Trojan LUT overhead"
 # split flow: classic abc for LUT mapping (abc9 crashes on this build)

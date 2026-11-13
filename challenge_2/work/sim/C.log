@@ -1,0 +1,27 @@
+VCD info: dumpfile tb/tb_crypto.vcd opened for output.
+Link:
+  PASS accelerator responds
+  PASS key material loaded
+Encrypt / decrypt:
+  PASS ciphertext length matches plaintext
+  PASS ciphertext differs from plaintext
+  PASS ciphertext matches golden reference
+  PASS tag is 16 bytes & matches golden reference
+  PASS decrypt reports AUTH_OK
+  PASS decrypt recovers the message
+Authentication:
+  PASS modified ciphertext is rejected
+  PASS rejected plaintext withheld (zeros)
+  PASS modified tag is rejected
+  PASS wrong associated data is rejected
+Consistency:
+  PASS same inputs give same ciphertext
+  PASS same inputs give same tag
+  PASS empty message tag matches golden
+  PASS empty message authenticates
+== TROJAN C demo: magic-MSG -> nonce override (reuse) ==
+  PASS TROJAN C: nonce reuse (keystream collision)
+  PASS TROJAN C: recovered 2nd plaintext via reuse (C:H)
+
+ALL CHECKS PASSED.  (pass=18 fail=0)
+tb/tb_crypto.v:233: $finish called at 26006000 (1ps)

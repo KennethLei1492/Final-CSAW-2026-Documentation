@@ -1,0 +1,9 @@
+  PASS keys loaded via status over SPI
+  PASS SPI-driven ciphertext matches golden
+  PASS SPI-driven tag matches golden
+  PASS SPI-driven decrypt reports AUTH_OK
+  PASS SPI-driven decrypt recovers plaintext
+  PASS SPI-driven tampered tag rejected (AUTH_FAIL)
+  PASS SPI-driven rejected plaintext withheld (zeros)
+SPI SHELL OK (pass=7 fail=0)
+tb/tb_spi.v:113: $finish called at 401385000 (1ps)

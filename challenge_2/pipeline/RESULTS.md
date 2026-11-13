@@ -1,5 +1,5 @@
 # Reproduction Results
-_Generated Thu Nov 12 22:21:40 EST 2026_
+_Generated Fri Nov 13 01:48:49 EST 2026_
 
 ## 1. Bitstream reverse-engineering
 - unpacked bitstream -> work/re/crypto.asc
@@ -43,6 +43,8 @@ _Generated Thu Nov 12 22:21:40 EST 2026_
       PASS TROJAN C: recovered 2nd plaintext via reuse (C:H)
 ## 6. I2C EEPROM key-loader (real master <-> EEPROM model)
 - LOADER PASS: 64-byte image read over I2C, magic+version+CRC16 validated, secrets latched
+## 6b. SPI-path self-test (normal operation preserved over real SPI framing)
+- SPI SHELL OK (pass=7 fail=0) (encrypt+decrypt+auth+withhold driven through SCK/CS/MOSI/MISO)
 ## 7. iCE40-UP5K synthesis (core) + Trojan LUT overhead
 - core LUT4: CLEAN=3698  A=4056 (+358)  B=3665 (+-33)  C=3718 (+20)
 ## 8. Board place & route -> bitstream that fits the UP5K

@@ -94,7 +94,13 @@ TAG_IN`0x600`/TAG_OUT`0x610`/NONCE_IN`0x620`; `CFG[1:0]` op = 1 enc / 2 dec /
 3 encrypt-the-device-secret; `CFG[3:2]` nonce source = EEPROM / host / EEPROM⊕host.
 `rtl/crypto_top.v` implements this as the clean register-level view of the SPI
 protocol and drives `rtl/ascon_engine.v` (the Ascon-AEAD128 datapath, one
-permutation round per clock). The AD/MSG/OUT data buffers are **block-RAM
+permutation round per clock). Normal operation is additionally verified **over the
+real bit-serial SPI framing** (SCK/CS_N/MOSI/MISO through `spi_peripheral.v`) by
+`tb/tb_spi.v` — a 7-check SPI-path self-test (keys-loaded status, encrypt matching
+the golden ciphertext/tag, decrypt that authenticates and recovers the plaintext,
+and a tampered-tag frame rejected with the plaintext withheld), so "normal
+operation preserved" is shown at the board's actual command protocol, not only the
+parallel register interface. It runs as stage 6b of `pipeline/run_all.sh`. The AD/MSG/OUT data buffers are **block-RAM
 (EBR)**: AD/MSG are byte-wide memories the engine fetches byte-serially over a
 `rd_req`/`rd_rdy` handshake; OUT is a 128-bit-wide memory the engine writes whole
 blocks into and the host reads a byte at a time. This is what makes the design fit
@@ -126,6 +132,17 @@ measurements as first-class evidence; all **11/11** claims then verified, each
 grounded on a specific source. The machine-readable transcript is
 `work/research/research_transcript.json`; the readable report is
 `work/research/research_report.md`.
+
+**Actual run (2026-11-13), not just a claim about one.** Stage 2 of
+`pipeline/run_all.sh` executed the verifier and printed `VERIFIED` for all 11
+claims with grounding scores **0.82–0.88**, each tied to a named source
+(`SRC-ASCON-SPEC`, `SRC-LATTICE-UP5K`, `RE-BITSTREAM`, `SRC-EEPROM-EXTRACT`,
+`SRC-HWT-DETECT`, `SRC-HWT-TAXONOMY`, `SRC-LWC-EVAL`, `SRC-AEAD-KEYLEAK`,
+`SRC-CVSS-SPEC`) — the full console output and the per-claim breakdown are in
+[`ai/METHODOLOGY.md` §2a](ai/METHODOLOGY.md). That same run reported
+`ALL STAGES PASSED` (see `pipeline/RESULTS.md`): clean/A/B/C self-tests
+16/22/20/18, `LOADER PASS`, `SPI SHELL OK (7 checks)`, and all four board designs
+fitting at 93–95% LC.
 
 **Programmatic verification chain.** The algorithm model (`work/sim/ascon_ref.py`)
 was checked structurally against the official Ascon reference and by 200
@@ -401,7 +418,7 @@ rtl/crypto_board_top.pcf  UP5K (sg48) pin constraints
 tools/insert_trojan.py    Trojan INSERTION PASS (clean RTL -> work/trojans/crypto_top_{A,B,C}.v)
 tb/tb_crypto.v            self-test + golden-vector check + Trojan demos (-DDEMO_A/B/C)
 tb/tb_loader.v            end-to-end I2C key-load test (real master <-> EEPROM model)
-tb/tb_spi.v               SPI board-integration layer verification
+tb/tb_spi.v               SPI-path self-test: normal operation over real SPI framing
 tb/vectors.vh             golden vectors (generated)
 ai/METHODOLOGY.md         the AI workflow: six-model framework, verifier-settled decisions
 work/analysis/cvss.py     CVSS v3.1 calculator (reproduces every score)

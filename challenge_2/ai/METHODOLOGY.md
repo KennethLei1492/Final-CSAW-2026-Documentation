@@ -95,6 +95,37 @@ If a claim had failed verification it would not appear in the writeup; the
 claims during development (they were split until the verifier could ground
 them), which is why the final run reports all claims verified.
 
+## 2a. Verified run — actual output (not a claim about one)
+
+The verification was **executed**, not asserted. Running `python
+work/research/run_research.py` (stage 2 of `pipeline/run_all.sh`) on 2026-11-13
+indexed the 9 corpus documents and returned a `VERIFIED` verdict for **all 11**
+claims — the exact console output:
+
+```
+Indexed 9 source documents into 9 chunks.
+[VERIFIED] score=0.88  grounded_on=['SRC-ASCON-SPEC#0']       # cipher = Ascon-AEAD128
+[VERIFIED] score=0.82  grounded_on=['SRC-LATTICE-UP5K#0']     # UP5K budget 5280 LUT / 30 EBR
+[VERIFIED] score=0.82  grounded_on=['RE-BITSTREAM#0']         # recovered 4577 LUT / 7 BRAM, no baked key
+[VERIFIED] score=0.88  grounded_on=['SRC-EEPROM-EXTRACT#0']   # I2C key load is sniffable
+[VERIFIED] score=0.88  grounded_on=['SRC-HWT-DETECT#0']       # stealth criterion
+[VERIFIED] score=0.88  grounded_on=['SRC-HWT-TAXONOMY#0']     # highest-impact payloads
+[VERIFIED] score=0.88  grounded_on=['SRC-LWC-EVAL#0']         # Ascon confidentiality dependence
+[VERIFIED] score=0.88  grounded_on=['SRC-AEAD-KEYLEAK#0']     # key leak => C:H + I:H
+[VERIFIED] score=0.88  grounded_on=['SRC-CVSS-SPEC#0']        # AV:L not AV:P
+[VERIFIED] score=0.88  grounded_on=['SRC-CVSS-SPEC#0']        # Scope:Changed
+[VERIFIED] score=0.88  grounded_on=['SRC-AEAD-KEYLEAK#0']     # nonce reuse != forgery
+Wrote research_transcript.json and research_report.md. 11/11 claims verified.
+```
+
+Every claim passed with a grounding score of **0.82–0.88** against a *named* source
+(no claim rode on an empty or generic grounding), so each judgment in the writeup
+traces to evidence the verifier actually accepted. The same whole-pipeline run
+reported `ALL STAGES PASSED` (sims clean 16 / A 22 / B 20 / C 18; `LOADER PASS`;
+`SPI SHELL OK (pass=7)`; all four board designs FIT at 93–95% LC) — see
+`pipeline/RESULTS.md`. Re-running is deterministic (offline mock LLM, real BM25
+retrieval), so these verdicts reproduce exactly.
+
 ## 3. Where the pieces live
 
 ```
