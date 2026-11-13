@@ -1,0 +1,511 @@
+{
+  "schema_version": 2,
+  "evaluated_at_utc": "2026-11-13T09:28:00.769950+00:00",
+  "mode": "B",
+  "state_file": "handoffs\\phase-05\\selection.json",
+  "current_best_known_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+  "best_object_available": true,
+  "candidates": {
+    "05A": {
+      "branch": "challenge3/05a-luna",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN_worktrees/05a-luna",
+      "availability": "available",
+      "snapshot_sha": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29",
+      "previously_reviewed_sha": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29",
+      "changed": false,
+      "changed_paths": [],
+      "diff_error": null,
+      "working_changes_excluded": [
+        " M README.md"
+      ]
+    },
+    "05B": {
+      "branch": "challenge3/05b-astra",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN_worktrees/05b-astra",
+      "availability": "available",
+      "snapshot_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
+      "previously_reviewed_sha": "9e172a865a543b03e226596689fd6691ffa2b779",
+      "changed": false,
+      "changed_paths": [],
+      "diff_error": null,
+      "working_changes_excluded": []
+    },
+    "05C": {
+      "branch": "challenge3/05c-opus-architecture",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN_worktrees/05c-opus-architecture",
+      "availability": "available",
+      "snapshot_sha": "f4e8eedcb55d73f5f3adc97431a4a1a3a9c65c87",
+      "previously_reviewed_sha": "f4e8eedcb55d73f5f3adc97431a4a1a3a9c65c87",
+      "changed": false,
+      "changed_paths": [],
+      "diff_error": null,
+      "working_changes_excluded": []
+    },
+    "05D": {
+      "branch": "challenge3/05d-opus-dsp",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN_worktrees/05d-opus-dsp",
+      "availability": "available",
+      "snapshot_sha": "51c223336f3d4d23854907bdee87dfd5ac1f2e98",
+      "previously_reviewed_sha": "51c223336f3d4d23854907bdee87dfd5ac1f2e98",
+      "changed": false,
+      "changed_paths": [],
+      "diff_error": null,
+      "working_changes_excluded": []
+    }
+  },
+  "supporting_sources": {
+    "refs/heads/challenge3/02-reverse-engineering": {
+      "snapshot_sha": "1befb30e99a506698c45d4ca9394a3c7ec95c966",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-02/codex-interface-handoff.v1.md",
+        "handoffs/phase-02/codex-interface-handoff.v2.md",
+        "handoffs/phase-02/documentation-agent-handoff.md",
+        "handoffs/phase-02/reference_vectors.csv"
+      ],
+      "availability": "available",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN/.worktrees/phase-02"
+    },
+    "refs/heads/challenge3/03-baseline": {
+      "snapshot_sha": "5dedf4c4ed10f47fbe9ec138c7db2019446cdb7f",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-02/codex-interface-handoff.v1.md",
+        "handoffs/phase-02/codex-interface-handoff.v2.md",
+        "handoffs/phase-02/documentation-agent-handoff.md",
+        "handoffs/phase-02/reference_vectors.csv",
+        "handoffs/phase-03/INTERFACE.md",
+        "handoffs/phase-03/STATUS.md",
+        "handoffs/phase-03/documentation-agent-handoff.md",
+        "handoffs/phase-03/fir_audio_top_hackster.pcf",
+        "handoffs/phase-03/phase4_dut.v",
+        "handoffs/phase-03/reference_io.csv",
+        "handoffs/phase-03/reference_io.in.csv",
+        "handoffs/phase-03/run_reference.py"
+      ],
+      "availability": "available",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN/.worktrees/phase-03"
+    },
+    "refs/heads/challenge3/04-infrastructure": {
+      "snapshot_sha": "e72522f265ac36da713cd7a0dcf8dbc64ab21209",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-04/STATUS.md",
+        "handoffs/phase-04/integration-validation.json",
+        "handoffs/phase-04/validation.json"
+      ],
+      "availability": "available",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN/.worktrees/phase-04"
+    },
+    "refs/heads/challenge3/05bb-bonus-b": {
+      "snapshot_sha": "83acf059f7b29fd0c8b1be16e952444ff5ccd84b",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-04/STATUS.md",
+        "handoffs/phase-04/integration-validation.json",
+        "handoffs/phase-04/validation.json",
+        "handoffs/phase-05/05b-astra/STATUS.md",
+        "handoffs/phase-05/bonus-b.json",
+        "handoffs/phase-05/bonus-b.md",
+        "handoffs/phase-08/bonus-b-input.md",
+        "handoffs/quality-review/cycle-01.md",
+        "handoffs/quality-review/inventory-audit.json",
+        "handoffs/quality-review/inventory-negative-test.json",
+        "handoffs/quality-review/iteration-01-results.json",
+        "handoffs/quality-review/original-inventory-audit.json",
+        "handoffs/quality-review/pre-improvement.json",
+        "handoffs/quality-review/selection-input.json",
+        "handoffs/quality-review/selection-provenance.json",
+        "handoffs/quality-review/transcript-provenance.json"
+      ],
+      "availability": "available",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN/.worktrees/phase-05bb"
+    },
+    "refs/heads/challenge3/05s-cycle-02": {
+      "snapshot_sha": "bcca3c88ca4748f8b6f9ccb189e137aee321fa69",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-04/STATUS.md",
+        "handoffs/phase-04/integration-validation.json",
+        "handoffs/phase-04/validation.json",
+        "handoffs/phase-05/05b-astra/STATUS.md",
+        "handoffs/phase-05/cycles/05S-001/selection.json",
+        "handoffs/phase-05/cycles/05S-001/selection.md",
+        "handoffs/phase-05/cycles/05S-002/Q-receipt-audit.json",
+        "handoffs/phase-05/cycles/05S-002/continuous-comparison.json",
+        "handoffs/phase-05/cycles/05S-002/continuous-compile.log.json",
+        "handoffs/phase-05/cycles/05S-002/continuous-inventory.json",
+        "handoffs/phase-05/cycles/05S-002/continuous-receipt.json",
+        "handoffs/phase-05/cycles/05S-002/continuous-simulation.log.json",
+        "handoffs/phase-05/cycles/05S-002/discovery.json",
+        "handoffs/phase-05/cycles/05S-002/documentation-receipt.json",
+        "handoffs/phase-05/cycles/05S-002/evaluation-summary.json",
+        "handoffs/phase-05/cycles/05S-002/framework.log",
+        "handoffs/phase-05/cycles/05S-002/imported-Q-current-best.json",
+        "handoffs/phase-05/cycles/05S-002/resume-validation.json",
+        "handoffs/phase-05/documentation-agent-handoff.md",
+        "handoffs/phase-05/improvement-backlog.json",
+        "handoffs/phase-05/selection-history.json",
+        "handoffs/phase-05/selection.json",
+        "handoffs/phase-05/selection.md",
+        "handoffs/quality-review/current-best.json",
+        "handoffs/quality-review/current-best.md",
+        "handoffs/quality-review/cycle-01.md",
+        "handoffs/quality-review/documentation-receipt.json",
+        "handoffs/quality-review/inventory-audit.json",
+        "handoffs/quality-review/inventory-negative-test.json",
+        "handoffs/quality-review/iteration-01-results.json",
+        "handoffs/quality-review/original-inventory-audit.json",
+        "handoffs/quality-review/pre-improvement.json",
+        "handoffs/quality-review/reproduction-evidence.json",
+        "handoffs/quality-review/selection-input.json",
+        "handoffs/quality-review/selection-provenance.json",
+        "handoffs/quality-review/transcript-provenance.json"
+      ],
+      "availability": "available",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN/.worktrees/phase-05s-cycle-02"
+    },
+    "refs/heads/challenge3/05s-cycle-03": {
+      "snapshot_sha": "bcca3c88ca4748f8b6f9ccb189e137aee321fa69",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-04/STATUS.md",
+        "handoffs/phase-04/integration-validation.json",
+        "handoffs/phase-04/validation.json",
+        "handoffs/phase-05/05b-astra/STATUS.md",
+        "handoffs/phase-05/cycles/05S-001/selection.json",
+        "handoffs/phase-05/cycles/05S-001/selection.md",
+        "handoffs/phase-05/cycles/05S-002/Q-receipt-audit.json",
+        "handoffs/phase-05/cycles/05S-002/continuous-comparison.json",
+        "handoffs/phase-05/cycles/05S-002/continuous-compile.log.json",
+        "handoffs/phase-05/cycles/05S-002/continuous-inventory.json",
+        "handoffs/phase-05/cycles/05S-002/continuous-receipt.json",
+        "handoffs/phase-05/cycles/05S-002/continuous-simulation.log.json",
+        "handoffs/phase-05/cycles/05S-002/discovery.json",
+        "handoffs/phase-05/cycles/05S-002/documentation-receipt.json",
+        "handoffs/phase-05/cycles/05S-002/evaluation-summary.json",
+        "handoffs/phase-05/cycles/05S-002/framework.log",
+        "handoffs/phase-05/cycles/05S-002/imported-Q-current-best.json",
+        "handoffs/phase-05/cycles/05S-002/resume-validation.json",
+        "handoffs/phase-05/documentation-agent-handoff.md",
+        "handoffs/phase-05/improvement-backlog.json",
+        "handoffs/phase-05/selection-history.json",
+        "handoffs/phase-05/selection.json",
+        "handoffs/phase-05/selection.md",
+        "handoffs/quality-review/current-best.json",
+        "handoffs/quality-review/current-best.md",
+        "handoffs/quality-review/cycle-01.md",
+        "handoffs/quality-review/documentation-receipt.json",
+        "handoffs/quality-review/inventory-audit.json",
+        "handoffs/quality-review/inventory-negative-test.json",
+        "handoffs/quality-review/iteration-01-results.json",
+        "handoffs/quality-review/original-inventory-audit.json",
+        "handoffs/quality-review/pre-improvement.json",
+        "handoffs/quality-review/reproduction-evidence.json",
+        "handoffs/quality-review/selection-input.json",
+        "handoffs/quality-review/selection-provenance.json",
+        "handoffs/quality-review/transcript-provenance.json"
+      ],
+      "availability": "available",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN/.worktrees/phase-05s-cycle-03"
+    },
+    "refs/heads/challenge3/05s-selection": {
+      "snapshot_sha": "6d9cacf4e12a7f2357c4f36fa91d9ef87429d046",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-04/STATUS.md",
+        "handoffs/phase-04/integration-validation.json",
+        "handoffs/phase-04/validation.json",
+        "handoffs/phase-05/selection.json",
+        "handoffs/phase-05/selection.md"
+      ],
+      "availability": "available",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN/.worktrees/phase-05s"
+    },
+    "refs/heads/challenge3/phase-t-audio-testing": {
+      "snapshot_sha": "d92e9f8e16ed112464fd046bc96bf702e6191e9a",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-04/STATUS.md",
+        "handoffs/phase-04/integration-validation.json",
+        "handoffs/phase-04/validation.json"
+      ],
+      "availability": "available",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN/.worktrees/phase-t"
+    },
+    "refs/heads/challenge3/quality-winner": {
+      "snapshot_sha": "d953ddfd494b932b1a1546aeca2a9549d1ee70d3",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-04/STATUS.md",
+        "handoffs/phase-04/integration-validation.json",
+        "handoffs/phase-04/validation.json",
+        "handoffs/phase-05/05b-astra/STATUS.md",
+        "handoffs/quality-review/current-best.json",
+        "handoffs/quality-review/current-best.md",
+        "handoffs/quality-review/cycle-01.md",
+        "handoffs/quality-review/documentation-receipt.json",
+        "handoffs/quality-review/inventory-audit.json",
+        "handoffs/quality-review/inventory-negative-test.json",
+        "handoffs/quality-review/iteration-01-results.json",
+        "handoffs/quality-review/original-inventory-audit.json",
+        "handoffs/quality-review/pre-improvement.json",
+        "handoffs/quality-review/reproduction-evidence.json",
+        "handoffs/quality-review/selection-input.json",
+        "handoffs/quality-review/selection-provenance.json",
+        "handoffs/quality-review/transcript-provenance.json"
+      ],
+      "availability": "available",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN_worktrees/quality-winner"
+    },
+    "refs/heads/challenge3/reconstruction-review": {
+      "snapshot_sha": "e12aff7607664cad2cb98b47422ed73d07953869",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-02/codex-interface-handoff.v1.md",
+        "handoffs/phase-02/codex-interface-handoff.v2.md",
+        "handoffs/phase-02/documentation-agent-handoff.md",
+        "handoffs/phase-02/reference_vectors.csv",
+        "handoffs/reconstruction-review/R-001-phase4-golden-format.md",
+        "handoffs/reconstruction-review/SUMMARY.md",
+        "handoffs/reconstruction-review/documentation-agent-handoff.md",
+        "handoffs/reconstruction-review/phase4-golden/golden_output.csv",
+        "handoffs/reconstruction-review/phase4-golden/input.csv"
+      ],
+      "availability": "available",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN/.worktrees/reconstruction-review"
+    },
+    "refs/heads/codex/challenge3-phase-06-validation": {
+      "snapshot_sha": "8daabe8bbe73af537143dc97181dbc3bb8c88c61",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-04/STATUS.md",
+        "handoffs/phase-04/integration-validation.json",
+        "handoffs/phase-04/validation.json",
+        "handoffs/phase-06/05d-evidence-review.md",
+        "handoffs/phase-06/STATUS.md",
+        "handoffs/phase-06/artifact-hashes.json",
+        "handoffs/phase-06/candidate-provenance-issue.md"
+      ],
+      "availability": "available",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN/.worktrees/phase-06"
+    },
+    "refs/heads/codex/challenge3-phase-08-release": {
+      "snapshot_sha": "84f1e550f7cca53a8e57f9e4a2eab9bf2e026066",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-08/README.md",
+        "handoffs/phase-08/engineering.md",
+        "handoffs/phase-08/github.md",
+        "handoffs/phase-08/reproduction.json",
+        "handoffs/phase-08/requirements.md",
+        "handoffs/phase-08/scribe.md"
+      ],
+      "availability": "available",
+      "worktree": "C:/Users/lowbr/Documents/College/AI/CSAW_FIN/.worktrees/phase-08"
+    },
+    "refs/remotes/origin/challenge3/02-reverse-engineering": {
+      "snapshot_sha": "1befb30e99a506698c45d4ca9394a3c7ec95c966",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-02/codex-interface-handoff.v1.md",
+        "handoffs/phase-02/codex-interface-handoff.v2.md",
+        "handoffs/phase-02/documentation-agent-handoff.md",
+        "handoffs/phase-02/reference_vectors.csv"
+      ],
+      "availability": "available",
+      "worktree": null
+    },
+    "refs/remotes/origin/challenge3/03-baseline": {
+      "snapshot_sha": "5dedf4c4ed10f47fbe9ec138c7db2019446cdb7f",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-02/codex-interface-handoff.v1.md",
+        "handoffs/phase-02/codex-interface-handoff.v2.md",
+        "handoffs/phase-02/documentation-agent-handoff.md",
+        "handoffs/phase-02/reference_vectors.csv",
+        "handoffs/phase-03/INTERFACE.md",
+        "handoffs/phase-03/STATUS.md",
+        "handoffs/phase-03/documentation-agent-handoff.md",
+        "handoffs/phase-03/fir_audio_top_hackster.pcf",
+        "handoffs/phase-03/phase4_dut.v",
+        "handoffs/phase-03/reference_io.csv",
+        "handoffs/phase-03/reference_io.in.csv",
+        "handoffs/phase-03/run_reference.py"
+      ],
+      "availability": "available",
+      "worktree": null
+    },
+    "refs/remotes/origin/challenge3/04-infrastructure": {
+      "snapshot_sha": "e72522f265ac36da713cd7a0dcf8dbc64ab21209",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-04/STATUS.md",
+        "handoffs/phase-04/integration-validation.json",
+        "handoffs/phase-04/validation.json"
+      ],
+      "availability": "available",
+      "worktree": null
+    },
+    "refs/remotes/origin/challenge3/quality-winner": {
+      "snapshot_sha": "d953ddfd494b932b1a1546aeca2a9549d1ee70d3",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-04/STATUS.md",
+        "handoffs/phase-04/integration-validation.json",
+        "handoffs/phase-04/validation.json",
+        "handoffs/phase-05/05b-astra/STATUS.md",
+        "handoffs/quality-review/current-best.json",
+        "handoffs/quality-review/current-best.md",
+        "handoffs/quality-review/cycle-01.md",
+        "handoffs/quality-review/documentation-receipt.json",
+        "handoffs/quality-review/inventory-audit.json",
+        "handoffs/quality-review/inventory-negative-test.json",
+        "handoffs/quality-review/iteration-01-results.json",
+        "handoffs/quality-review/original-inventory-audit.json",
+        "handoffs/quality-review/pre-improvement.json",
+        "handoffs/quality-review/reproduction-evidence.json",
+        "handoffs/quality-review/selection-input.json",
+        "handoffs/quality-review/selection-provenance.json",
+        "handoffs/quality-review/transcript-provenance.json"
+      ],
+      "availability": "available",
+      "worktree": null
+    },
+    "refs/remotes/origin/challenge3/reconstruction-review": {
+      "snapshot_sha": "e12aff7607664cad2cb98b47422ed73d07953869",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-02/codex-interface-handoff.v1.md",
+        "handoffs/phase-02/codex-interface-handoff.v2.md",
+        "handoffs/phase-02/documentation-agent-handoff.md",
+        "handoffs/phase-02/reference_vectors.csv",
+        "handoffs/reconstruction-review/R-001-phase4-golden-format.md",
+        "handoffs/reconstruction-review/SUMMARY.md",
+        "handoffs/reconstruction-review/documentation-agent-handoff.md",
+        "handoffs/reconstruction-review/phase4-golden/golden_output.csv",
+        "handoffs/reconstruction-review/phase4-golden/input.csv"
+      ],
+      "availability": "available",
+      "worktree": null
+    },
+    "refs/remotes/origin/codex/challenge3-phase-06-validation": {
+      "snapshot_sha": "a1d3f7f054a87ac7a9a69e13f51154752660a8ea",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-04/STATUS.md",
+        "handoffs/phase-04/integration-validation.json",
+        "handoffs/phase-04/validation.json",
+        "handoffs/phase-06/05d-evidence-review.md",
+        "handoffs/phase-06/STATUS.md",
+        "handoffs/phase-06/artifact-hashes.json",
+        "handoffs/phase-06/candidate-provenance-issue.md"
+      ],
+      "availability": "available",
+      "worktree": null
+    },
+    "refs/remotes/origin/codex/challenge3-phase-08-release": {
+      "snapshot_sha": "babb81ad46c12d069427a7b39ab974ac93b76beb",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-08/README.md",
+        "handoffs/phase-08/engineering.md",
+        "handoffs/phase-08/github.md",
+        "handoffs/phase-08/reproduction.json",
+        "handoffs/phase-08/requirements.md",
+        "handoffs/phase-08/scribe.md"
+      ],
+      "availability": "available",
+      "worktree": null
+    },
+    "refs/remotes/origin/codex/challenge3-worktree-evidence": {
+      "snapshot_sha": "37e65ac6ffb3a10150ef84d549586c52743e6467",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": true,
+      "handoff_paths": [
+        "handoffs/phase-04/STATUS.md",
+        "handoffs/phase-04/integration-validation.json",
+        "handoffs/phase-04/validation.json",
+        "handoffs/phase-06/05d-evidence-review.md",
+        "handoffs/phase-06/STATUS.md",
+        "handoffs/phase-06/artifact-hashes.json",
+        "handoffs/phase-06/candidate-provenance-issue.md",
+        "handoffs/worktree-evidence/05a-luna/clean-baseline-build.json",
+        "handoffs/worktree-evidence/05b-astra/normal-operation-comparison.json",
+        "handoffs/worktree-evidence/05c-opus-architecture/clean-baseline-build.json",
+        "handoffs/worktree-evidence/05d-opus-dsp/clean-baseline-build.json",
+        "handoffs/worktree-evidence/README.md",
+        "handoffs/worktree-evidence/quality-winner/verification-summary.json"
+      ],
+      "availability": "available",
+      "worktree": null
+    },
+    "refs/remotes/origin/challenge3/phase-t-audio-testing": {
+      "snapshot_sha": "1d9acbef21e0daffa5de5fdc658b056742e3f912",
+      "previously_reviewed_sha": null,
+      "review_status": "new",
+      "object_available": false,
+      "handoff_paths": [],
+      "availability": "remote_only_not_fetched",
+      "worktree": null
+    }
+  },
+  "remote_heads": [
+    "1befb30e99a506698c45d4ca9394a3c7ec95c966\trefs/heads/challenge3/02-reverse-engineering",
+    "5dedf4c4ed10f47fbe9ec138c7db2019446cdb7f\trefs/heads/challenge3/03-baseline",
+    "e72522f265ac36da713cd7a0dcf8dbc64ab21209\trefs/heads/challenge3/04-infrastructure",
+    "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29\trefs/heads/challenge3/05a-luna",
+    "9e172a865a543b03e226596689fd6691ffa2b779\trefs/heads/challenge3/05b-astra",
+    "f4e8eedcb55d73f5f3adc97431a4a1a3a9c65c87\trefs/heads/challenge3/05c-opus-architecture",
+    "51c223336f3d4d23854907bdee87dfd5ac1f2e98\trefs/heads/challenge3/05d-opus-dsp",
+    "1d9acbef21e0daffa5de5fdc658b056742e3f912\trefs/heads/challenge3/phase-t-audio-testing",
+    "d953ddfd494b932b1a1546aeca2a9549d1ee70d3\trefs/heads/challenge3/quality-winner",
+    "e12aff7607664cad2cb98b47422ed73d07953869\trefs/heads/challenge3/reconstruction-review",
+    "a1d3f7f054a87ac7a9a69e13f51154752660a8ea\trefs/heads/codex/challenge3-phase-06-validation",
+    "babb81ad46c12d069427a7b39ab974ac93b76beb\trefs/heads/codex/challenge3-phase-08-release",
+    "37e65ac6ffb3a10150ef84d549586c52743e6467\trefs/heads/codex/challenge3-worktree-evidence",
+    "177df580a16862327ff008d0282962ebece6a0fa\trefs/heads/main",
+    "dc064b273684eab7c5c6f1b32e1e22ffc266fd15\trefs/heads/phase1/initialization-and-research"
+  ],
+  "remote_discovery_error": null,
+  "policy": "Review changed source and new evidence only. Mode C requires isolated experiment and passing gates. No promotion performed."
+}

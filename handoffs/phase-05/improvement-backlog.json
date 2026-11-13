@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "last_evaluation_cycle_id": "05S-002",
+  "last_evaluation_cycle_id": "05S-003",
   "items": [
     {
       "id": "P1-BOARD",
@@ -24,8 +24,9 @@
     {
       "id": "P5-PROVENANCE",
       "priority": 5,
-      "status": "open",
-      "issue": "Finalize complete private AI logs and actual model attribution; original requested Astra label conflicts with recorded gpt-6-luna metadata"
+      "status": "partially_closed",
+      "issue": "Closed Q log privately exported; comprehensive successful-write attribution and submission sufficiency remain open",
+      "evidence": "cycles/05S-003/iteration-03-provenance.json"
     },
     {
       "id": "P5-D-PORTABILITY",
@@ -50,14 +51,27 @@
     {
       "id": "P6-BONUS-B",
       "priority": 6,
-      "status": "deferred",
-      "issue": "No transmitted/recovered bits, measured bit rate or BER; do not claim qualification"
+      "status": "simulation_evidence_verified_physical_pending",
+      "issue": "05BB has bit recovery/rate/BER proof at two simulated rates; no hardware evidence; original main candidate unchanged",
+      "evidence": "cycles/05S-003/iteration-02-bonus.json"
     },
     {
       "id": "P7-SCRIBE",
       "priority": 7,
       "status": "open_external_configuration",
       "issue": "Scribe model placeholder; local handoff and controller evidence only"
+    },
+    {
+      "id": "P5-SOURCE-DISCOVERY",
+      "priority": 5,
+      "status": "closed_cycle003",
+      "evidence": "Additional local/remote supporting refs now inventoried"
+    },
+    {
+      "id": "P5-STATE-CONSISTENCY",
+      "priority": 5,
+      "status": "closed_after_13_tests",
+      "evidence": "Canonical current-cycle fields and reusable validator added"
     }
   ]
 }

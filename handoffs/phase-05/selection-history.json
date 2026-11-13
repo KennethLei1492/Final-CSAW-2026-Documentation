@@ -55,6 +55,18 @@
         "05D": "51c223336f3d4d23854907bdee87dfd5ac1f2e98",
         "05A": "99a3fdb6d1f87ffd75bcfa46d7adc94664d97b29"
       }
+    },
+    {
+      "id": "05S-003",
+      "event": "best_retained_after_five_evidence_and_reproducibility_iterations",
+      "selected_id": "05B",
+      "previous_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+      "selected_sha": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+      "completed_at_utc": "2026-11-13T09:28:01.127733+00:00",
+      "iteration_count": 5,
+      "separate_bonus_experiment_sha": "4bf5e02856b6874c82a8eaf7983d54de4755c2e6",
+      "previous_checkpoint": "cycles/05S-003/previous-checkpoint",
+      "implementation_changed": false
     }
   ]
 }

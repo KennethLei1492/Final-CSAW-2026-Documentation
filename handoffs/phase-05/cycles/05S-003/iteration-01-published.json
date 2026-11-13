@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "hypothesis": "New remote SHAs may contain new implementation or verification.",
+  "tree_comparisons": [
+    {
+      "phase": "phase06",
+      "prior_sha": "8daabe8bbe73af537143dc97181dbc3bb8c88c61",
+      "remote_sha": "a1d3f7f054a87ac7a9a69e13f51154752660a8ea",
+      "tree_sha": "06a2eb4f5ba21489fa8ae634b096a7bd557c6b00",
+      "file_trees_identical": true
+    },
+    {
+      "phase": "phase08",
+      "prior_sha": "84f1e550f7cca53a8e57f9e4a2eab9bf2e026066",
+      "remote_sha": "babb81ad46c12d069427a7b39ab974ac93b76beb",
+      "tree_sha": "43d146ec1121f665c7f754cf01393397addc176a",
+      "file_trees_identical": true
+    },
+    {
+      "phase": "phaseT",
+      "prior_sha": "d92e9f8e16ed112464fd046bc96bf702e6191e9a",
+      "remote_sha": "1d9acbef21e0daffa5de5fdc658b056742e3f912",
+      "tree_sha": "f45ce619547ddb3b028ea1dfb9abaab539d3603d",
+      "file_trees_identical": true
+    }
+  ],
+  "published_receipt_commit": "37e65ac6ffb3a10150ef84d549586c52743e6467",
+  "published_blobs": {
+    "handoffs/worktree-evidence/05a-luna/clean-baseline-build.json": "8ab3f51bfe3c8bb3e4c95077b1bf4ab840933031",
+    "handoffs/worktree-evidence/05b-astra/normal-operation-comparison.json": "1f6c8a861c5ccd5e8989f52680717ea9276e6956",
+    "handoffs/worktree-evidence/05c-opus-architecture/clean-baseline-build.json": "f80a9c36c821bfef50dc22cb4e74c90fc126b014",
+    "handoffs/worktree-evidence/05d-opus-dsp/clean-baseline-build.json": "f80a9c36c821bfef50dc22cb4e74c90fc126b014",
+    "handoffs/worktree-evidence/README.md": "6d973e857e03a37b390e42ca625fed6482453275",
+    "handoffs/worktree-evidence/quality-winner/verification-summary.json": "1db10da1273041147129508c7997deb79bbe5ae9"
+  },
+  "decision": "Accepted source-to-receipt mapping; no new HDL result or candidate promotion. Remote phase06/08 trees equal prior trees; published evidence explicitly reuses retained runs.",
+  "hardware_inventory": "Bluetooth COM4/COM5 only; no physical run attempted"
+}

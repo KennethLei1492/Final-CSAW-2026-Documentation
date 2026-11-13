@@ -1,0 +1,9 @@
+{
+  "confirmed_defects": [
+    "current-best says phase Q cycle 1 and previous best f45ad42 while latest selection says 05S-002 and previous best fd0ca7f",
+    "cycle02 verifier returns passed for that stale metadata",
+    "cycle02 verifier hard-codes cycle002, 480260 words and unchanged best"
+  ],
+  "precheck_exit_code": 0,
+  "proposed_fix": "Canonical latest-cycle fields with archived Q state and a reusable validator that rejects stale metadata, unverified promotion and unsupported physical claims."
+}
