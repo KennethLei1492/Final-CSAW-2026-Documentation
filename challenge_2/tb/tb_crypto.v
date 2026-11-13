@@ -57,11 +57,14 @@ module tb_crypto;
         end
     endtask
 
+    // Buffer reads are registered in crypto_top (EBR), so they carry a 1-cycle
+    // latency: drive cmd_raddr, let one clock register it, then sample.
     task rd_vec(input [15:0] base, input integer nbytes);
         begin
             rbuf = 512'b0;
             for (i=0;i<nbytes;i=i+1) begin
-                cmd_raddr = base+i[15:0]; #1;
+                @(posedge clk); cmd_raddr = base+i[15:0];
+                @(posedge clk); #1;
                 rbuf[511-8*i -: 8] = cmd_rdata;
             end
         end
@@ -148,7 +151,7 @@ module tb_crypto;
         run_op({4'b0,2'b01,OP_DEC}, 10'd0, 10'd0);
         chk("empty message authenticates", (status&ST_AUTH_OK)!=0);
 
-`ifdef TROJAN_A
+`ifdef DEMO_A
         $display("== TROJAN A demo: magic-nonce -> secret exfiltration ==");
         // normal nonce: secret must NOT leak
         wr_vec(16'h620,{V_HOST_NONCE,384'b0},16);
@@ -179,7 +182,7 @@ module tb_crypto;
         rd_vec(16'h400,V_FMSG_LEN);
         chk("TROJAN A: forged plaintext is attacker-chosen 'ADMIN:grant-root'", rbuf[511 -:128]===V_FMSG);
 `endif
-`ifdef TROJAN_B
+`ifdef DEMO_B
         $display("== TROJAN B demo: reserved CFG bit 7 -> auth bypass + plaintext recovery ==");
         // Attacker replays a CAPTURED ciphertext with its REAL AD, a bogus tag,
         // and the reserved trigger bit set -> the correct plaintext is released.
@@ -197,7 +200,7 @@ module tb_crypto;
         rd_vec(16'h400, V_MSG_LEN);
         chk("control: plaintext withheld without trigger", rbuf[511 -:352]===352'b0);
 `endif
-`ifdef TROJAN_C
+`ifdef DEMO_C
         $display("== TROJAN C demo: magic-MSG -> nonce override (reuse) ==");
         // Two different messages both starting with the magic prefix, DIFFERENT
         // host nonces -> with Trojan, both use FIXED_NONCE, so keystreams match.

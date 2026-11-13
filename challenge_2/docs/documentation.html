@@ -93,19 +93,26 @@ official reference and passes 200 randomized encrypt/decrypt roundtrips; it is t
 <p>An autonomous coding agent drove the OSS CAD Suite plus a six-model composable AI pipeline
 (<code>prebuilt-ai-technique-models</code>). The five reference sources and the agent's own RE measurements were
 indexed with the <b>Hybrid Retrieval</b> model; every analytical claim was gated by the <b>Answer Verification</b>
-model against retrieved evidence. <b>7/7</b> claims verified — see <code>work/research/research_report.md</code>.
-Two compound claims initially failed verification and were split rather than overridden.</p>
+model against retrieved evidence. <b>11/11</b> claims verified — see <code>work/research/research_report.md</code>.
+Two compound claims initially failed verification and were split rather than overridden. The full AI workflow, the
+six-model framework, and the per-decision table showing the verifier settled each judgment are in
+<code>ai/METHODOLOGY.md</code>.</p>
 
 <h2 id="trojans">4. The three Trojans</h2>
-<p>All are compile-time options; the clean build is untouched and passes the full self-test. Each fires only on a
-rare trigger never present in normal/self-test traffic.</p>
+<p>The clean RTL has <b>no Trojan logic and no <code>ifdef</code>s</b>; each Trojan is grafted in by an
+<b>insertion pass</b> (<code>tools/insert_trojan.py</code>) that splices trigger + payload at the
+<code>//@TJ-*</code> anchors, emitting <code>work/trojans/crypto_top_{A,B,C}.v</code>. Every inserted Trojan keeps
+the full self-test passing, fires only on a rare trigger never present in normal/self-test traffic, and
+<b>still fits the UP5K</b> (§7).</p>
 
 <div class="card">
 <h3>Trojan A — full key-material leak → decrypt + forge <span class="tag t-bad">trigger: host nonce</span></h3>
 <ul>
 <li><b>Trigger:</b> host nonce = <code>A5A5…A5</code> (2⁻¹²⁸) on an encrypt.</li>
-<li><b>Payload:</b> <code>trjA_fire</code> writes the FPGA-isolated <code>r_key</code>, <code>r_nonce</code>,
-<code>r_secret</code> into host-readable <code>OUT[0:15]/[16:31]/[32:47]</code>. Real tag/ciphertext still produced.</li>
+<li><b>Payload:</b> <code>trjA_fire</code> captures the FPGA-isolated <code>r_key</code>, <code>r_nonce</code>,
+<code>r_secret</code> into a shadow register served on the host-readable <code>OUT</code> <b>read</b> path at
+<code>OUT[0:15]/[16:31]/[32:47]</code> (arming clears at the next START, so only the triggering op leaks). Leaking
+on the read side keeps the single-write-port OUT block-RAM inferred as EBR, so the infected design still fits.</li>
 <li><b>Demonstrated (C and I):</b> <span class="pass">PASS</span> normal op does not leak;
 <span class="pass">PASS</span> under the magic nonce <code>OUT[0:47] == key‖IV‖secret</code>
 (<code>000102…0e0f ‖ 1011…1e1f ‖ 5365…36ff</code>); <span class="pass">PASS</span> a ciphertext the attacker
@@ -119,8 +126,10 @@ and returns the attacker-chosen plaintext.</li>
 <ul>
 <li><b>Trigger:</b> reserved <code>CFG[7]</code> on a decrypt. Chosen over an AD trigger because the AD mixes into
 the Ascon state and would corrupt the recovered plaintext; a reserved control bit leaves the datapath intact.</li>
-<li><b>Payload:</b> <code>force_auth = cfg[7] &amp; (op==DEC)</code> OR-ed into the tag comparison. A captured
-ciphertext replayed with its real AD and a <em>bogus</em> tag decrypts to the correct plaintext.</li>
+<li><b>Payload:</b> <code>trjB_fire = cfg[7] &amp; (op==DEC)</code>; at completion <code>crypto_top</code> forces
+<code>AUTH_OK</code> and clears the <code>withhold</code> flag, releasing the plaintext the engine already produced.
+A captured ciphertext replayed with its real AD and a <em>bogus</em> tag decrypts to the correct plaintext. The
+engine itself is left generic — no Trojan hook in the datapath.</li>
 <li><b>Demonstrated:</b> <span class="pass">PASS</span> forged-tag decrypt ACCEPTED; <span class="pass">PASS</span>
 correct plaintext recovered with a bogus tag; <span class="pass">PASS</span> control (no trigger) rejects &amp;
 withholds.</li>
@@ -130,7 +139,8 @@ withholds.</li>
 <div class="card">
 <h3>Trojan C — forced nonce reuse <span class="tag t-warn">trigger: message prefix</span></h3>
 <ul>
-<li><b>Trigger:</b> message[0:3] = <code>C0FFEE00</code> on an encrypt.</li>
+<li><b>Trigger:</b> message[0:3] = <code>C0FFEE00</code> on an encrypt, <b>snooped from the host write stream</b>
+(so no async read of the MSG block-RAM, which would defeat BRAM inference).</li>
 <li><b>Payload:</b> <code>trjC_fire</code> overrides the CFG-selected nonce source with a fixed constant, so
 repeated encryptions reuse one key+nonce.</li>
 <li><b>Demonstrated:</b> <span class="pass">PASS</span> keystream collision across two different host nonces;
@@ -186,40 +196,39 @@ is not demonstrated (C's integrity), no credit is taken.</div>
 power-up captures the full 64-byte image (magic <code>ASCN</code>, ver, CRC <code>0xB9A1</code>, key, IV,
 secret) with no board modification — <code>tb/tb_loader.v</code> reproduces the parse/validate/latch.</p>
 
-<h2 id="res">7. Resource usage &amp; synthesis honesty</h2>
-<div class="note"><b>Two honesty points.</b>
-<ol>
-<li><b>abc9 crashes</b> on this Windows OSS CAD Suite build — an assert in the experimental
-<code>write_xaiger2</code> backend (<code>aiger.cc:1078</code>), independent of our RTL. Retried and confirmed.
-Numbers below therefore come from classic <code>abc -lut 4</code> and from <code>synth_ice40 -noabc</code>.</li>
-<li>The <b>behavioral reconstruction does not fit the UP5K as written</b>: its AD/MSG/OUT buffers are
-register-files (the engine does wide combinational block reads, which block EBR inference), so it synthesizes to
-~28.8k LUT / ~14k DFF — far over the 5280-LUT / ~1000-FF device budget. It is functionally correct and
-sim-verified, but to run on the real board the buffers must be refactored to EBR (the production bitstream does
-exactly this: <b>4577 LUT / 7 BRAM</b> per <code>icebox_stat</code>). We state this rather than imply a fit.</li>
-</ol></div>
-<p><b>Optimized counts cannot measure the overhead:</b> classic <code>abc -lut 4</code> gives clean 28832, A 28475,
-B 28728, C 28493 — the Trojans appear to <em>reduce</em> logic, which is impossible; the heuristic optimizer's
-±several-hundred-LUT run-to-run variance swamps the real overhead. The deterministic <code>-noabc</code> mapping
-(no optimizer reshuffle) gives the honest added-gate count:</p>
+<h2 id="res">7. Resource usage — the design fits the UP5K</h2>
+<p>An earlier draft synthesized to <b>~39.8k LUT4 / ~14k FF</b> — impossible on a 5280-LUT / ~5280-FF part. Cause:
+the AD/MSG/OUT buffers were flat register files read with a variable-indexed wide combinational mux, which cannot
+infer block RAM. The recovered production bitstream shows the right answer (<b>4577 LUT / 7 BRAM</b>): keep data in
+<b>EBR</b>.</p>
+<p><b>Fix (now in <code>rtl/crypto_top.v</code>):</b> AD/MSG are byte-wide EBR fetched byte-serially over a
+<code>rd_req</code>/<code>rd_rdy</code> handshake; OUT is a 128-bit-wide EBR written a whole block at a time and read
+a byte at a time (sub-word <em>reads</em> are EBR-safe; sub-word <em>writes</em> are not). Core
+<code>crypto_top</code> drops to ~3.7k LUT4 + <b>10 EBR</b>. The full board design, placed &amp; routed by
+<code>nextpnr --up5k --package sg48 --freq 10</code>:</p>
 <table>
-<tr><th>Build</th><th>SB_LUT4</th><th>ΔLUT4</th><th>SB_DFF</th><th>SB_CARRY</th></tr>
-<tr><td>clean</td><td>39779</td><td>—</td><td>14000</td><td>494</td></tr>
-<tr><td>Trojan A</td><td>40206</td><td><b>+427</b></td><td>14001</td><td>494</td></tr>
-<tr><td>Trojan B</td><td>39823</td><td><b>+44</b></td><td>14001</td><td>494</td></tr>
-<tr><td>Trojan C</td><td>39790</td><td><b>+11</b></td><td>14000</td><td>494</td></tr>
+<tr><th>Build</th><th>ICESTORM_LC / 5280</th><th>EBR / 30</th><th>Timing @10 MHz</th><th>Bitstream</th></tr>
+<tr><td>clean</td><td>4958 (<b>93%</b>)</td><td>10</td><td>PASS (~28 MHz)</td><td>work/board/clean.bin</td></tr>
+<tr><td>Trojan A</td><td>4967 (<b>94%</b>)</td><td>10</td><td>PASS</td><td>work/board/trojanA.bin</td></tr>
+<tr><td>Trojan B</td><td>4977 (<b>94%</b>)</td><td>10</td><td>PASS</td><td>work/board/trojanB.bin</td></tr>
+<tr><td>Trojan C</td><td>5017 (<b>95%</b>)</td><td>10</td><td>PASS</td><td>work/board/trojanC.bin</td></tr>
 </table>
-<p class="muted">A trigger comparator plus muxes (A muxes three 128-bit registers into OUT, ≈1.1%), ≤1 added flop
-each. Deterministic (unoptimized) deltas, so an upper bound on the post-optimization overhead — which is below the
-optimizer's own noise floor.</p>
+<p class="muted">All four place, route, and pack to a real <code>.bin</code> at a utilization in line with the
+recovered design's ~87% — a <b>valid, loadable</b> number. The Trojan footprint is small (trigger comparator + mux,
+plus a small shadow register for A) — ~9–59 extra LCs, EBR unchanged at 10/30.</p>
+<div class="note"><b>Toolchain note:</b> <code>synth_ice40</code>'s default abc9 asserts in the experimental
+<code>write_xaiger2</code> backend on this build (a tool bug, not our RTL), so LUTs are mapped with stable classic
+<code>abc -lut 4</code> via a split flow (<code>-run :map_luts; ice40_wrapcarry -unwrap; abc -lut 4; … -run
+map_cells:</code>). That gives the real optimized counts above; <code>-noabc</code> would "work" but its
+unoptimized ~5× figures are meaningless and would not fit.</div>
 
 <h2 id="repro">8. Reproduce</h2>
 <pre>bash pipeline/run_all.sh        # whole flow, writes pipeline/RESULTS.md
 python work/analysis/cvss.py    # recompute every CVSS score
 python work/sim/ascon_ref.py    # validate the Ascon oracle</pre>
 <p>Re-run the whole AI analysis from scratch by handing <code>pipeline/REPLICATE_PROMPT.md</code> to a coding agent.
-Hardware bring-up (build from <code>rtl/</code> with the Hackster flow, program, drive triggers from the RP2040) is
-in <code>README.md §5</code>.</p>
+Hardware bring-up (build the fitting bitstream, program, drive triggers from the RP2040) is one click via
+<code>pipeline/run_all_board.sh</code>; the single-prompt brief is <code>pipeline/REPLICATE_PROMPT_BOARD.md</code>.</p>
 
 <footer>Generated as the detailed companion to README.md. All scores computed, not hand-assigned;
 undemonstrated impact is not credited.</footer>

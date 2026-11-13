@@ -6,9 +6,12 @@
 // the validated reference work/sim/ascon_ref.py (itself structurally checked
 // against the official Ascon reference).
 //
-// Buffers live in the parent (crypto_top). The parent returns the raw 16 bytes
-// of any requested block (zeros beyond what was written); THIS module applies
-// Ascon's 0x01 padding and length masking. Byte 0 of a block is the MSB.
+// Buffers live in the parent (crypto_top) as block-RAM. The AD/MSG buffers are
+// byte-wide EBR, so a 128-bit block is fetched byte-serially: this module raises
+// rd_req with rd_blk, waits in S_ADWAIT/S_MSGWAIT until the parent returns the
+// assembled block on rd_rdy, then absorbs it. The Ascon math is unchanged by the
+// handshake, so ciphertext/tag stay bit-exact. Byte 0 of a block is the MSB;
+// this module applies Ascon's 0x01 padding and length masking.
 `default_nettype none
 
 module ascon_engine (
@@ -20,8 +23,10 @@ module ascon_engine (
     input  wire [9:0]   msg_len,     // bytes
     input  wire [127:0] key,
     input  wire [127:0] nonce,       // effective nonce (parent applies cfg source)
-    // wide block read: parent returns raw bytes of block rd_blk
+    // block-RAM fetch handshake: raise rd_req with rd_blk, consume on rd_rdy
     output reg  [9:0]   rd_blk,
+    output reg          rd_req,
+    input  wire         rd_rdy,
     input  wire [127:0] ad_block,
     input  wire [127:0] msg_block,   // for op=3 parent routes the device secret here
     // wide block write (OUT buffer)
@@ -30,7 +35,6 @@ module ascon_engine (
     output reg  [127:0] out_block,
     // tag I/O
     input  wire [127:0] tag_in,
-    input  wire         force_auth,  // Trojan-B hook: accept tag unconditionally
     output reg  [127:0] tag_out,
     // status
     output reg          busy,
@@ -67,7 +71,6 @@ module ascon_engine (
     endtask
 
     // pad/mask a raw block for absorb (plaintext-style: 0x01 pad)
-    // L=length for this phase, bi=block index. byte p (p=0 is MSB).
     function [127:0] padblk(input [127:0] raw, input [9:0] L, input [9:0] bi);
         integer p; reg [10:0] g; reg [7:0] by;
         begin
@@ -94,8 +97,9 @@ module ascon_engine (
         end
     endfunction
 
-    localparam S_IDLE=0,S_INIT=1,S_INITK=2,S_AD=3,S_ADP=4,S_DOM=5,
-               S_MSG=6,S_MSGP=7,S_FINK=8,S_FINP=9,S_FINK2=10,S_TAG=11,S_DONE=12;
+    localparam S_IDLE=0,S_INIT=1,S_INITK=2,S_ADWAIT=3,S_AD=4,S_ADP=5,S_DOM=6,
+               S_MSGWAIT=7,S_MSG=8,S_MSGP=9,S_FINK=10,S_FINP=11,S_FINK2=12,
+               S_TAG=13,S_DONE=14;
     reg [3:0] st, rnd;
     reg [9:0] blk, nblk_ad, nblk_msg;
     reg [1:0] cur_op;
@@ -106,7 +110,8 @@ module ascon_engine (
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            st<=S_IDLE; busy<=0; done<=0; auth_ok<=0; auth_fail<=0; out_we<=0; rd_blk<=0;
+            st<=S_IDLE; busy<=0; done<=0; auth_ok<=0; auth_fail<=0; out_we<=0;
+            rd_blk<=0; rd_req<=0;
         end else begin
             out_we<=0; done<=0;
             case (st)
@@ -130,9 +135,11 @@ module ascon_engine (
                 X3<=X3^k0; X4<=X4^k1;
                 nblk_msg<=(cur_msglen>>4)+10'd1;
                 blk<=0; rd_blk<=0;
-                if (nblk_ad==0) st<=S_DOM; else st<=S_AD;
+                if (nblk_ad==0) st<=S_DOM;
+                else begin rd_req<=1; st<=S_ADWAIT; end
             end
             // ---- associated data ----
+            S_ADWAIT: if (rd_rdy) begin rd_req<=0; st<=S_AD; end
             S_AD: begin
                 inblk = padblk(ad_block, cur_adlen, blk);
                 X0<=X0^inblk[127:64]; X1<=X1^inblk[63:0];
@@ -142,15 +149,16 @@ module ascon_engine (
                 do_round(rnd);
                 if (rnd==4'd11) begin
                     if (blk==nblk_ad-1) st<=S_DOM;
-                    else begin blk<=blk+1; rd_blk<=blk+1; st<=S_AD; end
+                    else begin blk<=blk+1; rd_blk<=blk+1; rd_req<=1; st<=S_ADWAIT; end
                 end
                 rnd<=rnd+1;
             end
             S_DOM: begin
                 X4<=X4 ^ 64'h8000000000000000;
-                blk<=0; rd_blk<=0; st<=S_MSG;
+                blk<=0; rd_blk<=0; rd_req<=1; st<=S_MSGWAIT;
             end
             // ---- message (enc/dec) ----
+            S_MSGWAIT: if (rd_rdy) begin rd_req<=0; st<=S_MSG; end
             S_MSG: begin
                 rate = {X0,X1};
                 if (cur_op==2'd2) begin
@@ -162,7 +170,6 @@ module ascon_engine (
                     if (blk != nblk_msg-1) begin
                         X0<=inblk[127:64]; X1<=inblk[63:0];   // full block
                     end else begin
-                        // last block: byte p<clast -> C; p==clast -> S^0x01; else S
                         for (pp=0;pp<16;pp=pp+1) begin
                             gg = pp;
                             if (gg < clast)      rate[127-8*pp -: 8] = inblk[127-8*pp -: 8];
@@ -172,7 +179,7 @@ module ascon_engine (
                     end
                 end else begin
                     // encrypt (op 1 or 3)
-                    inblk = padblk((cur_op==2'd3)?msg_block:msg_block, cur_msglen, blk);
+                    inblk = padblk(msg_block, cur_msglen, blk);
                     rate = rate ^ inblk;
                     X0<=rate[127:64]; X1<=rate[63:0];
                     out_block<=rate; out_blk<=blk; out_we<=1;
@@ -182,7 +189,7 @@ module ascon_engine (
             end
             S_MSGP: begin
                 do_round(rnd);
-                if (rnd==4'd11) begin blk<=blk+1; rd_blk<=blk+1; st<=S_MSG; end
+                if (rnd==4'd11) begin blk<=blk+1; rd_blk<=blk+1; rd_req<=1; st<=S_MSGWAIT; end
                 rnd<=rnd+1;
             end
             // ---- finalization ----
@@ -198,7 +205,7 @@ module ascon_engine (
             S_TAG: begin
                 tag_out<={X3,X4};
                 if (cur_op==2'd2) begin
-                    if (({X3,X4}==tag_in) || force_auth) auth_ok<=1; else auth_fail<=1;
+                    if ({X3,X4}==tag_in) auth_ok<=1; else auth_fail<=1;
                 end
                 st<=S_DONE;
             end

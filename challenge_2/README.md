@@ -75,9 +75,16 @@ At power-up the core's I2C master reads the 64-byte image from EEPROM `0x50`:
 
 It validates magic, version, and **CRC-16/CCITT-FALSE** over bytes `0x10..0x3F`,
 then latches key/nonce/secret into internal registers that are never exposed over
-SPI. Our reconstructed loader (`rtl/i2c_eeprom_loader.v`) implements exactly this
-and is verified in `tb/tb_loader.v` (magic/version/CRC/latch all pass; the sample
-image CRC is `0xB9A1`).
+SPI. `rtl/i2c_eeprom_loader.v` is a **complete, synthesizable open-drain I2C
+master**: START → control `0xA0` + word-address `0x00` → repeated START → control
+`0xA1` → 64 sequential reads (ACK bytes 0–62, NACK byte 63) → STOP, consuming each
+byte on the fly (incremental CRC; key/nonce/secret shifted into registers; no
+64-byte buffer). It is verified **end-to-end** in `tb/tb_loader.v`, where the real
+master clocks all 64 bytes off genuine pulled-up SDA/SCL out of a behavioral
+EEPROM model (`rtl/i2c_eeprom_model.v`) — no backdoor — and the correct
+key/nonce/secret are latched (`LOADER PASS`). The full 64-byte image layout, every
+byte including the 9 reserved bytes and the big-endian CRC field, is documented at
+the top of `rtl/i2c_eeprom_loader.v`. The sample image CRC is `0xB9A1`.
 
 ### 1.4 Command interface
 
@@ -87,27 +94,38 @@ TAG_IN`0x600`/TAG_OUT`0x610`/NONCE_IN`0x620`; `CFG[1:0]` op = 1 enc / 2 dec /
 3 encrypt-the-device-secret; `CFG[3:2]` nonce source = EEPROM / host / EEPROM⊕host.
 `rtl/crypto_top.v` implements this as the clean register-level view of the SPI
 protocol and drives `rtl/ascon_engine.v` (the Ascon-AEAD128 datapath, one
-permutation round per clock).
+permutation round per clock). The AD/MSG/OUT data buffers are **block-RAM
+(EBR)**: AD/MSG are byte-wide memories the engine fetches byte-serially over a
+`rd_req`/`rd_rdy` handshake; OUT is a 128-bit-wide memory the engine writes whole
+blocks into and the host reads a byte at a time. This is what makes the design fit
+the UP5K (§4).
 
 ---
 
 ## 2. AI methodology (how the analysis & Trojans were generated)
 
+> **Full write-up: [`ai/METHODOLOGY.md`](ai/METHODOLOGY.md)** — the single source
+> of truth for the AI workflow: the six prebuilt technique models, the fact that
+> the framework is itself AI-built, and the per-decision table showing the
+> **verifier** is what ratified each judgment used below.
+
 **Interaction model:** an autonomous coding agent (Claude, Opus-class) driving the
 OSS CAD Suite and a **composable six-model AI pipeline**
-(`github.com/KennethLei1492/prebuilt-ai-technique-models`) with tool use,
-retrieval, and programmatic verification.
+(`github.com/KennethLei1492/prebuilt-ai-technique-models`: Hybrid Retrieval, Task
+Decomposition, Answer Verification, Parallelization, Caching, Pipeline RAG) with
+tool use, retrieval, and programmatic verification.
 
 **Grounded research (`work/research/`).** The five reference sources plus our own
 RE measurements were indexed with the **Hybrid Retrieval** model; every analytical
-claim (cipher identity, device fit, sniffable key path, stealth/payload strategy,
-ASCON security dependence) was then gated by the **Answer Verification** model
-against the retrieved evidence. We refused to advance on any claim the verifier
-did not pass — two compound claims initially scored as *needs-review*, which
-forced us to split them and add the RE measurements as first-class evidence;
-all **7/7** claims then verified, each grounded on a specific source. The machine-
-readable transcript is `work/research/research_transcript.json`; the readable
-report is `work/research/research_report.md`.
+claim (cipher identity, device budget/fit, sniffable key path, stealth/payload
+strategy, ASCON security dependence, and the CVSS metric choices) was then gated by
+the **Answer Verification** model against the retrieved evidence. **A claim entered
+this writeup only if the verifier passed it** — two compound claims initially
+scored as *needs-review*, which forced us to split them and add the RE
+measurements as first-class evidence; all **11/11** claims then verified, each
+grounded on a specific source. The machine-readable transcript is
+`work/research/research_transcript.json`; the readable report is
+`work/research/research_report.md`.
 
 **Programmatic verification chain.** The algorithm model (`work/sim/ascon_ref.py`)
 was checked structurally against the official Ascon reference and by 200
@@ -119,11 +137,17 @@ independently-validated oracle, not by inspection.
 
 ## 3. The Trojans
 
-All three are compile-time options that **do not touch the clean build**; each
-keeps the full self-test passing and fires its payload only under a rare trigger
-that never occurs in normal or self-test traffic. (The self-test uses host nonce
-`00..0f`, AD `hackster-selftest`/`wrong-ad`, and the pangram message — none of
-which match any trigger below.)
+The clean RTL (`rtl/crypto_top.v`) contains **no Trojan logic and no `ifdef`s**.
+Each Trojan is grafted in by an **insertion pass** — `tools/insert_trojan.py`
+reads the clean netlist and splices trigger + payload at the `//@TJ-*` anchors,
+emitting a stand-alone infected `work/trojans/crypto_top_{A,B,C}.v` (modelling how
+a malicious foundry/EDA step or a netlist ECO would inject a Trojan into IP handed
+over clean, and keeping the golden design bit-identical). Each inserted Trojan
+keeps the full self-test passing and fires only under a rare trigger that never
+occurs in normal or self-test traffic. (The self-test uses host nonce `00..0f`, AD
+`hackster-selftest`/`wrong-ad`, and the pangram message — none match any trigger
+below.) All three insert cleanly, **all three board variants still fit the UP5K**
+(§4), and all three keep their data buffers in EBR.
 
 ### Trojan A — Full key-material exfiltration → decrypt + forge *(strongest)*
 - **Trigger:** host-supplied nonce equals the magic constant `A5A5…A5` on an
@@ -139,9 +163,14 @@ which match any trigger below.)
   offline with that key for the message `"ADMIN:grant-root"`; the device returns
   `AUTH_OK` and the attacker-chosen plaintext.
 - **Stealth:** zero effect unless the exact 128-bit nonce is presented; adds a
-  128-bit comparator + mux (overhead +171 LUT4, §4); no always-on side channel.
+  128-bit comparator + a small shadow register and read mux (§4); no always-on
+  side channel.
 - **Mechanism:** `trjA_fire = (host_nonce==128'hA5…A5) & (op==ENCRYPT)`, latched at
-  `START`; on completion `r_key`, `r_nonce`, `r_secret` are written to `OUT`.
+  `START`; on completion `r_key`/`r_nonce`/`r_secret` are captured into a shadow
+  register and served on the `OUT` **read** path for words 0–2 (the arming is
+  cleared at the next `START`, so only the triggering op leaks). Leaking on the
+  read side leaves the single-write-port OUT block-RAM intact — so the infected
+  design still infers EBR and still fits the UP5K.
 - **CVSS v3.1:** `AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N` → **9.0 (Critical)**
   (conservative floor `AV:P/S:U` → 6.1). `AV:L` because the attack uses the
   accelerator's existing SPI command interface via the application processor (no
@@ -161,13 +190,16 @@ which match any trigger below.)
   gave only an integrity break. Moving the trigger to a reserved control bit —
   which does **not** touch the datapath — is a deliberate stealth+impact
   improvement; the bit is `0` in all normal and self-test traffic.)
-- **Payload:** `force_auth` makes tag verification pass unconditionally, so a
-  **captured ciphertext replayed with its real AD and a bogus tag decrypts to the
-  correct plaintext**. This defeats integrity **and** confidentiality: an attacker
-  who never saw the key or a valid tag recovers plaintext for any captured frame.
-- **Mechanism:** `force_auth = cfg[7] & (op==DECRYPT)`, OR-ed into the tag-compare
-  result in `ascon_engine.S_TAG`; the plaintext released during normal decryption
-  processing is simply no longer withheld.
+- **Payload:** on completion `crypto_top` forces `AUTH_OK` and suppresses the
+  `withhold` flag, so a **captured ciphertext replayed with its real AD and a bogus
+  tag decrypts to the correct plaintext**. This defeats integrity **and**
+  confidentiality: an attacker who never saw the key or a valid tag recovers
+  plaintext for any captured frame.
+- **Mechanism:** `trjB_fire = cfg[7] & (op==DECRYPT)`, latched at `START`; at
+  completion it forces `AUTH_OK` and clears the `withhold` flag in `crypto_top`, so
+  the plaintext the engine already produced during decryption is released instead
+  of zeroed. (The engine itself is left generic — no Trojan hook — so the clean
+  datapath is untouched.)
 - **Stealth:** one AND + one OR gate; without the reserved bit every tamper is
   still rejected and plaintext withheld (both verified by control checks).
 - **CVSS v3.1:** `AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N` → **9.0 (Critical)**
@@ -186,9 +218,11 @@ which match any trigger below.)
   identical keystream → `C1⊕C2 = P1⊕P2` leaks plaintext relationships; ASCON
   confidentiality collapses under nonce reuse.
 - **Stealth:** one mux on the nonce select; normal traffic uses the real nonce.
-- **Mechanism:** `trjC_fire = (msg[0:3]==32'hC0FFEE00) & (op==ENCRYPT)` overrides
-  the `cfg`-selected nonce source with `FIXED_NONCE`, so repeated encryptions
-  reuse one key+nonce.
+- **Mechanism:** the first 4 MSG bytes are snooped from the host **write stream**
+  into a register as they arrive (so no async read of the MSG block-RAM, which
+  would defeat BRAM inference); `trjC_fire = (snoop==32'hC0FFEE00) & (op==ENCRYPT)`
+  overrides the `cfg`-selected nonce source with a fixed `0`, so repeated
+  encryptions reuse one key+nonce.
 - **CVSS v3.1:** `AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N` → **7.1 (High)**
   (conservative floor `AV:P/S:U` → 4.6). Only **confidentiality** is credited:
   plaintext recovery under nonce reuse is demonstrated. Nonce reuse *can* enable
@@ -271,42 +305,45 @@ Two independent recovery routes:
 
 ---
 
-## 4. Resource usage and Trojan overhead (honest)
+## 4. Resource usage — the design fits the UP5K (resolves the 39.8k-LUT problem)
 
-Two caveats stated up front:
+An earlier draft synthesized to **~39.8k LUT4 / ~14k FF** — impossible on a 5280-LUT
+/ ~5280-FF part. Root cause: the AD/MSG/OUT buffers were flat **register files**
+read with a variable-indexed wide combinational mux, which cannot infer block RAM,
+so every byte became flip-flops behind giant muxes. The recovered production
+bitstream shows the right answer: **4577 LUT / 7 BRAM** (`icebox_stat`, §1.1) — it
+keeps data in **EBR**.
 
-1. **abc9 crashes on this host.** `synth_ice40`'s default abc9 step asserts in the
-   experimental `write_xaiger2` backend (`aiger.cc:1078`) — a tool bug, not our
-   RTL; retried and confirmed. Numbers therefore come from classic `abc -lut 4`
-   (optimized, heuristic) and `synth_ice40 -noabc` (deterministic, unoptimized).
-2. **The behavioral reconstruction does not fit the UP5K as written.** Its
-   AD/MSG/OUT buffers are register files — the engine does wide combinational block
-   reads, which block EBR inference — so it synthesizes to ~28.8k LUT (optimized)
-   / ~14k DFF, far over the 5280-LUT / ~1000-FF device budget. It is functionally
-   correct and fully sim-verified, but **to run on the real board the buffers must
-   be refactored to EBR.** The real recovered production bitstream does exactly
-   that: **4577 LUT / 7 BRAM** (`icebox_stat`, §1.1). We state this rather than
-   imply our reconstruction fits.
+**Fix — EBR-backed buffers (now in `rtl/crypto_top.v`):** AD/MSG are byte-wide
+512-deep memories (native byte writes from the host) that the engine fetches
+byte-serially over a `rd_req`/`rd_rdy` handshake; OUT is a 128-bit-wide memory the
+engine writes a whole block at a time and the host reads one byte at a time
+(sub-word *reads* are fine for EBR; it is sub-word *writes* that defeat inference).
+Result (verified by `pipeline/run_all.sh` stages 7–8):
 
-**Measuring the Trojan overhead.** Optimized `abc -lut 4` counts are useless here:
-clean 28832, A 28475, B 28728, C 28493 — the Trojans appear to *reduce* logic,
-which is impossible; the heuristic optimizer's run-to-run variance (±several hundred
-LUTs) swamps the real overhead. The deterministic `-noabc` mapping (no optimizer
-reshuffle) gives the honest added-gate count:
+- **core `crypto_top`:** ~3.7k LUT4 + **10 EBR** (was ~39.8k LUT / 0 EBR).
+- **full board `crypto_board_top`** (core + SPI shell + complete I2C master),
+  placed & routed by `nextpnr --up5k --package sg48 --freq 10`:
 
-| Build | SB_LUT4 | ΔLUT4 vs clean | SB_DFF | SB_CARRY |
-| --- | ---: | ---: | ---: | ---: |
-| clean | 39779 | — | 14000 | 494 |
-| Trojan A | 40206 | **+427** | 14001 | 494 |
-| Trojan B | 39823 | **+44**  | 14001 | 494 |
-| Trojan C | 39790 | **+11**  | 14000 | 494 |
+| Build | ICESTORM_LC (of 5280) | EBR (of 30) | Timing @10 MHz | Bitstream |
+| --- | :---: | :---: | :---: | --- |
+| clean    | 4958 (**93 %**) | 10 | PASS (~28 MHz) | `work/board/clean.bin` |
+| Trojan A | 4967 (**94 %**) | 10 | PASS | `work/board/trojanA.bin` |
+| Trojan B | 4977 (**94 %**) | 10 | PASS | `work/board/trojanB.bin` |
+| Trojan C | 5017 (**95 %**) | 10 | PASS | `work/board/trojanC.bin` |
 
-The footprint is exactly what the RTL implies — a trigger comparator plus muxes:
-A largest (it muxes **three** 128-bit registers — key, IV, secret — into OUT, so
-+427 ≈ 1.1 %), C smallest (a 32-bit prefix compare + nonce mux), ≤1 added flop
-each. These deltas are deterministic (`-noabc`), so they are an **upper bound** on
-the real added LUTs after optimization; the overhead stays below the optimizer's
-own noise floor and well within the device.
+All four **place, route, and pack** to a real `.bin`, at a utilization right in
+line with the recovered design's ~87 % — i.e. a **valid, loadable** number,
+cross-checked against the UP5K datasheet budget. The Trojan footprint is small
+(a trigger comparator + mux, plus a small shadow register for A's read-path leak):
+~9–59 extra LCs, leaving the EBR count unchanged at 10/30.
+
+**Toolchain note (abc9 crash).** `synth_ice40`'s default abc9 asserts in the
+experimental `write_xaiger2` backend on this build — a tool bug, not our RTL. The
+pipeline maps LUTs with the stable **classic `abc -lut 4`** via a split flow
+(`synth_ice40 -run :map_luts; ice40_wrapcarry -unwrap; abc -lut 4; … -run
+map_cells:`); this gives the real optimized counts above. (`-noabc` would "work"
+but its unoptimized ~5× figures are meaningless and would not fit.)
 
 ---
 
@@ -333,46 +370,51 @@ FPGA_PORT=/dev/ttyACM0 APP_PORT=/dev/ttyACM1 bash pipeline/run_all_board.sh
 ```
 
 `pipeline/run_all_board.sh` is a superset of `run_all.sh` (which it calls
-unmodified): it verifies in simulation, checks the SPI board-integration layer
-(`tb/tb_spi.v`), then for the clean design and each Trojan builds a UP5K bitstream
-(`crypto_board_top` + `spi_peripheral` + `i2c_eeprom_loader`, PCF
-`rtl/crypto_board_top.pcf`) and — when a board is attached — programs it, runs
+unmodified, and which now builds the fitting bitstreams
+`work/board/{clean,trojanA,trojanB,trojanC}.bin` itself): it verifies in
+simulation, checks the SPI board-integration layer (`tb/tb_spi.v`), then — when a
+board is attached — for the clean design and each Trojan programs it, runs
 `tools/fpga_selftest.py`, and fires the matching on-board exploit
 (`pipeline/board/exploit_trojan_{a,b,c}.py`). It writes `pipeline/BOARD_RESULTS.md`.
 The single-prompt version is `pipeline/REPLICATE_PROMPT_BOARD.md`.
 
-> **Honest hardware preconditions** (the script reports these, never fakes them):
-> a provisioned board must be attached (P1); the `crypto_top` buffers must be
-> refactored to EBR so the design fits the UP5K — as-written it is ~39.8k LUT and
-> `nextpnr` will report it won't fit (P2); and the I2C loader's bit-level burst
-> read must be completed (its validate/latch logic is done, P3). Synthesis, the
-> SPI layer, the exploit drivers and the orchestration are complete and
-> sim-verified.
+> **Only runtime requirement:** a provisioned Hackster board attached with
+> `FPGA_PORT`/`APP_PORT` set. The two former caveats are **resolved and no longer
+> guesses**: the design now **fits** the UP5K (EBR-backed buffers; nextpnr places
+> it at ~93% LC / 10 of 30 EBR — §4), and the I2C loader is a **complete master**
+> verified end-to-end over simulated SDA/SCL (§1.3). Without a board, everything
+> up to the bitstreams still builds and verifies; only the program/drive stages
+> are skipped.
 
 ---
 
 ## 6. File map
 
 ```
-rtl/ascon_engine.v        Ascon-AEAD128 datapath (1 round/clock) + Trojan-B hook
-rtl/crypto_top.v          command/buffer/status interface, key regs, Trojan A/B/C
-rtl/i2c_eeprom_loader.v   I2C key-image loader (magic/version/CRC16 validation)
+rtl/ascon_engine.v        Ascon-AEAD128 datapath (1 round/clock), block-fetch handshake (CLEAN)
+rtl/crypto_top.v          command/status + EBR-backed AD/MSG/OUT buffers (CLEAN, //@TJ-* anchors)
+rtl/i2c_eeprom_loader.v   complete open-drain I2C master (magic/version/CRC16 + latch)
+rtl/i2c_eeprom_model.v    behavioral I2C EEPROM (simulation only) for the loader testbench
 rtl/spi_peripheral.v      SPI mode-0 shell: frames -> crypto_top command interface
 rtl/crypto_board_top.v    board top: real pins -> SPI + I2C loader + crypto_top
 rtl/crypto_board_top.pcf  UP5K (sg48) pin constraints
-tb/tb_crypto.v            self-test + golden-vector check + Trojan demos
-tb/tb_loader.v            EEPROM key-loader validation
+tools/insert_trojan.py    Trojan INSERTION PASS (clean RTL -> work/trojans/crypto_top_{A,B,C}.v)
+tb/tb_crypto.v            self-test + golden-vector check + Trojan demos (-DDEMO_A/B/C)
+tb/tb_loader.v            end-to-end I2C key-load test (real master <-> EEPROM model)
 tb/tb_spi.v               SPI board-integration layer verification
 tb/vectors.vh             golden vectors (generated)
+ai/METHODOLOGY.md         the AI workflow: six-model framework, verifier-settled decisions
 work/analysis/cvss.py     CVSS v3.1 calculator (reproduces every score)
 work/re/                  bitstream RE outputs (asc, stat, netlist)
 work/research/            AI-model corpus, driver, verified transcript + report
 work/sim/ascon_ref.py     validated Ascon reference (oracle)
 work/sim/gen_*.py         vector / EEPROM-image generators
-pipeline/run_all.sh       one-click simulation reproduction
-pipeline/run_all_board.sh one-click BOARD automation (build/program/drive each Trojan)
+work/trojans/             generated Trojan-infected crypto_top variants (from the pass)
+work/board/               generated bitstreams (clean + A/B/C) + synth/pnr logs
+pipeline/run_all.sh       one-click: RE -> research -> insert -> sim -> loader -> synth -> fitting bitstream
+pipeline/run_all_board.sh one-click BOARD automation (program/drive each Trojan)
 pipeline/board/           on-board MicroPython exploit drivers (Trojan A/B/C)
-pipeline/REPLICATE_PROMPT.md       single-prompt replication (sim)
-pipeline/REPLICATE_PROMPT_BOARD.md single-prompt replication (board)
+pipeline/REPLICATE_PROMPT.md       single-prompt replication (sim + synthesis)
+pipeline/REPLICATE_PROMPT_BOARD.md single-prompt replication (superset: + board)
 pipeline/eeprom_image.hex provisioned key image (CRC 0xB9A1)
 ```
