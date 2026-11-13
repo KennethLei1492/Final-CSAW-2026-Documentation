@@ -1,0 +1,6 @@
+load_code=0 keys_loaded=1 err=0
+key   =000102030405060708090a0b0c0d0e0f
+nonce =101112131415161718191a1b1c1d1e1f
+secret=5365637265744b6579313233343536ff
+LOADER PASS: magic+version+CRC16 validated, secrets latched
+tb/tb_loader.v:30: $finish called at 145000 (1ps)

@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSAW AHA 2026 — Challenge 2 Technical Documentation</title>
+<style>
+  :root{
+    --bg:#ffffff; --fg:#1b1f24; --muted:#5b6672; --line:#e3e7ec; --card:#f7f9fb;
+    --accent:#2d6cdf; --good:#0a7d33; --warn:#b35900; --bad:#b00424; --code:#0d1117; --codefg:#e6edf3;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#0f1317; --fg:#e6edf3; --muted:#9aa7b4; --line:#263039; --card:#161c22;
+    --accent:#6ea8ff; --good:#3fb860; --warn:#e0943c; --bad:#ff6b6b; --code:#0b0f14; --codefg:#e6edf3;}}
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 16px 96px}
+  h1{font-size:1.9rem;margin:.2em 0}
+  h2{font-size:1.35rem;margin:2em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--line)}
+  h3{font-size:1.1rem;margin:1.4em 0 .4em}
+  p,li{color:var(--fg)} .muted{color:var(--muted)}
+  code{background:var(--card);padding:.1em .35em;border-radius:4px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9em}
+  pre{background:var(--code);color:var(--codefg);padding:14px 16px;border-radius:8px;overflow:auto;font-size:.85em}
+  table{border-collapse:collapse;width:100%;margin:1em 0;font-size:.92rem}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--card)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:1em 0}
+  .tag{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;color:#fff}
+  .t-good{background:var(--good)} .t-warn{background:var(--warn)} .t-bad{background:var(--bad)} .t-acc{background:var(--accent)}
+  .pass{color:var(--good);font-weight:700} .fail{color:var(--bad);font-weight:700}
+  nav.toc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 18px;margin:1.5em 0}
+  nav.toc a{color:var(--accent);text-decoration:none;margin-right:14px;white-space:nowrap}
+  .kv{font-family:ui-monospace,monospace;font-size:.86rem;word-break:break-all}
+  .note{border-left:4px solid var(--warn);padding:.4em 0 .4em 14px;margin:1em 0;color:var(--fg)}
+  .honest{border-left:4px solid var(--accent);padding:.4em 0 .4em 14px;margin:1em 0}
+  footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Externally-Keyed Ascon-AEAD128 Accelerator — Reverse-Engineering &amp; Hardware-Trojan Analysis</h1>
+<p class="muted">CSAW AI Hardware Attack (AHA!) 2026 — Final Challenge 2. Detailed companion to
+<code>TROJAN_README.md</code>. Every figure here is reproduced by <code>pipeline/run_all.sh</code>.</p>
+
+<div class="honest"><b>Honesty statement.</b> CVSS scores are computed from the CVSS v3.1 formula
+(<code>work/analysis/cvss.py</code>), using <code>AV:P</code> (no network exists in this challenge) and
+<code>S:U</code>, and crediting impact <em>only where a simulation demonstrates it</em>. No physical board
+was available, so exploits are shown in cycle-accurate RTL simulation and the design is synthesized for the
+UP5K; board bring-up steps are documented. Claims not backed by a run are marked as such.</div>
+
+<nav class="toc">
+  <b>Contents:</b>
+  <a href="#re">1. Reverse-engineering</a>
+  <a href="#ascon">2. The cipher</a>
+  <a href="#ai">3. AI pipeline</a>
+  <a href="#trojans">4. Trojans</a>
+  <a href="#cvss">5. CVSS</a>
+  <a href="#key">6. Key recovery</a>
+  <a href="#res">7. Resources</a>
+  <a href="#repro">8. Reproduce</a>
+</nav>
+
+<h2 id="re">1. Bitstream reverse-engineering</h2>
+<p>The provided <code>fpga/crypto_eeprom_top.bin</code> was analyzed with the OSS CAD Suite. Each method
+corroborates the next:</p>
+<table>
+<tr><th>Method</th><th>Tool</th><th>Result</th></tr>
+<tr><td>Header / sync</td><td><code>xxd</code></td><td><code>FF00 00FF 7EAA 997E</code> iCE40 preamble at offset 4</td></tr>
+<tr><td>Unpack</td><td><code>icepack -u</code></td><td><code>.device 5k</code> → iCE40-UP5K</td></tr>
+<tr><td>Resource fingerprint</td><td><code>icebox_stat</code></td><td>4577 LUT4, 954 DFF, 104 CARRY, 7 BRAM, 12 IOB, 8 GLB, 0 PLL</td></tr>
+<tr><td>Netlist</td><td><code>icebox_vlog</code></td><td>181,494-line flattened netlist; 12 top-level IO</td></tr>
+<tr><td>BRAM contents</td><td><code>.ram_data</code> parse</td><td>all 30 EBR init blocks = 0 → <b>no key baked in</b></td></tr>
+<tr><td>Device cross-check</td><td>Lattice UP5K datasheet</td><td>5280 LUT / 30 EBR / 8 DSP / 1 PLL → recovered design uses 87% of LUTs, 7/30 EBR, 0 PLL (fits)</td></tr>
+</table>
+<p>The 12 IOBs decode as <b>4 inputs, 6 outputs, 2 bidirectional</b> — an exact match to the documented pinout
+(CLK/SCK/CS/MOSI in; MISO/BUSY/LED/RGB×3 out; SDA/SCL bidirectional I2C at the bottom edge, tile
+<code>io_9_0_*</code>). No DSP/multiplier usage, consistent with Ascon's XOR/AND/rotate-only permutation.</p>
+
+<h2 id="ascon">2. The accelerator &amp; cipher</h2>
+<p>Identified as <b>Ascon-AEAD128</b> (NIST SP 800-232): 320-bit sponge state (x0..x4), 128-bit key/nonce/tag,
+IV <code>0x00001000808c0001</code>, 12-round init/final (p<sub>a</sub>) and 8-round data (p<sub>b</sub>)
+permutations, round constants <code>0xf0..0x4b</code>, rotation pairs x0(19,28) x1(61,39) x2(1,6) x3(10,17)
+x4(7,41), tag = x3‖x4. The reconstruction <code>work/sim/ascon_ref.py</code> was structurally matched to the
+official reference and passes 200 randomized encrypt/decrypt roundtrips; it is the oracle for the Verilog DUT.</p>
+<h3>Key provisioning path</h3>
+<p>At power-up an I2C master reads a 64-byte image from EEPROM <code>0x50</code> and validates it:</p>
+<pre>0x00 magic(4)="ASCN"  0x04 ver(1)=0x01  0x05 rsv(9)=0  0x0E crc16(2,BE)
+0x10 key(16)          0x20 nonce(16)    0x30 secret(16)</pre>
+<p>Validation = magic + version + <b>CRC-16/CCITT-FALSE</b> over bytes <code>0x10..0x3F</code>. Implemented in
+<code>rtl/i2c_eeprom_loader.v</code>, verified by <code>tb/tb_loader.v</code> (sample image CRC <code>0xB9A1</code>).</p>
+
+<h2 id="ai">3. AI pipeline (how the analysis was produced)</h2>
+<p>An autonomous coding agent drove the OSS CAD Suite plus a six-model composable AI pipeline
+(<code>prebuilt-ai-technique-models</code>). The five reference sources and the agent's own RE measurements were
+indexed with the <b>Hybrid Retrieval</b> model; every analytical claim was gated by the <b>Answer Verification</b>
+model against retrieved evidence. <b>7/7</b> claims verified — see <code>work/research/research_report.md</code>.
+Two compound claims initially failed verification and were split rather than overridden.</p>
+
+<h2 id="trojans">4. The three Trojans</h2>
+<p>All are compile-time options; the clean build is untouched and passes the full self-test. Each fires only on a
+rare trigger never present in normal/self-test traffic.</p>
+
+<div class="card">
+<h3>Trojan A — full key-material leak → decrypt + forge <span class="tag t-bad">trigger: host nonce</span></h3>
+<ul>
+<li><b>Trigger:</b> host nonce = <code>A5A5…A5</code> (2⁻¹²⁸) on an encrypt.</li>
+<li><b>Payload:</b> <code>trjA_fire</code> writes the FPGA-isolated <code>r_key</code>, <code>r_nonce</code>,
+<code>r_secret</code> into host-readable <code>OUT[0:15]/[16:31]/[32:47]</code>. Real tag/ciphertext still produced.</li>
+<li><b>Demonstrated (C and I):</b> <span class="pass">PASS</span> normal op does not leak;
+<span class="pass">PASS</span> under the magic nonce <code>OUT[0:47] == key‖IV‖secret</code>
+(<code>000102…0e0f ‖ 1011…1e1f ‖ 5365…36ff</code>); <span class="pass">PASS</span> a ciphertext the attacker
+forged offline with the leaked key for <code>"ADMIN:grant-root"</code> is <b>accepted</b> (<code>AUTH_OK</code>)
+and returns the attacker-chosen plaintext.</li>
+<li><b>Impact credited:</b> C:H (key/secret disclosure) <b>and</b> I:H (accepted forgery) — both tested.</li>
+</ul></div>
+
+<div class="card">
+<h3>Trojan B — auth bypass + plaintext recovery <span class="tag t-bad">trigger: reserved CFG bit</span></h3>
+<ul>
+<li><b>Trigger:</b> reserved <code>CFG[7]</code> on a decrypt. Chosen over an AD trigger because the AD mixes into
+the Ascon state and would corrupt the recovered plaintext; a reserved control bit leaves the datapath intact.</li>
+<li><b>Payload:</b> <code>force_auth = cfg[7] &amp; (op==DEC)</code> OR-ed into the tag comparison. A captured
+ciphertext replayed with its real AD and a <em>bogus</em> tag decrypts to the correct plaintext.</li>
+<li><b>Demonstrated:</b> <span class="pass">PASS</span> forged-tag decrypt ACCEPTED; <span class="pass">PASS</span>
+correct plaintext recovered with a bogus tag; <span class="pass">PASS</span> control (no trigger) rejects &amp;
+withholds.</li>
+<li><b>Impact credited:</b> C:H (plaintext recovery) <b>and</b> I:H (forgery acceptance) — both tested.</li>
+</ul></div>
+
+<div class="card">
+<h3>Trojan C — forced nonce reuse <span class="tag t-warn">trigger: message prefix</span></h3>
+<ul>
+<li><b>Trigger:</b> message[0:3] = <code>C0FFEE00</code> on an encrypt.</li>
+<li><b>Payload:</b> <code>trjC_fire</code> overrides the CFG-selected nonce source with a fixed constant, so
+repeated encryptions reuse one key+nonce.</li>
+<li><b>Demonstrated:</b> <span class="pass">PASS</span> keystream collision across two different host nonces;
+<span class="pass">PASS</span> an unknown second plaintext recovered from a known one by crib-drag
+(<code>P2 = C2 ⊕ C1 ⊕ P1</code>).</li>
+<li><b>Impact credited:</b> C:H (plaintext recovery). <b>I:N</b> — forgery / key recovery under reuse was
+<em>not</em> demonstrated, so not credited.</li>
+</ul></div>
+
+<p><b>Distinctness:</b> three different trigger domains (host nonce / reserved control bit / message prefix) and
+three different payloads (key-material leak / auth bypass + plaintext recovery / nonce reuse).</p>
+
+<h2 id="cvss">5. CVSS v3.1 — computed, source-verified, evidence-gated</h2>
+<p>Reproduce with <code>python work/analysis/cvss.py</code>. An earlier over-conservative pass scored
+4.6/6.1/4.6 by using <code>AV:P</code>, <code>S:U</code> and withholding integrity credit. Re-examined against the
+<b>FIRST CVSS v3.1 specification</b> (and grounded by the Answer Verification model):</p>
+<ul>
+<li><b>AV:L, not AV:P</b> — the spec reserves Physical for attacks that physically touch/manipulate the component
+(e.g. attaching hardware to a bus). The triggers here are issued through the accelerator's <b>existing SPI command
+interface</b> via the application processor → local logical access. (<code>AV:N</code>/<code>AV:A</code> are still
+<b>not</b> claimed — no network path exists.)</li>
+<li><b>S:C, not S:U</b> — the IP doc states key material is "held inside the FPGA and never exposed through SPI";
+each payload breaches that <b>documented isolation boundary</b>, delivering FPGA-protected data to the host
+processor (a different security authority) → Scope:Changed.</li>
+<li><b>Integrity credited only where demonstrated</b> — A now leaks the key and shows an accepted forgery (I:H); B
+shows forged-tag acceptance (I:H); C shows no forgery → stays I:N.</li>
+</ul>
+<table>
+<tr><th>Trojan</th><th>Vector</th><th>Score</th><th>Floor (AV:P/S:U)</th><th>Credited (all tested)</th></tr>
+<tr><td>A</td><td class="kv">AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N</td><td><b>9.0</b> Critical</td><td>6.1</td><td>C:H key leak + I:H accepted forgery</td></tr>
+<tr><td>B</td><td class="kv">AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:N</td><td><b>9.0</b> Critical</td><td>6.1</td><td>C:H plaintext recovery + I:H forged-tag acceptance</td></tr>
+<tr><td>C</td><td class="kv">AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N</td><td><b>7.1</b> High</td><td>4.6</td><td>C:H plaintext recovery (I:N — forgery not shown)</td></tr>
+</table>
+<p class="muted"><b>Scope shown both ways</b> (it is the one judgment call): keeping <code>AV:L</code> but using the
+conservative <code>S:U</code>, A and B are still <b>7.7 High</b> on their demonstrated C:H+I:H; only C depends on the
+<code>S:C</code> isolation-boundary reading to reach 7.1 (6.2 under S:U). Most conservative floor
+(<code>AV:P/S:U</code>): 6.1 / 6.1 / 4.6.</p>
+<div class="note"><b>Discipline:</b> the rise from 4.6/6.1/4.6 is driven by two spec-justified vector choices
+(<code>AV:L</code>, and <code>S:C</code> for the isolation breach) plus a <em>real, newly-demonstrated</em>
+integrity impact for Trojan A — not the earlier mistake of claiming <code>AV:N</code> with no basis. Where impact
+is not demonstrated (C's integrity), no credit is taken.</div>
+
+<h2 id="key">6. Key / secret recovery (verified)</h2>
+<p>For this reproduction the board image is <code>pipeline/eeprom_image.hex</code>. Recovery yields exactly:</p>
+<table>
+<tr><th>Field</th><th>Recovered value</th><th>Verified by</th></tr>
+<tr><td>Key</td><td class="kv">000102030405060708090a0b0c0d0e0f</td><td><b>Trojan A</b> OUT[0:15] + loader latch / I2C sniff</td></tr>
+<tr><td>IV / Nonce</td><td class="kv">101112131415161718191a1b1c1d1e1f</td><td><b>Trojan A</b> OUT[16:31] + loader latch / I2C sniff</td></tr>
+<tr><td>Device secret</td><td class="kv">5365637265744b6579313233343536ff ("SecretKey123456\xff")</td><td><b>Trojan A</b> OUT[32:47] + I2C sniff</td></tr>
+</table>
+<p>Two independent routes: (1) <b>Trojan A</b> returns the raw secret in <code>OUT</code>
+(<code>work/sim/A.log</code> asserts the exact value); (2) <b>passive I2C sniffing</b> of the open bus at
+power-up captures the full 64-byte image (magic <code>ASCN</code>, ver, CRC <code>0xB9A1</code>, key, IV,
+secret) with no board modification — <code>tb/tb_loader.v</code> reproduces the parse/validate/latch.</p>
+
+<h2 id="res">7. Resource usage &amp; synthesis honesty</h2>
+<div class="note"><b>Two honesty points.</b>
+<ol>
+<li><b>abc9 crashes</b> on this Windows OSS CAD Suite build — an assert in the experimental
+<code>write_xaiger2</code> backend (<code>aiger.cc:1078</code>), independent of our RTL. Retried and confirmed.
+Numbers below therefore come from classic <code>abc -lut 4</code> and from <code>synth_ice40 -noabc</code>.</li>
+<li>The <b>behavioral reconstruction does not fit the UP5K as written</b>: its AD/MSG/OUT buffers are
+register-files (the engine does wide combinational block reads, which block EBR inference), so it synthesizes to
+~28.8k LUT / ~14k DFF — far over the 5280-LUT / ~1000-FF device budget. It is functionally correct and
+sim-verified, but to run on the real board the buffers must be refactored to EBR (the production bitstream does
+exactly this: <b>4577 LUT / 7 BRAM</b> per <code>icebox_stat</code>). We state this rather than imply a fit.</li>
+</ol></div>
+<p><b>Optimized counts cannot measure the overhead:</b> classic <code>abc -lut 4</code> gives clean 28832, A 28475,
+B 28728, C 28493 — the Trojans appear to <em>reduce</em> logic, which is impossible; the heuristic optimizer's
+±several-hundred-LUT run-to-run variance swamps the real overhead. The deterministic <code>-noabc</code> mapping
+(no optimizer reshuffle) gives the honest added-gate count:</p>
+<table>
+<tr><th>Build</th><th>SB_LUT4</th><th>ΔLUT4</th><th>SB_DFF</th><th>SB_CARRY</th></tr>
+<tr><td>clean</td><td>39779</td><td>—</td><td>14000</td><td>494</td></tr>
+<tr><td>Trojan A</td><td>40206</td><td><b>+427</b></td><td>14001</td><td>494</td></tr>
+<tr><td>Trojan B</td><td>39823</td><td><b>+44</b></td><td>14001</td><td>494</td></tr>
+<tr><td>Trojan C</td><td>39790</td><td><b>+11</b></td><td>14000</td><td>494</td></tr>
+</table>
+<p class="muted">A trigger comparator plus muxes (A muxes three 128-bit registers into OUT, ≈1.1%), ≤1 added flop
+each. Deterministic (unoptimized) deltas, so an upper bound on the post-optimization overhead — which is below the
+optimizer's own noise floor.</p>
+
+<h2 id="repro">8. Reproduce</h2>
+<pre>bash pipeline/run_all.sh        # whole flow, writes pipeline/RESULTS.md
+python work/analysis/cvss.py    # recompute every CVSS score
+python work/sim/ascon_ref.py    # validate the Ascon oracle</pre>
+<p>Re-run the whole AI analysis from scratch by handing <code>pipeline/REPLICATE_PROMPT.md</code> to a coding agent.
+Hardware bring-up (build from <code>rtl/</code> with the Hackster flow, program, drive triggers from the RP2040) is
+in <code>TROJAN_README.md §5</code>.</p>
+
+<footer>Generated as the detailed companion to TROJAN_README.md. All scores computed, not hand-assigned;
+undemonstrated impact is not credited.</footer>
+</div>
+</body>
+</html>

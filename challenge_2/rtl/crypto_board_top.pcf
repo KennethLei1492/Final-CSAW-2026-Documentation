@@ -1,0 +1,16 @@
+# Pin constraints for crypto_board_top on the Hackster iCE40-UP5K (sg48).
+# Pin numbers from ice40_crypto_ip.md section 3.
+set_io ICE_CLK     35   # free-running system clock from the programmer (~10 MHz)
+set_io SPI_MISO    32
+set_io SPI_CS_N    31
+set_io SPI_SCK     28
+set_io SPI_MOSI    26
+set_io BUSY        23
+set_io PERIPH_SDA   4
+set_io PERIPH_SCL   3
+set_io ICE_LED     37   # activity / scope-trigger SMA
+set_io RGB_R       39
+set_io RGB_G       40
+set_io RGB_B       41
+# NOTE: ICE_CLK/ICE_LED/RGB pin numbers follow the Hackster top.pcf; verify against
+# hackster-programmer/diy/empty-project/top.pcf for your board revision.

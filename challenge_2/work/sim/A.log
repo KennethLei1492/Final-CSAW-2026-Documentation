@@ -1,0 +1,34 @@
+VCD info: dumpfile tb/tb_crypto.vcd opened for output.
+Link:
+  PASS accelerator responds
+  PASS key material loaded
+Encrypt / decrypt:
+  PASS ciphertext length matches plaintext
+  PASS ciphertext differs from plaintext
+  PASS ciphertext matches golden reference
+  PASS tag is 16 bytes & matches golden reference
+  PASS decrypt reports AUTH_OK
+  PASS decrypt recovers the message
+Authentication:
+  PASS modified ciphertext is rejected
+  PASS rejected plaintext withheld (zeros)
+  PASS modified tag is rejected
+  PASS wrong associated data is rejected
+Consistency:
+  PASS same inputs give same ciphertext
+  PASS same inputs give same tag
+  PASS empty message tag matches golden
+  PASS empty message authenticates
+== TROJAN A demo: magic-nonce -> secret exfiltration ==
+  PASS normal op does NOT leak key material
+   leaked KEY   =000102030405060708090a0b0c0d0e0f
+   leaked NONCE =101112131415161718191a1b1c1d1e1f
+   leaked SECRET=5365637265744b6579313233343536ff
+  PASS TROJAN A: KEY exfiltrated via OUT (C:H)
+  PASS TROJAN A: IV/nonce exfiltrated via OUT
+  PASS TROJAN A: device secret exfiltrated via OUT
+  PASS TROJAN A: forged ciphertext ACCEPTED using leaked key (I:H)
+  PASS TROJAN A: forged plaintext is attacker-chosen 'ADMIN:grant-root'
+
+ALL CHECKS PASSED.  (pass=22 fail=0)
+tb/tb_crypto.v:226: $finish called at 12601000 (1ps)

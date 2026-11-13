@@ -1,0 +1,7 @@
+DFFs:    954
+LUTs:   4577
+CARRYs:  104
+BRAMs:     7
+IOBs:     12
+PLLs:      0
+GLBs:      8

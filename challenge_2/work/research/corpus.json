@@ -1,0 +1,65 @@
+[
+  {
+    "id": "SRC-LATTICE-UP5K",
+    "source": "Lattice iCE40 UltraPlus product page (latticesemi.com)",
+    "url": "https://www.latticesemi.com/en/products/fpgaandcpld/ice40ultraplus",
+    "text": "The Lattice iCE40 UltraPlus UP5K FPGA provides 5280 four-input LUTs (marketed as 5K LUTs). It has 120 kbits of embedded block RAM (EBR) organized as thirty 4-kbit dual-port blocks, and 1024 kbits (1 Mbit) of single-port RAM (SPRAM). It includes eight DSP/MAC blocks of 16x16 multiply with 32-bit accumulate, two hardened I2C cores, two hardened SPI cores, one PLL, a 10 kHz and a 48 MHz internal oscillator. The 48-pin QFN package (sg48, 7x7 mm) exposes 39 total I/O. The device targets always-on edge inference, sensor aggregation and low-power connectivity bridging; static current is about 75 uA. Dedicated I/O pins cannot be used by user logic after configuration.",
+    "metadata": {"type": "datasheet", "topic": "fpga", "title": "iCE40 UltraPlus UP5K"}
+  },
+  {
+    "id": "SRC-ASCON-SPEC",
+    "source": "ASCON guide (laoutaris.cc)",
+    "url": "https://laoutaris.cc/blog/ascon_guide/",
+    "text": "Ascon-AEAD128 (NIST SP 800-232) uses a 320-bit internal state of five 64-bit words x0..x4. Key, nonce and tag are each 128 bits. The rate is 128 bits (words x0 and x1); capacity is 192 bits (x2..x4). The Ascon-AEAD128 initialization vector is 0x00001000808c0001, built from fields encoding round counts, key size and rate. The permutation uses 12 rounds (pa) for initialization and finalization, and 8 rounds (pb) after each associated-data or plaintext block. Each round does: (1) add a one-byte round constant into x2 (the twelve constants run 0xf0 down to 0x4b; the 8-round variant uses the last eight); (2) a bit-sliced 5-bit S-box across the 64 columns using only AND, NOT, XOR with no table lookups; (3) linear diffusion where each word is XORed with two rotated copies of itself using rotation pairs x0:(19,28) x1:(61,39) x2:(1,6) x3:(10,17) x4:(7,41). AEAD flow: Initialize loads IV||key||nonce, runs 12 rounds, then XORs the key into x3 and x4. Associated data: pad each block with a 0x01 marker, XOR into the rate, run 8 rounds; after the last AD block XOR the domain-separation bit 0x8000000000000000 into x4. Plaintext: pad, XOR into the rate, emit the rate as ciphertext, run 8 rounds between blocks. Finalize: XOR key into x2 and x3, run 12 rounds, XOR key into x3 and x4; the 128-bit tag is x3||x4. Security depends on nonce uniqueness per key and on the secrecy and integrity of the key.",
+    "metadata": {"type": "crypto-spec", "topic": "ascon", "title": "Ascon-AEAD128 specification"}
+  },
+  {
+    "id": "SRC-LWC-EVAL",
+    "source": "Radhakrishnan, Jadon, Honnavalli, Sensors 2024;24(12):4008 (PMC11207458)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11207458/",
+    "text": "This peer-reviewed benchmark compares the lightweight cryptographic algorithms AES-128, SPECK and ASCON on resource-constrained IoT boards, measuring execution time, memory utilization, latency, throughput and security robustness. ASCON is the NIST Lightweight Cryptography standard for authenticated encryption and was optimized for the CAESAR competition (Gross et al.). The study confirms ASCON is a sponge-based authenticated-encryption primitive whose robustness rests on correct use: a unique nonce per key and protected key material. On constrained devices the main practical risks are implementation-level: side-channel leakage during the permutation and key handling, and loss of confidentiality if provisioned secrets or nonces are exposed. The paper frames security robustness as a first-class selection criterion alongside performance for IoT accelerators.",
+    "metadata": {"type": "paper", "topic": "ascon-security", "title": "Efficiency and Security Evaluation of LWC"}
+  },
+  {
+    "id": "SRC-HWT-DETECT",
+    "source": "Overview of hardware Trojan detection methods (cyber8200.com)",
+    "url": "https://www.cyber8200.com/en/blog/overview-of-hardware-trojan-detection-methods",
+    "text": "Hardware Trojan detection methods fall into: functional/logic testing, which applies test patterns (including ATPG targeting rare nets) and detects Trojans that activate under applied inputs but misses Trojans built to avoid common patterns because achieving high coverage of rare triggers is hard; side-channel analysis, comparing power, path delay/timing, or EM to golden samples, which detects always-on or payload-driven leakage and parametric changes but misses small Trojan signatures hidden by process variation and environmental noise; structural/visual layout inspection; formal verification, a design-level prevention that proves the circuit matches its specification; and runtime monitoring with on-chip sensors and redundancy/voting. Trojan taxonomy: combinational Trojans trigger on rare logic conditions; sequential Trojans trigger on a rare event sequence or internal state; time-bomb Trojans activate after a period or set time (often denial-of-service); parametric Trojans alter timing/power/reliability; always-on Trojans leak data or key material, e.g. via a power side channel. Stealth is achieved by rare triggers that avoid common test patterns and by keeping any side-channel signature buried in process variation and noise, so the Trojan appears indistinguishable from normal process variation.",
+    "metadata": {"type": "security-method", "topic": "hardware-trojan", "title": "HW Trojan detection overview"}
+  },
+  {
+    "id": "SRC-HWT-TAXONOMY",
+    "source": "Hardware-Trojan survey literature (Karri/Rajendran/Rosenfeld/Tehranipoor taxonomy)",
+    "url": "https://arxiv.org/pdf/2301.02620",
+    "text": "The standard hardware-Trojan taxonomy (Karri, Rajendran, Rosenfeld, Tehranipoor) describes a Trojan by insertion phase, abstraction level, activation mechanism (trigger), effect (payload) and location. Triggers may exploit don't-care conditions, specific data patterns in particular memory addresses, or dedicated rare inputs; combinational triggers are drawn from primary inputs and internal nodes, while sequential triggers use state elements such as counters to fire after an input sequence or time period. Payloads: the most common are sensitive-information leakage and denial of service. Payloads are explicit (they alter internal signals/outputs) or implicit (the signals are used only as trigger stimulus). In cryptographic hardware, high-impact payloads include leaking the key or device secret, weakening the cipher (reducing effective entropy), and forging or bypassing authentication-tag verification so tampered ciphertext is accepted.",
+    "metadata": {"type": "security-method", "topic": "hardware-trojan", "title": "HW Trojan taxonomy"}
+  },
+  {
+    "id": "RE-BITSTREAM",
+    "source": "Bitstream reverse-engineering measurements (icepack -u / icebox_stat / icebox_vlog on crypto_eeprom_top.bin)",
+    "url": "local:work/re",
+    "text": "Unpacking crypto_eeprom_top.bin with icepack -u reports device 5k (iCE40 UP5K). icebox_stat reports the design uses 4577 LUTs, 954 DFFs, 104 carry cells, 7 BRAMs, 12 IOBs, 8 global buffers and 0 PLL. The 12 I/O decompose as 4 inputs, 6 outputs and 2 bidirectional pins, matching the documented pinout (ICE_CLK, SPI_SCK, SPI_CS_N, SPI_MOSI inputs; SPI_MISO, BUSY, ICE_LED, RGB_R, RGB_G, RGB_B outputs; PERIPH_SDA and PERIPH_SCL bidirectional I2C at the bottom edge). All 30 EBR block-RAM init sections are zero, so no key material is baked into the bitstream. 4577 of 5280 LUTs is about 87 percent utilization, consistent with a full 320-bit Ascon permutation datapath plus SPI peripheral, I2C EEPROM loader and command FSM. icebox_vlog recovers a flattened gate-level netlist for structural analysis.",
+    "metadata": {"type": "measurement", "topic": "bitstream-re", "title": "Recovered resource fingerprint"}
+  },
+  {
+    "id": "SRC-CVSS-SPEC",
+    "source": "FIRST CVSS v3.1 Specification Document",
+    "url": "https://www.first.org/cvss/v3.1/specification-document",
+    "text": "CVSS v3.1 Attack Vector Physical (AV:P) requires the attacker to physically touch or manipulate the vulnerable component (e.g., attaching hardware to a bus). Local (AV:L) applies when the attacker exploits the vulnerability through local access such as a console or command interface, or an attacker-controlled local process, without physically manipulating the component. A vulnerability reachable through a device's existing local command interface, rather than by attaching hardware, is therefore AV:L. Scope is Unchanged (S:U) when an exploited vulnerability can only affect resources managed by the same security authority. Scope is Changed (S:C) when it can affect resources beyond the security scope of the vulnerable component's security authority, i.e. it breaches a security or trust boundary and impacts components governed by a different authority. A security authority is a mechanism that defines and enforces access control.",
+    "metadata": {"type": "standard", "topic": "cvss", "title": "CVSS v3.1 AV and Scope"}
+  },
+  {
+    "id": "SRC-AEAD-KEYLEAK",
+    "source": "AEAD security properties (NIST SP 800-232 Ascon; standard AEAD definitions)",
+    "url": "https://laoutaris.cc/blog/ascon_guide/",
+    "text": "The security of an AEAD scheme such as Ascon-AEAD128 rests entirely on the secrecy of the symmetric key. An attacker who obtains the key can decrypt any captured ciphertext (total loss of confidentiality) and can also compute a valid authentication tag for any chosen ciphertext, so the accelerator will accept attacker-forged messages as authentic (total loss of integrity). Thus a key disclosure is simultaneously a confidentiality and an integrity compromise. Separately, nonce (IV) reuse under a fixed key in a sponge AEAD like Ascon causes keystream reuse, which leaks relationships between plaintexts (a confidentiality break) and allows recovering one plaintext from another when one is known; nonce reuse alone does not by itself yield a universal tag forgery, because the capacity (secret) portion of the state is not directly exposed.",
+    "metadata": {"type": "crypto-spec", "topic": "aead-key", "title": "AEAD key leakage and nonce reuse"}
+  },
+  {
+    "id": "SRC-EEPROM-EXTRACT",
+    "source": "Extracting firmware from EEPROM, flash and eMMC (thyrasec.com)",
+    "url": "https://www.thyrasec.com/blog/extracting-firmware-from-eeprom-flash-and-emmc/",
+    "text": "I2C EEPROMs commonly hold configuration and sometimes cryptographic keys. I2C is an unencrypted interface that is easy to sniff: with the board powered, a Bus Pirate or logic analyzer clipped onto the SDA/SCL lines passively captures all traffic, and EEPROM access typically happens at startup, so an attacker can capture whatever a host (MCU or FPGA) reads from the EEPROM at power-up without desoldering. In-circuit clips attach without soldering and the board stays powered so other bus masters keep operating. Running binwalk and checking entropy reveals whether captured data is encrypted; if it is, the key is stored elsewhere (e.g. secure internal memory). Writing/programming an EEPROM is more intrusive and involves handling the write-protect pin. Passive bus observation is low-risk; active readout or modification risks damaging the chip or board.",
+    "metadata": {"type": "security-method", "topic": "eeprom-extraction", "title": "EEPROM/flash extraction"}
+  }
+]

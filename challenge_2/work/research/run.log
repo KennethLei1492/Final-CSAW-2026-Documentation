@@ -1,0 +1,48 @@
+no Anthropic credentials found; using deterministic MockLLM (set ANTHROPIC_API_KEY for real inference)
+Indexed 9 source documents into 9 chunks.
+
+[VERIFIED] score=0.88  grounded_on=['SRC-ASCON-SPEC#0']
+   Q: What authenticated-encryption algorithm has a 320-bit state with 128-bit key, nonce and tag, and is the NIST lightweight standard?
+   top evidence: ['SRC-ASCON-SPEC#0', 'SRC-LWC-EVAL#0', 'SRC-AEAD-KEYLEAK#0']
+
+[VERIFIED] score=0.82  grounded_on=['SRC-LATTICE-UP5K#0']
+   Q: How many LUTs and embedded block RAM blocks does the iCE40 UltraPlus UP5K provide?
+   top evidence: ['SRC-LATTICE-UP5K#0', 'RE-BITSTREAM#0', 'SRC-ASCON-SPEC#0']
+
+[VERIFIED] score=0.82  grounded_on=['RE-BITSTREAM#0']
+   Q: What resources does the recovered crypto_eeprom_top bitstream use and is any key baked in?
+   top evidence: ['RE-BITSTREAM#0', 'SRC-EEPROM-EXTRACT#0', 'SRC-CVSS-SPEC#0']
+
+[VERIFIED] score=0.88  grounded_on=['SRC-EEPROM-EXTRACT#0']
+   Q: Can the key material an FPGA reads from an external I2C EEPROM at power-up be captured by an attacker?
+   top evidence: ['SRC-EEPROM-EXTRACT#0', 'RE-BITSTREAM#0', 'SRC-AEAD-KEYLEAK#0']
+
+[VERIFIED] score=0.88  grounded_on=['SRC-HWT-DETECT#0']
+   Q: What makes a hardware Trojan stealthy against logic testing and side-channel detection?
+   top evidence: ['SRC-HWT-DETECT#0', 'SRC-HWT-TAXONOMY#0', 'SRC-LWC-EVAL#0']
+
+[VERIFIED] score=0.88  grounded_on=['SRC-HWT-TAXONOMY#0']
+   Q: What Trojan payloads are highest impact in cryptographic hardware?
+   top evidence: ['SRC-HWT-TAXONOMY#0', 'SRC-HWT-DETECT#0', 'SRC-LWC-EVAL#0']
+
+[VERIFIED] score=0.88  grounded_on=['SRC-LWC-EVAL#0']
+   Q: What does ASCON security depend on, and how is confidentiality defeated?
+   top evidence: ['SRC-AEAD-KEYLEAK#0', 'SRC-LWC-EVAL#0', 'SRC-ASCON-SPEC#0']
+
+[VERIFIED] score=0.88  grounded_on=['SRC-AEAD-KEYLEAK#0']
+   Q: If an attacker obtains the AEAD key, what confidentiality and integrity impact results?
+   top evidence: ['SRC-AEAD-KEYLEAK#0', 'SRC-ASCON-SPEC#0', 'SRC-CVSS-SPEC#0']
+
+[VERIFIED] score=0.88  grounded_on=['SRC-CVSS-SPEC#0']
+   Q: Under CVSS v3.1, when is Attack Vector Local rather than Physical for a device command interface?
+   top evidence: ['SRC-CVSS-SPEC#0', 'RE-BITSTREAM#0', 'SRC-ASCON-SPEC#0']
+
+[VERIFIED] score=0.88  grounded_on=['SRC-CVSS-SPEC#0']
+   Q: Under CVSS v3.1, when is Scope Changed for a key-isolation breach?
+   top evidence: ['SRC-CVSS-SPEC#0', 'SRC-ASCON-SPEC#0', 'SRC-LWC-EVAL#0']
+
+[VERIFIED] score=0.88  grounded_on=['SRC-AEAD-KEYLEAK#0']
+   Q: Does nonce reuse in ASCON by itself allow tag forgery?
+   top evidence: ['SRC-AEAD-KEYLEAK#0', 'SRC-ASCON-SPEC#0', 'SRC-LWC-EVAL#0']
+
+Wrote research_transcript.json and research_report.md. 11/11 claims verified.
