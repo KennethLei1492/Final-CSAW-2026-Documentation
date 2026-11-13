@@ -91,7 +91,20 @@
                                 "logic_cells_available":  5280,
                                 "dsp_used":  0,
                                 "dsp_available":  8,
-                                "hardware_validation":  "not_run"
+                                "hardware_validation":  "not_run",
+                                "full_audio_regression":  {
+                                    "source_frames":  240000,
+                                    "sample_rate_hz":  16000,
+                                    "simulation_cases_passed":  4,
+                                    "simulation_cases_failed":  0,
+                                    "simulation_cases_blocked":  0,
+                                    "compared_words":  481082,
+                                    "baseline_mismatch_count":  0,
+                                    "trigger_hit_count":  0,
+                                    "overlap_frames":  7,
+                                    "flush_frames_per_chunk":  130,
+                                    "hardware_validation":  "not_run"
+                                }
                             },
     "verification_evidence":  [
                                   "tests/BASELINE_PROVENANCE.md",
@@ -99,7 +112,12 @@
                                   "constraints/hackster.pcf",
                                   "reports/validation-run-5/report.json",
                                   "reports/validation-run-6/report.json",
-                                  "reports/evidence-summary-run-5-6.json"
+                                  "reports/evidence-summary-run-5-6.json",
+                                  "reports/full-audio-evidence.json",
+                                  "reports/full-audio-vectors/source-summary.json",
+                                  "tests/full_audio_manifest.json",
+                                  "tests/prepare_full_audio.py",
+                                  "tests/audit_full_audio.py"
                               ],
     "simulation":  {
                        "sources":  [

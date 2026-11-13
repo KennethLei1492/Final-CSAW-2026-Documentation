@@ -1,6 +1,6 @@
 ﻿{
     "schema_version":  1,
-    "manifest_sha256":  "ea068d9502a227c163addf2e53b2cd97c1fae18605f7d3f844b3b5c67aaf2a1b",
+    "manifest_sha256":  "7581f34c6839166c95849eefc5cecfc146fc82ccc0a3fcbf4f9233d4f06d3e2e",
     "source_file_count":  35,
     "source_sha256":  {
                           "rtl/fir_audio_top.v":  "2c868b30d4140f40dc5cb419bbd611d9c848aa6578d902ab509b6c4e666518e4",

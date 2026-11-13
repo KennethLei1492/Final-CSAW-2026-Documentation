@@ -1,12 +1,12 @@
 {
-  "run_directory": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN_worktrees\\05b-astra\\experiments\\phase05\\05b-astra\\reports\\validation-run-6",
+  "run_directory": "C:\\Users\\lowbr\\Documents\\College\\AI\\CSAW_FIN_worktrees\\05b-astra\\experiments\\phase05\\05b-astra\\reports\\scribe-validation-1",
   "regression_report_passed": true,
   "regression_cases": {
     "passed": 11,
     "failed": 0,
     "blocked": 0
   },
-  "framework_unit_test_summary": "Ran 15 tests in 1.804s",
+  "framework_unit_test_summary": "Ran 15 tests in 1.849s",
   "baseline_mismatch_count": 0,
   "normal_cases": {
     "phase3-golden": {

@@ -1,54 +1,61 @@
-﻿# CSAW 2026 Challenge 3 - Candidate B (Astra Reliability)
+# CSAW 2026 Challenge 3 - Candidate B (Astra Reliability)
 
-This isolated candidate implements a deterministic, exact-sequence trigger and a 128-frame left-channel filter bypass. It is based on the recovered Phase 3 audio design and is checked with the Phase 4 generic runner.
+This isolated candidate recognizes an exact left-channel sample sequence and bypasses the FIR output for 128 frames. The candidate RTL is based on the recovered Phase 3 audio design and uses the Phase 4 simulation and iCE40 build framework.
 
 ## Candidate behavior
 
-The matcher accepts eight consecutive exact 16-bit left samples: `7F00 8101 5A3C A5C3 6D92 926D C33C 3CC3`. On the final sample, the left output passes the current and next 127 samples directly, for 128 frames. The FIR continues to run; when the counter expires, the normal filtered output resumes. The right echo, I2S serializer, and two-frame baseline output latency are retained. State starts from the recovered iCE40 power-up initialization; there is no external reset on the core.
+The trigger is eight consecutive exact 16-bit left samples: `7F00 8101 5A3C A5C3 6D92 926D C33C 3CC3`. The 128-frame bypass begins with the trigger's final sample; normal filtering resumes when the counter expires. The FIR continues running. The right-channel echo, I2S serializer, and two-frame baseline output latency are preserved.
 
-The test interface uses 16 BCLK periods per channel slot with Philips one-bit MSB delay, matching the recovered design's successful Phase 4 integration. The package-local adapter in `rtl/phase4_dut.sv` maps the generic testbench ports directly and does not gate I2S signals with the bench reset.
+The recovered core has no external reset. Its internal state uses the recovered iCE40 power-up initialization. The test adapter wires I2S signals directly and does not gate them with the generic bench reset.
 
 ## Measured verification
 
-Validation runs 5, 6, and 7 each passed all ten simulation cases and the FPGA build: 11/11 report cases, 0 failed, 0 blocked. Each `validate` run also passed 15 framework unit tests.
+The final standard validation passed 11/11 report cases (10 simulations and the FPGA build), with 0 failed and 0 blocked cases. The runner's 15 framework unit tests also passed.
 
-- Baseline mismatch count: 0 over 22,248 compared words across the seven normal-operation cases.
-- Right-channel echo mismatch count: 0; the first two startup output frames were zero as expected.
-- Negative tests: 7/7 passed, including seeded random data, a one-word near miss, and a sequence split by an interruption.
-- Trigger events: 4/4 passed at 1 MHz, 625 kHz, and two repeated activations. Each event produced exactly 128 raw pass-through frames; total pass-through mismatches: 0.
-- Boundary, noisy-audio, startup, and sequential retrigger tests matched their expected results exactly.
-- Reproducibility: validation runs 6 and 7 had identical per-case input-content hashes and identical bitstream SHA-256 `49e24471d676518619d57df5855c533b5eae166feef662cd47fd10d989efb02b`.
+- Baseline equivalence: 0 mismatches across 22,248 output words in the seven standard no-trigger cases.
+- Full noisy recording: all 240,000 source frames at 16 kHz PCM16 were simulated in four reset-isolated chunks with seven-frame overlaps. The chunks compared 481,082 output words, with 0 mismatches and no trigger sequence. Each chunk included 130 zero frames to flush the 128-frame payload window and two-frame output latency. The combined baseline comparison count is 503,330 words.
+- False-positive checks: all seven standard no-trigger cases passed, including 8,192 seeded random frames, a one-word near miss, an interrupted trigger sequence, boundary values, startup edges, the Phase 3 golden vector, and 1,024 frames from the noisy recording. The complete noisy file also passed in 4/4 chunks.
+- Activation: 4/4 trigger events passed at 1 MHz and 625 kHz BCLK, including two activations in one stream. Every event produced exactly 128 raw pass-through frames; total pass-through mismatches were 0.
+- Startup and echo: 0 right-channel echo mismatches; the first two output frames were zero as expected.
+- Reproducibility: standard runs 7 and the fresh Scribe-recorded continuation produced identical input-content hashes and bitstream SHA-256 `49e24471d676518619d57df5855c533b5eae166feef662cd47fd10d989efb02b`.
 
-For iCE40 UP5K SG48 at a 10 MHz constraint, place-and-route used 3,662/5,280 logic cells (69.4%), 0/8 DSPs, 0/30 block RAMs, and 9/39 IO cells. Reported Fmax was 15.1316 MHz. The bitstream pack/unpack round trip passed. No physical board was available; hardware operation is unverified.
+For iCE40 UP5K SG48 with a 10 MHz constraint, place-and-route used 3,662/5,280 logic cells (69.4%), 0/8 DSPs, 0/30 block RAMs, and 9/39 IO cells. The recovered Phase 4 baseline used 3,179 logic cells, so this candidate adds 483 cells (15.2% over that baseline). Fmax was 15.1316 MHz, and the bitstream pack/unpack round trip passed. No physical board test was run.
 
-See `reports/evidence-summary-final.json`, `reports/validation-run-7/report.json`, and `reports/validation-run-7/fpga-build/build-summary.json` for captured results and tool versions. Failed harness/configuration attempts and their fixes are summarized in `ai/rejected-revisions.md`.
+The captured numerical evidence is in `reports/evidence-summary-final.json` and `reports/full-audio-evidence.json`. The full-audio source hash, chunk ranges, and input/golden hashes are in `reports/full-audio-vectors/source-summary.json`. The detailed standard run 7 report and build summary are retained under `reports/validation-run-7/`.
 
 ## Reproduction
 
-Run these commands from the isolated worktree root. Use an OSS CAD Suite installation with the Icarus, Yosys, nextpnr-ice40, IceStorm, and icetime tools listed in the validation report.
+Run from this worktree root with the OSS CAD Suite tools listed in the validation report:
 
 ```powershell
 $Suite = 'C:\Users\lowbr\Documents\College\AI\CSAW_FIN\.worktrees\phase-04\.tools\oss-cad-suite'
 $Python = Join-Path $Suite 'lib\python3.exe'
 $env:PYTHONDONTWRITEBYTECODE = '1'
 & $Python experiments/phase05/05b-astra/tests/prepare_vectors.py
+& $Python experiments/phase05/05b-astra/tests/prepare_full_audio.py
 & $Python infrastructure/run.py --suite $Suite validate --manifest experiments/phase05/05b-astra/manifest.json --output experiments/phase05/05b-astra/reports/reproduction-run
-& $Python experiments/phase05/05b-astra/tests/audit_results.py --run experiments/phase05/05b-astra/reports/validation-run-6 --repeat-run experiments/phase05/05b-astra/reports/reproduction-run --output experiments/phase05/05b-astra/reports/reproduction-evidence.json
+& $Python experiments/phase05/05b-astra/tests/audit_results.py --run experiments/phase05/05b-astra/reports/reproduction-run --repeat-run experiments/phase05/05b-astra/reports/validation-run-7 --output experiments/phase05/05b-astra/reports/reproduction-evidence.json
+& $Python infrastructure/run.py --suite $Suite sim --manifest experiments/phase05/05b-astra/tests/full_audio_manifest.json --output experiments/phase05/05b-astra/reports/full-audio-run
+& $Python experiments/phase05/05b-astra/tests/audit_full_audio.py --run experiments/phase05/05b-astra/reports/full-audio-run --summary experiments/phase05/05b-astra/reports/full-audio-vectors/source-summary.json --output experiments/phase05/05b-astra/reports/full-audio-evidence.json
 ```
 
-`manifest.json` records the runner configuration, exact source hashes, trigger behavior, verification status, and baseline source commit. `ai/source-hashes.json` repeats the hash inventory and records the manifest hash. The Phase 3 golden inputs and outputs remain byte-preserved; `reference_io.generic.csv` is a separate runner-compatible copy.
+The Scribe `record-test` wrapper needs a longer timeout for the full-audio run; `--timeout 900` allowed all four chunks to finish. The default 300-second attempt ended incomplete after three chunks and was not counted as a test pass.
 
 ## Package map
 
 - `rtl/fir_audio_top.v`: AI-authored candidate top.
 - `rtl/baseline/fir_audio_top.v`: unchanged recovered baseline.
-- `rtl/phase4_dut.sv`: local copy of the validated direct-wire adapter.
-- `tests/reference/` and `tests/vectors/`: golden reference, coefficients, preserved Phase 3 data, and deterministic stimuli.
-- `tests/prepare_vectors.py`, `tests/candidate_reference.py`, `tests/audit_results.py`: AI-authored vector, expected-result, and capture-audit code.
-- `reports/`: regression reports, actual captures, build outputs, and evidence summary.
-- `ai/`: model provenance, source hashes, session record, and rejected revisions.
-- `manifest.json`: Phase 4 schema-version-1 `verified_design` manifest with candidate metadata.
+- `rtl/phase4_dut.sv`: local direct-wire adapter for the generic testbench.
+- `tests/reference/` and `tests/vectors/`: baseline reference, coefficients, preserved Phase 3 golden data, and directed/seeded stimuli.
+- `tests/prepare_full_audio.py`, `tests/full_audio_manifest.json`, and `tests/audit_full_audio.py`: full-recording negative simulation and capture audit. Generated full-audio vectors are kept under ignored `reports/full-audio-vectors/`.
+- `reports/`: captured regression and build evidence; generated outputs are local unless explicitly tracked.
+- `ai/`: model provenance, source hashes, session summary, and rejected revisions.
+- `manifest.json`: Phase 4 schema-version-1 `verified_design` manifest with candidate metadata and source hashes.
 
 ## Provenance and limits
 
-The competition-specific trigger, payload, RTL changes, test/reference additions, manifest, and documentation were AI-authored for this candidate. The baseline RTL and original golden data were copied unchanged from Phase 3. The requested model label was Astra; the runtime does not expose an exact model identifier. The Phase 2 audio top is a behavioral reconstruction rather than a gate-level copy. Hackster board testing remains outstanding, and LED/RGB pin roles remain provisional. No public remote was updated, and this candidate does not select an overall winner.
+The competition-specific trigger, payload, RTL changes, test/reference additions, manifest, and documentation were AI-authored for this candidate. The baseline RTL and original Phase 3 golden data are unchanged. The requested model label was Astra; the runtime did not expose an exact model identifier. `ai/session-record.md` is a provenance summary, not a raw conversation transcript.
+
+The Project Scribe `record-test` interface recorded the standard validation and full-audio audit commands with exit code 0 and stable tracked state. Its local evidence preview was generated without model synthesis or Google Docs publishing; the Scribe setup is still marked unactivated. No public remote was updated and this candidate does not select an overall winner.
+
+The full noisy WAV was simulated as four independent power-up runs, not as one continuous hardware stream. Physical board behavior, board timing, and the physical exploit demonstration remain unverified. LED/RGB pin roles remain provisional. The official finals instructions require a physical-board exploit demonstration and comprehensive AI transcripts; those items remain outstanding.
