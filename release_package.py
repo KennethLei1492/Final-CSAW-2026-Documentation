@@ -65,7 +65,8 @@ def history_bundle(config, staging):
                 process.kill()
                 process.wait()
     bundle = staging / "development.bundle"
-    subprocess.run(["git", "bundle", "create", str(bundle), *refs], cwd=ROOT, check=True, timeout=240)
+    subprocess.run(["git", "-c", "pack.threads=1", "bundle", "create", str(bundle), *refs],
+                   cwd=ROOT, check=True, timeout=240)
     with (staging / "bundle-verification.log").open("wb") as log:
         subprocess.run(["git", "bundle", "verify", str(bundle)], cwd=ROOT,
                        stdout=log, stderr=subprocess.STDOUT, check=True, timeout=120)
