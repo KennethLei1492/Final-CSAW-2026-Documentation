@@ -55,10 +55,16 @@
       "full_audio": {"source_frames": 240000, "segments": 4, "compared_words": 481082, "baseline_mismatches": 0, "trigger_hits": 0, "reset_isolated_with_overlap": true},
       "common_vectors": "2/2 passed; 1032 output words; zero error",
       "controlled_activation": {"case": "activation-1mhz", "compared_words": 1000, "changed_left_words": 128, "changed_right_words": 0, "first_changed_word": 42, "successful_trigger_events_across_suite": 4, "bypass_frames_per_event": 128},
+      "post_bypass_boundary_issue": {
+        "status": "user_reported_not_independently_reproduced_in_phase_05s",
+        "behavior": "The detector ignores the first input sample after bypass ends. A new trigger sequence beginning on that sample is missed; beginning one sample later works.",
+        "coverage_gap": "The existing retrigger-2x case does not start its second trigger at the first post-bypass sample.",
+        "recommended_check": "Add directed sequences beginning at the first and second post-bypass samples, compare activation count and 128-frame bypass windows to a corrected reference, then rerun full regression and synthesis."
+      },
       "native_build": {"logic_cells": 3313, "fmax_mhz": 15.48466968536377},
       "gate_results": {"sources_dependencies": "pass", "baseline_simulation": "pass", "tests_executed": "pass", "reproducible_from_frozen_sha": "pass", "submitted_receipt_match": "fail", "synthesis": "pass", "resource_timing": "pass", "ai_provenance": "incomplete", "physical": "not_run"},
       "rubric_estimate": {"creative_ai": null, "trojan_quality": 20, "system_automation": 9, "documentation_reproducibility": 9, "hardware_demonstration": 0},
-      "issues": ["Full prompt/response transcript absent; session-record.md is a summary", "Submitted validation-run-7 reports a different RTL input hash, 3662 logic cells and bitstream 49e24471..., while the frozen commit freshly builds at 3313 logic cells and bitstream 7fff6e2d...", "Fresh validate and fresh common build both produced identical 7fff6e2d... bitstreams; the earlier submitted receipt is excluded", "Manifest does not carry an exact package commit SHA; STATUS.md identifies the earlier RTL origin commit"]
+      "issues": ["User-reported retrigger boundary defect: first input sample after bypass is ignored; a trigger starting there is missed", "Full prompt/response transcript absent; session-record.md is a summary", "Submitted validation-run-7 reports a different RTL input hash, 3662 logic cells and bitstream 49e24471..., while the frozen commit freshly builds at 3313 logic cells and bitstream 7fff6e2d...", "Fresh validate and fresh common build both produced identical 7fff6e2d... bitstreams; the earlier submitted receipt is excluded", "Manifest does not carry an exact package commit SHA; STATUS.md identifies the earlier RTL origin commit"]
     },
     "05C": {
       "baseline_control": "8/8 inactive equivalence simulations and FPGA build passed",
@@ -100,9 +106,11 @@
   "selection_blockers": [
     "No candidate has a physical-board normal-operation and exploit demonstration.",
     "No package contains complete prompts and responses for the main AI session that authored its Trojan RTL; official submission provenance remains incomplete.",
-    "05B submitted source-hash and bitstream receipts do not match its selected immutable package, even though fresh tests and two fresh builds agree."
+    "05B submitted source-hash and bitstream receipts do not match its selected immutable package, even though fresh tests and two fresh builds agree.",
+    "A user-reported 05B post-bypass boundary defect needs a focused reproducer and correction before reliability signoff."
   ],
   "recommended_quality_priorities": [
+    "Reproduce and fix the 05B boundary defect: a trigger beginning on the first input sample after bypass ends is missed, while one beginning a sample later works. Add both boundary cases and rerun standard/full-audio regressions and the FPGA build.",
     "Recover and attach the full 05B Codex main-session prompt/response history with a source-to-prompt provenance map; verify competition transcript sufficiency.",
     "Reissue 05B hashes, manifest metadata and all build receipts from immutable package SHA 9e172a865a543b03e226596689fd6691ffa2b779.",
     "Program the Hackster and capture the official bit-identical baseline audio comparison, echo link check, exact-trigger bypass, timing/LED behavior, and host-side input/output artifacts.",

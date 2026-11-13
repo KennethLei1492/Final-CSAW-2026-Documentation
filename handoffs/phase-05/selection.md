@@ -102,6 +102,16 @@ bitstream**. Its audit script flags comparison to the old receipt as
 nonidentical. The older values are excluded from the ranking. Fresh standard
 and full-audio simulations are valid for the frozen SHA.
 
+**05B post-bypass boundary issue (reported after selection):** the trigger
+detector ignores the first input sample after a 128-frame bypass ends. A new
+eight-sample trigger beginning on that sample is missed; the same trigger
+beginning one sample later works. This is a user-reported finding, not
+independently reproduced in Phase 05S. The passing `retrigger-2x` vector
+starts its second trigger later and therefore does not test this boundary.
+Treat the winner's retrigger reliability as unresolved until Subphase Q adds
+directed tests at both starting positions and fixes the state transition.
+The ranking remains provisional.
+
 ## Official rubric assessment
 
 The [official Challenge 3 scoring sheet](https://github.com/JBlocklove/CSAW-AI-Hardware-Attack-Challenge-2026/blob/main/finals/challenge_3/README.md)
@@ -147,20 +157,24 @@ one-bit payload is much weaker.
 
 Work for Subphase Q, in priority order:
 
-1. Recover and package 05B's complete Codex prompt/response history and map
+1. Reproduce and fix the 05B post-bypass boundary defect. Put a second trigger
+   at the first input sample after bypass and in a control case one sample
+   later. Assert both activation counts and exact 128-frame bypass windows,
+   then rerun the standard suite, full-audio regression and FPGA build.
+2. Recover and package 05B's complete Codex prompt/response history and map
    the RTL, reference model, vectors and exploit logic to that history. The
    official challenge says missing logs may disqualify the submission.
-2. Regenerate 05B's manifest SHA, source hashes, receipts and bitstream claims
+3. Regenerate 05B's manifest SHA, source hashes, receipts and bitstream claims
    from `9e172a865a543b03e226596689fd6691ffa2b779`. Keep the old
    nonmatching reports labeled as superseded.
-3. Program a Hackster board and capture normal-operation output against the
+4. Program a Hackster board and capture normal-operation output against the
    supplied bitstream, the echo link check, triggered 128-frame bypass, and
    input/output audio or spectrogram plus host logs. Check the actual pin/LED
    behavior. Simulation and P&R do not establish those observations.
-4. Provide a single host exploit command, repeatable board setup and final
+5. Provide a single host exploit command, repeatable board setup and final
    technical brief. Review the final artifact package for sensitive files
    before any public push or submission.
-5. Use 05C's right-slot near misses and 05D's spectral probes as **test ideas**
+6. Use 05C's right-slot near misses and 05D's spectral probes as **test ideas**
    without merging their implementations into 05B.
 
 ## Reproduction
