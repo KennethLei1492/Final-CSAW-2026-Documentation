@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "kind": "verified_design",
+  "ready": true,
+  "simulation": {
+    "sources": [
+      "rtl/fir_audio_top.v",
+      "rtl/audio_lab_tx.v",
+      "rtl/phase4_dut.sv"
+    ],
+    "parameters": {
+      "SAMPLE_BITS": 16,
+      "SLOT_BITS": 16,
+      "MSB_DELAY": 1,
+      "LEFT_LEVEL": 0,
+      "HALF_PERIOD_NS": 500,
+      "CLOCK_HALF_NS": 50,
+      "RESET_CYCLES": 10
+    },
+    "reference_command": [
+      "{python}",
+      "../05b-astra/tests/candidate_reference.py",
+      "{input}",
+      "{output}"
+    ],
+    "reference_sources": [
+      "../05b-astra/tests/candidate_reference.py",
+      "../05b-astra/tests/reference/run_reference.py",
+      "../05b-astra/tests/reference/coeffs.json"
+    ],
+    "timeout_seconds": 300
+  },
+  "cases": [
+    {
+      "name": "phase3-golden",
+      "input_csv": "../05b-astra/tests/vectors/canonical_golden.csv",
+      "expected_csv": "../05b-astra/tests/vectors/reference_io.generic.csv",
+      "tolerance": 0,
+      "latency_words": 0
+    },
+    {
+      "name": "noisy-audio-1024",
+      "input_csv": "../05b-astra/tests/vectors/noisy_audio_1024.csv",
+      "expected_csv": "../05b-astra/tests/vectors/noisy_audio_1024.expected.csv",
+      "tolerance": 0,
+      "latency_words": 0
+    },
+    {
+      "name": "startup-edges",
+      "input_csv": "../05b-astra/tests/vectors/startup_edges.csv",
+      "expected_csv": "../05b-astra/tests/vectors/startup_edges.expected.csv",
+      "tolerance": 0,
+      "latency_words": 0
+    },
+    {
+      "name": "boundary-stress",
+      "input_csv": "../05b-astra/tests/vectors/boundary_stress.csv",
+      "expected_csv": "../05b-astra/tests/vectors/boundary_stress.expected.csv",
+      "tolerance": 0,
+      "latency_words": 0
+    },
+    {
+      "name": "random-negative",
+      "input_csv": "../05b-astra/tests/vectors/random_negative.csv",
+      "expected_csv": "../05b-astra/tests/vectors/random_negative.expected.csv",
+      "tolerance": 0,
+      "latency_words": 0
+    },
+    {
+      "name": "near-miss-negative",
+      "input_csv": "../05b-astra/tests/vectors/near_miss_negative.csv",
+      "expected_csv": "../05b-astra/tests/vectors/near_miss_negative.expected.csv",
+      "tolerance": 0,
+      "latency_words": 0
+    },
+    {
+      "name": "split-sequence-negative",
+      "input_csv": "../05b-astra/tests/vectors/split_sequence_negative.csv",
+      "expected_csv": "../05b-astra/tests/vectors/split_sequence_negative.expected.csv",
+      "tolerance": 0,
+      "latency_words": 0
+    },
+    {
+      "name": "activation-1mhz",
+      "input_csv": "../05b-astra/tests/vectors/trigger_1mhz.csv",
+      "tolerance": 0,
+      "latency_words": 0
+    },
+    {
+      "name": "activation-625khz",
+      "input_csv": "../05b-astra/tests/vectors/trigger_625khz.csv",
+      "parameters": {
+        "HALF_PERIOD_NS": 800
+      },
+      "tolerance": 0,
+      "latency_words": 0
+    },
+    {
+      "name": "retrigger-2x",
+      "input_csv": "../05b-astra/tests/vectors/retrigger_1mhz.csv",
+      "tolerance": 0,
+      "latency_words": 0
+    }
+  ],
+  "build": {
+    "sources": [
+      "rtl/fir_audio_top.v",
+      "rtl/audio_lab_tx.v"
+    ],
+    "top": "fir_audio_top",
+    "device": "up5k",
+    "package": "sg48",
+    "pcf": "constraints/hackster.pcf",
+    "frequency_mhz": 10,
+    "seed": 1,
+    "timeout_seconds": 300
+  },
+  "name": "05bb-baseline-and-build",
+  "source_commit": "fd0ca7f6bce1d30bb1b1e6ce43603b4c7d51e5b6",
+  "verification_evidence": [
+    "../05b-astra/tests/BASELINE_PROVENANCE.md",
+    "../05b-astra/tests/reference/README.md",
+    "constraints/hackster.pcf"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "message_ascii": "CSAW26-BONUS-B",
+  "packet_hex": "d391c5a70e4353415732362d424f4e55532d4296c7",
+  "packet_bits": 168,
+  "samples_per_bit": 32,
+  "crc": "CRC16-CCITT init FFFF poly1021 length+payload",
+  "trigger_signed": [
+    4951,
+    -4952,
+    9320,
+    -9321,
+    13980,
+    -13981,
+    21930,
+    -21931
+  ],
+  "sample_rate_hz": 31250,
+  "repeats": 3
+}

@@ -1,0 +1,6 @@
+# Full generated artifacts remain locally available and in verification-evidence.zip.
+/evidence/
+/reports/
+/tests/rtl/q-vectors/
+/tests/rtl/recovered/
+*.vvp
