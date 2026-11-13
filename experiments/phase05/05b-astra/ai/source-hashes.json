@@ -1,7 +1,7 @@
 ﻿{
     "schema_version":  1,
-    "manifest_sha256":  "44d70faa315362377a5f7abc2176e0a34832b64eeb94e9fa02fb08adba23e33c",
-    "source_file_count":  32,
+    "manifest_sha256":  "ea068d9502a227c163addf2e53b2cd97c1fae18605f7d3f844b3b5c67aaf2a1b",
+    "source_file_count":  35,
     "source_sha256":  {
                           "rtl/fir_audio_top.v":  "2c868b30d4140f40dc5cb419bbd611d9c848aa6578d902ab509b6c4e666518e4",
                           "rtl/phase4_dut.sv":  "1d53da1d936deea3e491c1f35e38d48ff4f9408b80311badb1d7a898b9eed28c",
@@ -34,6 +34,9 @@
                           "tests/vectors/trigger_1mhz.csv":  "c3879761043c8f8b5638c59cdb229e7c3d1f814e88b1d25582117d98ad8cbb1e",
                           "tests/vectors/trigger_625khz.csv":  "c3879761043c8f8b5638c59cdb229e7c3d1f814e88b1d25582117d98ad8cbb1e",
                           "constraints/hackster.pcf":  "5bb849ea0d64b98c891ea8a7f474c61a34c9ecd1d4f7d0584bb97169c1a79fe3",
-                          "../../../what_a_piece_of_work-noisy.wav":  "403bab7faa0d0a898385a49d5c942b19890a5f166045fe9ba18c0a0cf919abb0"
+                          "../../../what_a_piece_of_work-noisy.wav":  "403bab7faa0d0a898385a49d5c942b19890a5f166045fe9ba18c0a0cf919abb0",
+                          "tests/prepare_full_audio.py":  "503ca62cf7e9defd838250cd3147ae22a28a26a275a34a49ca4d296e52b62e84",
+                          "tests/full_audio_manifest.json":  "f7b108e86460133c609d465da91914be04e0932f40dc58fba73c45d05a30d559",
+                          "tests/audit_full_audio.py":  "57f0e612c5343c997c7b03e447fb327613266ef1d09737d045cb80341248b554"
                       }
 }
