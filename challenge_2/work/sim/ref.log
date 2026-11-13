@@ -1,3 +1,0 @@
-Ascon-AEAD128 reference: ALL self-consistency + self-test-equivalent checks PASS
-ct = daaa93260d57f9d7e68e5dd9564834c3fa9154573341e751452c7d9e904bf3b2aa3b63c9c017b84424a76cdb
-tag= 4dc0ba59cb13ae92bdef7d2baf55b3d1
