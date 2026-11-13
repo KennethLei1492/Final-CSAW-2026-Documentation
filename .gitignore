@@ -32,3 +32,10 @@ Thumbs.db
 .worktrees/
 .tools/
 build/
+
+# Candidate 05d (DSP): its experiments/.../reports/ is a REQUIRED committed
+# deliverable. The generic reports/ rule above targets transient local tool
+# output; re-include this candidate's tracked report tree (but not raw harness
+# run dirs, which live under build/05d/ and stay ignored above).
+!experiments/phase05/05d-opus-dsp/reports/
+!experiments/phase05/05d-opus-dsp/reports/**
