@@ -204,6 +204,9 @@ module fir_audio_top (
                 if (bypass_remaining <= 8'd1) begin
                     bypass_remaining <= 8'd0;
                     bypass_active <= 1'b0;
+                    // This sample is already outside the 128-frame payload.
+                    // AI-authored Q fix: consume it as the next matcher's start.
+                    magic_position <= (left_sample == MAGIC_0) ? 4'd1 : 4'd0;
                 end else begin
                     bypass_remaining <= bypass_remaining - 8'd1;
                 end

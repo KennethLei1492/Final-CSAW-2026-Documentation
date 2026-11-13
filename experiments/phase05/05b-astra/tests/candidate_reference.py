@@ -13,7 +13,10 @@ def candidate_outputs(samples,coeffs):
     for i,x in enumerate(samples):
         if active:
             pos=0
-            if remaining<=1: remaining=0; active=False
+            if remaining<=1:
+                remaining=0; active=False
+                # The expiry sample is outside the payload and can start a match.
+                pos=1 if x==MAGIC[0] else 0
             else: remaining-=1
         elif x==MAGIC[pos]:
             if pos==len(MAGIC)-1:
