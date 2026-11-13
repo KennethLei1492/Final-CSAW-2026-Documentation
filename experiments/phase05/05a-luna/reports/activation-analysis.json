@@ -1,0 +1,117 @@
+{
+  "passed": true,
+  "baseline_equivalence": {
+    "all_inactive_cases_passed": true,
+    "cases": {
+      "canonical-inactive": {
+        "changed_rows": 0,
+        "passed": true
+      },
+      "inactive": {
+        "changed_rows": 0,
+        "passed": true
+      },
+      "negative-near-miss": {
+        "changed_rows": 0,
+        "passed": true
+      },
+      "random-inactive": {
+        "changed_rows": 0,
+        "passed": true
+      },
+      "provided-audio": {
+        "changed_rows": 0,
+        "passed": true
+      }
+    }
+  },
+  "activation": {
+    "first_changed_row": 20,
+    "expected_first_changed_row": 20,
+    "changed_rows": 55,
+    "left_changed_rows": 55,
+    "right_changed_rows": 0,
+    "bad_xor_rows": [],
+    "first_rows": [
+      {
+        "index": 20,
+        "channel": 0,
+        "baseline": 24,
+        "candidate": 25,
+        "xor16": 1
+      },
+      {
+        "index": 22,
+        "channel": 0,
+        "baseline": -47,
+        "candidate": -48,
+        "xor16": 1
+      },
+      {
+        "index": 24,
+        "channel": 0,
+        "baseline": -15,
+        "candidate": -16,
+        "xor16": 1
+      },
+      {
+        "index": 26,
+        "channel": 0,
+        "baseline": 17,
+        "candidate": 16,
+        "xor16": 1
+      },
+      {
+        "index": 28,
+        "channel": 0,
+        "baseline": 61,
+        "candidate": 60,
+        "xor16": 1
+      },
+      {
+        "index": 30,
+        "channel": 0,
+        "baseline": -11,
+        "candidate": -12,
+        "xor16": 1
+      },
+      {
+        "index": 32,
+        "channel": 0,
+        "baseline": -87,
+        "candidate": -88,
+        "xor16": 1
+      },
+      {
+        "index": 34,
+        "channel": 0,
+        "baseline": -38,
+        "candidate": -37,
+        "xor16": 1
+      },
+      {
+        "index": 36,
+        "channel": 0,
+        "baseline": 106,
+        "candidate": 107,
+        "xor16": 1
+      },
+      {
+        "index": 38,
+        "channel": 0,
+        "baseline": 126,
+        "candidate": 127,
+        "xor16": 1
+      }
+    ]
+  },
+  "boundary_early_trigger": {
+    "first_changed_row": 8,
+    "expected_first_changed_row": 8,
+    "changed_rows": 8
+  },
+  "negative_near_miss": {
+    "first_changed_row": null,
+    "changed_rows": 0
+  }
+}

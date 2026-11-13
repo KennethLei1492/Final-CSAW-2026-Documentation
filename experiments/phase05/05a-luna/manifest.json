@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "candidate_id": "05A",
+  "model": "Codex Luna 5.6",
+  "base_commit_sha": "e72522f265ac36da713cd7a0dcf8dbc64ab21209",
+  "candidate_commit_sha": "PENDING_COMMIT",
+  "name": "csaw-challenge3-05a-luna",
+  "kind": "verified_design",
+  "ready": true,
+  "verification_evidence": [
+    "ai/design-research.md",
+    "ai/interaction-log.md",
+    "rtl/baseline/fir_audio_top_reference.v",
+    "../../../handoffs/phase-04/integration-validation.json"
+  ],
+  "simulation": {
+    "sources": [
+      "rtl/candidate/fir_audio_top_candidate.v",
+      "rtl/candidate/phase5_dut_adapter.sv"
+    ],
+    "parameters": {
+      "SAMPLE_BITS": 16,
+      "SLOT_BITS": 16,
+      "MSB_DELAY": 1,
+      "LEFT_LEVEL": 0,
+      "HALF_PERIOD_NS": 500,
+      "CLOCK_HALF_NS": 50,
+      "RESET_CYCLES": 10
+    },
+    "reference_command": [
+      "{python}",
+      "tests/run_candidate_reference.py",
+      "{input}",
+      "{output}",
+      "--coeffs",
+      "tests/coeffs.json"
+    ],
+    "reference_sources": [
+      "tests/run_candidate_reference.py",
+      "tests/coeffs.json"
+    ],
+    "timeout_seconds": 180
+  },
+  "cases": [
+    {"name": "canonical-inactive", "input_csv": "tests/canonical-inactive.csv", "tolerance": 0, "latency_words": 0},
+    {"name": "inactive", "input_csv": "tests/inactive.csv", "tolerance": 0, "latency_words": 0},
+    {"name": "negative-near-miss", "input_csv": "tests/negative-near-miss.csv", "tolerance": 0, "latency_words": 0},
+    {"name": "random-inactive", "input_csv": "tests/random-inactive.csv", "tolerance": 0, "latency_words": 0},
+    {"name": "boundary-early-trigger", "input_csv": "tests/boundary-early-trigger.csv", "tolerance": 0, "latency_words": 0},
+    {"name": "activation", "input_csv": "tests/activation.csv", "tolerance": 0, "latency_words": 0},
+    {"name": "provided-audio", "input_wav": "../../../what_a_piece_of_work-noisy.wav", "frames": 256, "tolerance": 0, "latency_words": 0}
+  ],
+  "build": {
+    "sources": [
+      "rtl/candidate/fir_audio_top_candidate.v",
+      "rtl/candidate/phase5_dut_adapter.sv"
+    ],
+    "top": "phase4_audio_top",
+    "device": "up5k",
+    "package": "sg48",
+    "pcf": "rtl/candidate/fir_audio_top_hackster.pcf",
+    "frequency_mhz": 10,
+    "seed": 1,
+    "allow_unconstrained": false,
+    "timeout_seconds": 300
+  },
+  "acceptance": {
+    "inactive_mismatch_count": 0,
+    "negative_triggered": false,
+    "activation_first_changed_logical_sample": 8,
+    "activation_left_delta": "xor 16'h0001",
+    "activation_right_channel_unchanged": true,
+    "timing_constraint_mhz": 10,
+    "hardware_verification": "pending"
+  },
+  "exact_commands": [
+    "python experiments/phase05/05a-luna/tests/generate_cases.py",
+    "python infrastructure/run.py --suite C:/Users/lowbr/oss-cad-suite validate --manifest experiments/phase05/05a-luna/manifest.json --waves vcd --output experiments/phase05/05a-luna/reports/candidate-validation",
+    "python infrastructure/run.py --suite C:/Users/lowbr/oss-cad-suite validate --manifest experiments/phase05/05a-luna/manifest-baseline.json --waves none --output experiments/phase05/05a-luna/reports/baseline-validation",
+    "python experiments/phase05/05a-luna/tests/analyze_activation.py --candidate experiments/phase05/05a-luna/reports/candidate-validation-2 --baseline experiments/phase05/05a-luna/reports/baseline-validation-2 --output experiments/phase05/05a-luna/reports/activation-analysis.json"
+  ],
+  "status": {
+    "baseline_tests": {
+      "status": "passed",
+      "report": "reports/baseline-validation-2/report.json",
+      "simulation_cases_passed": 7,
+      "fpga_build_passed": true,
+      "all_comparisons_max_error": 0
+    },
+    "activation_tests": {
+      "status": "passed",
+      "report": "reports/activation-analysis.json",
+      "first_changed_output_row": 20,
+      "left_channel_xor16": 1,
+      "right_channel_changed_rows": 0,
+      "inactive_case_changed_rows": 0
+    },
+    "fpga_resource_measurements": {
+      "baseline": {"lc_used": 3362, "lut4": 2261, "ff": 1179, "carry": 104, "dsp": 0, "bram": 0, "io": 5},
+      "candidate": {"lc_used": 3360, "lc_available": 5280, "lut4": 2258, "ff": 1182, "carry": 104, "dsp": 0, "bram": 0, "io": 5}
+    },
+    "timing_results": {
+      "constraint_mhz": 10.0,
+      "nextpnr_baseline_fmax_mhz": 14.6638317108154,
+      "nextpnr_candidate_fmax_mhz": 14.7926807403564,
+      "icetime_baseline_fmax_mhz": 14.40,
+      "icetime_candidate_fmax_mhz": 14.52,
+      "timing_met": true,
+      "seed": 1
+    },
+    "hardware_verification": {
+      "status": "pending",
+      "reason": "No physical Hackster board was available in this run"
+    },
+    "known_failures": [
+      "candidate-validation-1 and baseline-validation-1 retained initial harness failures; corrected by using SLOT_BITS=16, sequential word indices, signed trigger vectors, and the audio-only synthesis top"
+    ]
+  },
+  "artifact_paths_hashes": {
+    "rtl/candidate/fir_audio_top_candidate.v": "20428ec1701eece5847650a148c233341b30e61f54bb5d5183b12f0c46d0f65e",
+    "rtl/candidate/phase5_dut_adapter.sv": "debc280338e21f598be48921fbd3c15c5de44e27ef0866d4d38fbfc765dedb82",
+    "rtl/candidate/fir_audio_top_hackster.pcf": "5bb849ea0d64b98c891ea8a7f474c61a34c9ecd1d4f7d0584bb97169c1a79fe3",
+    "rtl/baseline/fir_audio_top_reference.v": "3f7da4476296bc02bfee2d973e3c206a9bde7a661b7d68aa0c3bf779cf66b7d1",
+    "tests/analyze_activation.py": "1bc7f96a11f2b5302d9415dcfb4ef78bdaa34b085a139bb9ae90a959da496d26",
+    "tests/generate_cases.py": "f0c133a6c453d7b27f2e0a7c2fc8172053fcd13dbf18dbd7c9441ab66cfc6806",
+    "tests/run_candidate_reference.py": "a001c5289f7466f2d0d56b77639151c3c1c2ab609bc7a7f4035c3e48e3792591",
+    "reports/activation-analysis.json": "03d19c58f3008fa8e622a13717e06d3fdb0ac3a55149f4f0c510ca90f89258a5",
+    "reports/candidate-validation-2/report.json": "5267730403d9751fbd7be9ee6380a9502350ae42cd2d686aae86a109bcc37474",
+    "reports/candidate-validation-2/fpga-build/build-summary.json": "3fef2085d646314f17868424bb85d0543ca2213e1d66f235427a3489aa2b8472",
+    "reports/candidate-validation-2/fpga-build/timing.json": "1f55784172a5eeb1bb1de93bd1d450cbc572dd3a073f8918f678c71b2a886177",
+    "reports/candidate-validation-2/fpga-build/utilization.json": "160ddfc7e47d64c00fa5128799ad6727d7546059c78a2cfa40232d540c42b29",
+    "reports/candidate-validation-2/fpga-build/bitstream.bin": "83ed6c5a7ce18a034ef523eb5e0bd4f01048a90a4c0af1543024c0723ea162cb",
+    "reports/candidate-validation-2/fpga-build/roundtrip.bin": "83ed6c5a7ce18a034ef523eb5e0bd4f01048a90a4c0af1543024c0723ea162cb",
+    "reports/candidate-sim-repeat/report.json": "6f23eaf3c8e849817647ccdf95baada0ad2630c3defb86f7f10f916eb53d040c",
+    "reports/candidate-build-repeat/report.json": "919301db02f69ef00d817465c5ef2324fd77297b48a04beac37752cb30fbf785",
+    "reports/candidate-build-repeat/fpga-build/bitstream.bin": "83ed6c5a7ce18a034ef523eb5e0bd4f01048a90a4c0af1543024c0723ea162cb",
+    "reports/candidate-build-repeat/fpga-build/roundtrip.bin": "83ed6c5a7ce18a034ef523eb5e0bd4f01048a90a4c0af1543024c0723ea162cb",
+    "reports/baseline-validation-2/report.json": "4f7909374682140e70d116b4cd9ef35f158be7af731093ef979537be06b8cd8a4",
+    "reports/baseline-validation-2/fpga-build/build-summary.json": "46b9a265a2988f78d0a28acace5daacb454cf791ad0d2c21bf1c18898d1a22da",
+    "reports/baseline-validation-2/fpga-build/bitstream.bin": "4f0ba91d24109dfb6fa5d5bffd48d9246a00f64d80a183ba3be170bf37b832c8",
+    "ai/design-research.md": "8dd89d43687fa329efa8a57a9e04acefe140967f096db02f2e305fc89a51c902",
+    "ai/interaction-log.md": "e83f55207cf219dfe955b77ff12d560c0a83bde4b143500ab6b172701caaacf8",
+    "README.md": "d49abe236a4565db01f68dcfa0b2b8c636f08cfd9c8d335463e30a18dada28c6",
+    "../../../handoffs/phase-05/05a-luna/STATUS.md": "2e0428bdac5d399596da8942e05091f2cad85f2125e470a4923cfd012da6575e"
+  }
+}
