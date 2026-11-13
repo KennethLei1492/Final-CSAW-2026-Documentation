@@ -1,5 +1,51 @@
 # Phase 4 infrastructure handoff
 
+## Latest status: recovered-design integration completed
+
+The earlier dependency block below has been resolved for the committed Phase 2
+v2 inputs at `1befb30e99a506698c45d4ca9394a3c7ec95c966`. Implementation commit
+`8fd929a` adds a read-only Git snapshot importer, simulation adapter, unchanged-model
+CSV/framing adapter, and verified audio-pin constraints. Recovered RTL and model
+files were not edited or copied into tracked infrastructure source directories.
+
+Eight actual reconstructed-RTL simulations passed **8,224 exact output-word
+comparisons**: supplied golden vectors at BCLK 1 MHz and 625 kHz; unchanged Phase 2
+model comparisons for signed edges, impulse, seeded random, sine, silence, and
+1,024 samples from the supplied noisy WAV. Startup zeros, both output channels,
+and the two-frame pipeline delay are checked explicitly. No alignment search or
+nonzero comparison tolerance is used.
+
+The audio-only UP5K/SG48 build passed synthesis, place/route, packing/unpacking and
+both timing checks at the 10 MHz board clock. nextpnr: **14.016 MHz**, **3,179/5,280
+logic cells**, 3 global buffers, 5 IOs, 0 RAM/DSP. icetime: **13.69 MHz**. Pin mapping
+is the verified five-signal audio/clock table from Phase 2 v1. The LED/RGB ports
+are omitted at the synthesis wrapper because their board roles remain provisional;
+this is not full-board or physical hardware verification. No device was programmed.
+
+Reproduction from this branch (the Phase 2 commit must exist in the local Git DB):
+
+```text
+python infrastructure/prepare_recovered.py --source-root . --ref 1befb30e99a506698c45d4ca9394a3c7ec95c966 --output build/recovered-inputs-new
+python infrastructure/run.py validate --manifest build/recovered-inputs-new/manifest.json --output build/recovered-validation-new
+```
+
+Native Windows can use `.tools/oss-cad-suite/lib/python3.exe` and
+`infrastructure/run.ps1`. Imported files retain exact committed bytes, with SHA-256
+and source commit in `provenance.json`. Final integration artifacts are under
+`build/recovered-final-validation/`; compact committed evidence is
+`handoffs/phase-04/integration-validation.json`. Project Scribe records this run
+under session `phase04-recovered-integration`.
+
+The generic smoke suite remains independently runnable. The generic unfilled
+recovered template still returns BLOCKED by design; the prepared Phase 2 manifest
+is runnable. Phase 3 files were still in progress without a completed handoff at
+integration time, so no Phase 3 acceptance is claimed. Remaining items belong to
+design/hardware signoff: final LED roles, physical board tests, and validation of
+any later design/model revision. There are no remaining independent infrastructure
+tasks for this milestone.
+
+## Earlier independent-infrastructure record (historical)
+
 Branch: `challenge3/04-infrastructure` (based on Phase 1 `dc064b2`).
 Worktree: `C:/Users/lowbr/Documents/College/AI/CSAW_FIN/.worktrees/phase-04`.
 Owner: Codex, reusable test/build infrastructure only.
